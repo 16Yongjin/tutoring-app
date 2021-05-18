@@ -35,3 +35,41 @@
   justify-content: center;
   align-items: center;
 }
+
+.center-y {
+  display: flex;
+  align-items: center;
+}
+
+.reset-css {
+  *,
+  *:before,
+  *:after {
+    box-sizing: inherit !important;
+  }
+
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  ol,
+  ul {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-weight: normal !important;
+  }
+
+  ol,
+  ul {
+    list-style: none !important;
+  }
+
+  img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}

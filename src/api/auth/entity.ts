@@ -17,7 +17,7 @@ export type LoginRequest = {
   password: string
 }
 
-export interface LoginResponse extends APIResponse {
+export interface UserInfo {
   id: number
   username: string
   email: string
@@ -27,23 +27,20 @@ export interface LoginResponse extends APIResponse {
   role: Role
 }
 
-export type SigninRequest = {
+export interface LoginResponse extends APIResponse, UserInfo {}
+
+export type SignupRequest = {
   username: string
-
   email: string
-
   password: string
-
   fullname: string
-
   language?: string
-
   gender?: Gender
-
   role?: string
 }
 
-export type SigninResponse = LoginResponse
+export type SignupResponse = LoginResponse
+export type MeResponse = LoginResponse
 
 export type ChangePasswordRequest = {
   username: string

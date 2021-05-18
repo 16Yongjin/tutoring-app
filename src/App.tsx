@@ -1,30 +1,14 @@
 import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import { About, Home, Login, MainHeader, Materials } from './views'
+import Router from './Router'
 import './App.css'
+import { QueryClientProvider } from 'react-query'
+import { queryClient } from './query/queryClient'
 
 const App = () => {
   return (
-    <Router>
-      <div>
-        <MainHeader />
-
-        <Switch>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/materials">
-            <Materials />
-          </Route>
-          <Route exact path="/login">
-            <Login />
-          </Route>
-          <Route path="/">
-            <Home />
-          </Route>
-        </Switch>
-      </div>
-    </Router>
+    <QueryClientProvider client={queryClient}>
+      <Router />
+    </QueryClientProvider>
   )
 }
 

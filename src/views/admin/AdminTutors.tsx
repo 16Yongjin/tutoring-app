@@ -1,5 +1,5 @@
 import React from 'react'
 
-export const Tutors = () => {
+export const AdminTutors = () => {
   return <div>Tutors</div>
 }

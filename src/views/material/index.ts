@@ -1,2 +1,3 @@
-export * from './Material'
+export * from './CourseDetail'
+export * from './MaterialDetail'
 export * from './Materials'

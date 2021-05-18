@@ -1,5 +1,5 @@
 import React from 'react'
 
-export const Appointments = () => {
+export const AdminAppointments = () => {
   return <div>Appointments</div>
 }

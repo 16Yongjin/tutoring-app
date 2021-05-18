@@ -1,5 +1,3 @@
-import { APIResponse } from '../interfaces/apiResponse'
-
 export type Exercise = {
   id: number
   index: number
@@ -99,7 +97,7 @@ export type CreateTopicResponse = Topic
  * Post Update
  */
 
-type WithId = { id: string }
+type WithId = { id: number }
 
 export type UpdateMaterialRequest = CreateMaterialRequest & WithId
 export type UpdateExerciseRequest = CreateExerciseRequest & WithId

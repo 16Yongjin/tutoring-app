@@ -5,8 +5,9 @@ import {
   ChangePasswordResponse,
   LoginRequest,
   LoginResponse,
-  SigninRequest,
-  SigninResponse,
+  MeResponse,
+  SignupRequest,
+  SignupResponse,
 } from './entity'
 
 export class Login<R extends LoginResponse> implements APIRequest<R> {
@@ -17,19 +18,19 @@ export class Login<R extends LoginResponse> implements APIRequest<R> {
   constructor(public data: LoginRequest) {}
 }
 
-export class Signup<R extends SigninResponse> implements APIRequest<R> {
+export class Signup<R extends SignupResponse> implements APIRequest<R> {
   method = HTTPMethod.POST
   path = '/auth/signup/'
   response!: R
   auth = false
-  constructor(public data: SigninRequest) {}
+  constructor(public data: SignupRequest) {}
 }
 
 export class TutorLogin<R extends LoginResponse> extends Login<R> {
   path = '/auth/tutors/login/'
 }
 
-export class TutorSignup<R extends SigninResponse> extends Signup<R> {
+export class TutorSignup<R extends SignupResponse> extends Signup<R> {
   path = '/auth/tutors/signup/'
 }
 
@@ -47,4 +48,11 @@ export class TutorChangePassword<
   R extends ChangePasswordResponse
 > extends ChangePassword<R> {
   path = '/auth/tutors/change-password/'
+}
+
+export class Me<R extends MeResponse> implements APIRequest<R> {
+  method = HTTPMethod.GET
+  path = '/auth/me/'
+  response!: R
+  auth = true
 }

@@ -2,6 +2,7 @@ import axios, { AxiosResponse } from 'axios'
 import { APIRequest } from './interfaces/apiRequest'
 import { APIResponse } from './interfaces/apiResponse'
 import { APIError } from './interfaces/apiError'
+import { AUTH_TOKEN_KEY } from '../consts'
 
 const { API_URL = 'http://localhost:4000' } = process.env
 
@@ -31,7 +32,7 @@ export class APIClient {
     R extends ResponseType<U> & APIError
   >(api: T) {
     return (...args: ConstructorParameters<T>) =>
-      APIClient.request(new api(...args)) as Promise<R>
+      APIClient.request<R>(new api(...args))
   }
 
   /** API를 호출할 수 있는 함수로 변환합니다. `toCallable`의 alias */
@@ -98,7 +99,7 @@ export class APIClient {
   private createHeaders<U extends APIResponse>(request: APIRequest<U>): any {
     const headers: Record<string, string> = {}
     const csrfToken = this.getCsrfToken()
-    const authToken = localStorage.getItem('AuthToken')
+    const authToken = localStorage.getItem(AUTH_TOKEN_KEY)
 
     // CSRF 토큰 삽입
     if (csrfToken && request.method !== HTTPMethod.GET) {
@@ -107,7 +108,7 @@ export class APIClient {
 
     // 인증 토큰 삽입
     if (authToken) {
-      headers['Authorization'] = `Token ${localStorage.getItem('AuthToken')}`
+      headers['Authorization'] = `Bearer ${authToken}`
     }
 
     // json body 사용

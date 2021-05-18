@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button } from 'antd'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { observer } from 'mobx-react-lite'
+import { store } from '../store'
 
 const Header = styled.header`
   height: 4rem;
@@ -39,7 +41,9 @@ const Header = styled.header`
   }
 `
 
-export const MainHeader = () => {
+export const MainHeader = observer(() => {
+  const [userStore] = useState(store.userStore)
+
   return (
     <Header>
       <div className="container">
@@ -61,13 +65,19 @@ export const MainHeader = () => {
           </Link>
         </nav>
         <div className="action">
-          <Link to="/login">
-            <Button shape="round">
-              <span className="action-name">Login</span>
+          {userStore.user ? (
+            <Button shape="round" onClick={() => userStore.logout()}>
+              <span className="action-name">Log out</span>
             </Button>
-          </Link>
+          ) : (
+            <Link to="/login">
+              <Button shape="round">
+                <span className="action-name">Login</span>
+              </Button>
+            </Link>
+          )}
         </div>
       </div>
     </Header>
   )
-}
+})

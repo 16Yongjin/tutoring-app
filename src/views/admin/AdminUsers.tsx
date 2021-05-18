@@ -1,5 +1,5 @@
 import React from 'react'
 
-export const Users = () => {
+export const AdminUsers = () => {
   return <div>Users</div>
 }
