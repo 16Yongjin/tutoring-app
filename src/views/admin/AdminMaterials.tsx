@@ -1,10 +1,9 @@
+import React, { useState } from 'react'
 import { Button, Col, Row } from 'antd'
 import { PlusOutlined } from '@ant-design/icons'
-import React, { useState } from 'react'
 import styled from 'styled-components'
 import { AdminMaterialCard } from '../../components/admin/materials/AdminMaterialCard'
-import { NewMaterialCard } from '../../components/admin/materials/NewMaterialCard'
-import Modal from 'antd/lib/modal/Modal'
+import { NewMaterialModal } from '../../components/admin/materials/NewMaterialModal'
 import { useQuery, useQueryClient } from 'react-query'
 import * as api from '../../api'
 import { Material } from '../../api/materials/entity'
@@ -61,7 +60,7 @@ export const AdminMaterials = () => {
           ))}
         </Row>
 
-        <NewMaterialCard
+        <NewMaterialModal
           material={materialToEdit}
           show={modalVisible}
           onCancel={closeModal}

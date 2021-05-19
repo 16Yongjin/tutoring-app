@@ -1,9 +1,16 @@
 import { Card, Col, Row, Typography } from 'antd'
+import { observer } from 'mobx-react-lite'
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { useQuery } from 'react-query'
+import { Link, useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { Role } from '../../api/auth/entity'
 import { Course, Material, Topic } from '../../api/materials/entity'
 import { LevelBadge } from '../../components/material/LevelBadge'
+import { store } from '../../store'
+import { AdminMaterialDetail } from '../admin'
+import * as api from '../../api'
+import { APIError } from '../../api/interfaces/apiError'
 
 const { Title, Text } = Typography
 
@@ -37,7 +44,7 @@ const MaterialInfo = ({ material }: { material: Partial<Material> }) => {
     <Card>
       <Row gutter={[20, 0]} wrap={false}>
         <Col flex="none">
-          <img src={material.image} alt={material.title} />
+          <img width="150px" src={material.image} alt={material.title} />
         </Col>
         <Col flex="auto">
           <Title level={3}>{material.title}</Title>
@@ -99,123 +106,22 @@ const CourseTile = ({ course, index }: { course: Course; index: number }) => {
   )
 }
 
-export const MaterialDetail = () => {
-  const material = {
-    id: 1,
-    image: 'https://via.placeholder.com/150',
-    levelStart: 1,
-    levelEnd: 10,
-    title: 'hello',
-    description:
-      'worldworldworldworldworldworldworldworldworldworldworldworldworldworld',
-    topics: [
-      {
-        id: 1,
-        title: 'topic1',
-        description: 'hello',
-        courses: [
-          {
-            id: 1,
-            title: 'course 1',
-            description: 'course desc',
-            level: 1,
-            image: 'https://via.placeholder.com/200',
-            exercises: [
-              {
-                id: 0,
-                index: 0,
-                title: 'Exercise 1',
-                description: 'hello',
-                text: `<h1>안녕</h1><h2>하세요</h2>`,
-              },
-              {
-                id: 1,
-                index: 1,
-                title: 'Exercise 2',
-                description: 'hello',
-                text: `<h1>안녕</h1><h2>하세요</h2>`,
-              },
-              {
-                id: 2,
-                index: 2,
-                title: 'Exercise 3',
-                description: 'hello',
-                text: `<h1>안녕</h1><h2>하세요</h2>`,
-              },
-            ],
-          },
-          {
-            id: 2,
-            title: 'course 1',
-            description: 'course desc',
-            level: 1,
-            image: 'https://via.placeholder.com/200',
-            exercises: [],
-          },
-          {
-            id: 3,
-            title: 'course 1',
-            description: 'course desc',
-            level: 1,
-            image: 'https://via.placeholder.com/200',
-            exercises: [],
-          },
-        ],
-      },
-      {
-        id: 2,
-        title: 'topic1',
-        description: 'hello',
-        courses: [
-          {
-            id: 1,
-            title: 'course 1',
-            description: 'course desc',
-            level: 1,
-            image: 'https://via.placeholder.com/200',
-            exercises: [
-              {
-                id: 0,
-                index: 0,
-                title: 'Exercise 1',
-                description: 'hello',
-                text: `<h1>안녕</h1><h2>하세요</h2>`,
-              },
-              {
-                id: 1,
-                index: 1,
-                title: 'Exercise 2',
-                description: 'hello',
-                text: `<h1>안녕</h1><h2>하세요</h2>`,
-              },
-              {
-                id: 2,
-                index: 2,
-                title: 'Exercise 3',
-                description: 'hello',
-                text: `<h1>안녕</h1><h2>하세요</h2>`,
-              },
-            ],
-          },
-          {
-            id: 2,
-            title: 'course 1',
-            description: 'course desc',
-            level: 1,
-            image: 'https://via.placeholder.com/200',
-            exercises: [],
-          },
-          {
-            id: 3,
-            title: 'course 1',
-            description: 'course desc',
-            level: 1,
-            image: 'https://via.placeholder.com/200',
-            exercises: [],
-          },
-        ],
-      },
-    ] as Topic[],
+export const UserMaterialDetail = () => {
+  const { id } = useParams<{ id: string }>()
+  const { data: material, error } = useQuery(
+    `material/${id}`,
+    () => api.materials.getMaterial(Number(id)),
+    {
+      retry: false,
+    }
+  )
+
+  if (error) {
+    return <div>{(error as APIError).message}</div>
+  }
+
+  if (!material) {
+    return <div>loading...</div>
   }
 
   return (
@@ -234,3 +140,10 @@ export const MaterialDetail = () => {
     </Section>
   )
 }
+
+export const MaterialDetail = observer(() => {
+  const role = store.userStore.user?.role
+  if (role === Role.ADMIN) return <AdminMaterialDetail />
+
+  return <UserMaterialDetail />
+})

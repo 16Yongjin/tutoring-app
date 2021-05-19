@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios'
+import axios, { AxiosError, AxiosResponse } from 'axios'
 import { APIRequest } from './interfaces/apiRequest'
 import { APIResponse } from './interfaces/apiResponse'
 import { APIError } from './interfaces/apiError'
@@ -87,12 +87,14 @@ export class APIClient {
   }
 
   // Convert axios error into APIError
-  private normalizeError(error: any): APIError {
+  private normalizeError(error: AxiosError): APIError {
+    console.log(error.response?.data?.message)
     return {
-      status: error.response?.status,
-      message: error.message,
-      errors: error.errors,
+      status: error.response?.status!,
+      message: error.response?.data?.message || error.message,
+      errors: error.response?.data?.errors,
       raw: error,
+      response: error.response,
     }
   }
   // Create headers

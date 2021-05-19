@@ -1,15 +1,13 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Alert, Card } from 'antd'
-import { Form, Input, InputNumber, Checkbox } from 'formik-antd'
+import { Form } from 'formik-antd'
 import { Button, Typography } from 'antd'
-import { Form as FormikForm, Formik } from 'formik'
-import { Link, useHistory, useParams } from 'react-router-dom'
+import { Formik } from 'formik'
+import { Link, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
-import * as api from '../../api'
 import { InputField } from '../../components/form/InputField'
 import { store } from '../../store'
-import * as Yup from 'yup'
-import { useIsAuth } from '../../utils/auth/useIsAuth'
+import { useQueryParam } from '../../utils/router/useQueryParams'
 
 const { Title, Paragraph } = Typography
 
@@ -23,27 +21,28 @@ const Section = styled.section`
     justify-content: space-between;
   }
 `
+const SignupSuccessAlert = ({ show }: { show: boolean }) =>
+  show ? (
+    <Alert
+      style={{ margin: '1rem 0' }}
+      message="Singup Success"
+      description="We sent you a verification email. Please check your email and login"
+      type="success"
+    />
+  ) : null
 
 const ErrorAlert = ({ message }: { message: string }) =>
   message ? (
     <Alert message="Error" description={message} type="error" showIcon />
   ) : null
 
-const LoginSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(5, 'Too Short!')
-    .max(50, 'Too Long!')
-    .required('Required'),
-  password: Yup.string()
-    .min(6, 'Too Short!')
-    .max(100, 'Too Long!')
-    .required('Required'),
-})
-
 export const Login = () => {
   const history = useHistory()
-  const { next } = useParams<{ next: string | undefined }>()
+  const queryParam = useQueryParam()
   const [errorMsg, setErrorMsg] = useState('')
+
+  const next = queryParam.get('next')
+  const afterSignup = !!queryParam.get('afterSignup')
 
   return (
     <div className="container">
@@ -54,6 +53,8 @@ export const Login = () => {
             or <Link to="/signup">Signup</Link>
           </Paragraph>
         </div>
+        <SignupSuccessAlert show={afterSignup} />
+
         <Card>
           <ErrorAlert message={errorMsg} />
 
@@ -64,14 +65,14 @@ export const Login = () => {
 
               try {
                 await store.userStore.login(values)
-                if (typeof next === 'string') {
+                if (next) {
                   history.push(next)
                 } else {
                   history.push('/')
                 }
               } catch (e) {
-                setErrorMsg(e.response.data.message)
-                setErrors(e.response.data.errors)
+                setErrorMsg(e.message)
+                setErrors(e.errors)
               }
             }}
           >

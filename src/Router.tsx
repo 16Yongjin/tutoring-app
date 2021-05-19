@@ -8,6 +8,7 @@ import {
   MainHeader,
   MaterialDetail,
   Materials,
+  Signup,
 } from './views'
 import './App.css'
 import { AdminDashboard } from './views/admin'
@@ -37,6 +38,10 @@ const Router = () => {
 
           <Route exact path="/login">
             <Login />
+          </Route>
+
+          <Route exact path="/signup">
+            <Signup />
           </Route>
 
           <Route path="/admin">

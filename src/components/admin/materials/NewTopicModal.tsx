@@ -1,27 +1,20 @@
 import React, { useRef } from 'react'
-import { Button, Card, Typography } from 'antd'
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-  CheckOutlined,
-} from '@ant-design/icons'
-import { Material } from '../../../api/materials/entity'
-import { Link } from 'react-router-dom'
+import { Button } from 'antd'
 import { Formik } from 'formik'
-import { Form, Slider } from 'formik-antd'
+import { Form } from 'formik-antd'
 import { InputField } from '../../form/InputField'
 import Modal from 'antd/lib/modal/Modal'
 import * as api from '../../../api'
+import { Material, Topic } from '../../../api/materials/entity'
 
-const { Title, Text } = Typography
-
-export const NewMaterialCard = ({
+export const NewTopicModal = ({
   material,
+  topic,
   show,
   onCancel,
 }: {
   material: Material | null
+  topic: Topic | null
   show: boolean
   onCancel: Function
 }) => {
@@ -30,7 +23,7 @@ export const NewMaterialCard = ({
 
   return (
     <Modal
-      title={material ? `교재 ${material.id} 수정` : '새 교재 추가'}
+      title={topic ? `토픽 ${topic.id} 수정` : '새 토픽 추가'}
       visible={show}
       onOk={submit}
       onCancel={() => onCancel()}
@@ -38,31 +31,25 @@ export const NewMaterialCard = ({
       <Formik
         enableReinitialize
         initialValues={
-          material
-            ? {
-                ...material,
-                levels: [material.levelStart, material.levelEnd],
-              }
-            : {
-                image: 'https://via.placeholder.com/150',
-                levels: [1, 10],
-                levelStart: 1,
-                levelEnd: 10,
-                title: 'new material',
-                description: 'hi',
-              }
+          topic ?? {
+            title: 'new topic',
+            description: 'hi',
+          }
         }
         onSubmit={async (values, { setErrors }) => {
-          values.levelStart = values.levels[0]
-          values.levelEnd = values.levels[1]
           console.log(values)
           try {
-            if (material)
-              await api.materials.updateMaterial({
+            if (topic)
+              await api.materials.updateTopic({
                 ...values,
-                id: material.id,
+                id: topic.id,
               })
-            else await api.materials.createMaterial(values)
+            else if (material)
+              await api.materials.createTopic({
+                ...values,
+                materialId: material.id,
+              })
+
             onCancel(true)
           } catch (e) {
             setErrors(e.response.data?.errors)
@@ -71,13 +58,6 @@ export const NewMaterialCard = ({
       >
         {({ isSubmitting }) => (
           <Form layout="vertical">
-            <InputField
-              name="image"
-              placeholder="image url"
-              label="image"
-              type="text"
-              required
-            />
             <InputField
               name="title"
               placeholder="title"
@@ -93,16 +73,6 @@ export const NewMaterialCard = ({
               required
             />
 
-            <Form.Item name="levels" label="levels">
-              <Slider
-                name="levels"
-                range
-                min={1}
-                max={10}
-                defaultValue={[1, 10]}
-              />
-            </Form.Item>
-
             <Button
               style={{ display: 'none' }}
               ref={submitButton}
@@ -110,8 +80,27 @@ export const NewMaterialCard = ({
               type="primary"
               loading={isSubmitting}
             >
-              Login
+              Submit
             </Button>
+
+            {topic ? (
+              <Button
+                onClick={async () => {
+                  try {
+                    // eslint-disable-next-line no-restricted-globals
+                    if (confirm('삭제하시겠습니까?'))
+                      await api.materials.deleteTopic(topic.id)
+                    onCancel(true)
+                  } catch (e) {
+                    console.log(e)
+                  }
+                }}
+                type="primary"
+                danger
+              >
+                삭제
+              </Button>
+            ) : null}
           </Form>
         )}
       </Formik>

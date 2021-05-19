@@ -100,9 +100,10 @@ export type CreateTopicResponse = Topic
 type WithId = { id: number }
 
 export type UpdateMaterialRequest = CreateMaterialRequest & WithId
-export type UpdateExerciseRequest = CreateExerciseRequest & WithId
-export type UpdateCourseRequest = CreateCourseRequest & WithId
-export type UpdateTopicRequest = CreateTopicRequest & WithId
+export type UpdateExerciseRequest = Omit<CreateExerciseRequest, 'courseId'> &
+  WithId
+export type UpdateCourseRequest = Omit<CreateCourseRequest, 'topicId'> & WithId
+export type UpdateTopicRequest = Omit<CreateTopicRequest, 'materialId'> & WithId
 
 export type UpdateMaterialResponse = Material
 export type UpdateExerciseResponse = Exercise

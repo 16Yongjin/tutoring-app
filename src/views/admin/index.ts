@@ -1,5 +1,7 @@
 export * from './AdminAppointments'
 export * from './AdminMaterials'
+export * from './AdminMaterialDetail'
 export * from './AdminTutors'
 export * from './AdminUsers'
 export * from './AdminDashboard'
+export * from './AdminCourseDetail'

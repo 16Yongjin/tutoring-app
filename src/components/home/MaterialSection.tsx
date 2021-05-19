@@ -1,7 +1,9 @@
 import React from 'react'
-import { Button, Card, Col, Row } from 'antd'
+import { Col, Row } from 'antd'
 import styled from 'styled-components'
 import { MaterialCard } from '../material/MaterialCard'
+import { useQuery } from 'react-query'
+import * as api from '../../api'
 
 const Section = styled.section`
   background-color: white; // ffe680
@@ -16,56 +18,7 @@ const Section = styled.section`
 `
 
 export const MaterialSection = () => {
-  const materials = [
-    {
-      id: 1,
-      image: 'https://via.placeholder.com/150',
-      levelStart: 1,
-      levelEnd: 10,
-      title: 'hello',
-      description: 'world',
-    },
-    {
-      id: 2,
-      image: 'https://via.placeholder.com/150',
-      levelStart: 1,
-      levelEnd: 10,
-      title: 'hello',
-      description: 'world',
-    },
-    {
-      id: 3,
-      image: 'https://via.placeholder.com/150',
-      levelStart: 1,
-      levelEnd: 10,
-      title: 'hello',
-      description: 'world',
-    },
-    {
-      id: 4,
-      image: 'https://via.placeholder.com/150',
-      levelStart: 1,
-      levelEnd: 10,
-      title: 'hello',
-      description: 'world',
-    },
-    {
-      id: 5,
-      image: 'https://via.placeholder.com/150',
-      levelStart: 1,
-      levelEnd: 10,
-      title: 'hello',
-      description: 'world',
-    },
-    {
-      id: 6,
-      image: 'https://via.placeholder.com/150',
-      levelStart: 1,
-      levelEnd: 10,
-      title: 'hello',
-      description: 'world',
-    },
-  ]
+  const { data: materials } = useQuery('materials', api.materials.getMaterials)
 
   return (
     <Section>
@@ -77,7 +30,7 @@ export const MaterialSection = () => {
         </Row>
 
         <Row gutter={[16, 16]}>
-          {materials.map((material) => (
+          {materials?.map((material) => (
             <Col key={material.id} xs={24} md={12} lg={8}>
               <MaterialCard material={material} />
             </Col>

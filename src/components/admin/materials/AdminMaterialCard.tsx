@@ -1,12 +1,9 @@
 import React from 'react'
-import { Button, Card, Typography } from 'antd'
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from '@ant-design/icons'
+import { Card, Typography } from 'antd'
+import { EditOutlined, EllipsisOutlined } from '@ant-design/icons'
 import { Material } from '../../../api/materials/entity'
 import { Link } from 'react-router-dom'
+import { LevelBadge } from '../../material/LevelBadge'
 
 const { Title, Text } = Typography
 
@@ -14,7 +11,7 @@ export const AdminMaterialCard = ({
   material,
   onEdit,
 }: {
-  material: Partial<Material>
+  material: Material
   onEdit: Function
 }) => {
   const { id, image, levelEnd, levelStart, title, description } = material
@@ -34,8 +31,10 @@ export const AdminMaterialCard = ({
         {title}
       </Title>
       <Text>{description}</Text>
-      <div>
-        {levelStart} ~ {levelEnd}
+      <div style={{ display: 'flex' }}>
+        <LevelBadge level={levelStart} />
+        <span style={{ margin: '0 0.5rem' }}> ~ </span>
+        <LevelBadge level={levelEnd} />
       </div>
     </Card>
   )

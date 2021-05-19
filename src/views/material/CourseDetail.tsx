@@ -4,6 +4,14 @@ import { HashLink as Link } from 'react-router-hash-link'
 import styled from 'styled-components'
 import { Course, Exercise } from '../../api/materials/entity'
 import { LevelBadge } from '../../components/material/LevelBadge'
+import { store } from '../../store'
+import { observer } from 'mobx-react-lite'
+import { Role } from '../../api/auth/entity'
+import { AdminCourseDetail } from '../admin'
+import { useParams } from 'react-router'
+import { useQuery } from 'react-query'
+import { APIError } from '../../api/interfaces/apiError'
+import * as api from '../../api'
 
 const { Title, Text } = Typography
 
@@ -81,42 +89,23 @@ const ExerciseCard = ({ exercise }: { exercise: Exercise }) => {
   )
 }
 
-export const CourseDetail = () => {
-  const course = {
-    id: 1,
-    title: 'course 1',
-    description: 'course desc',
-    level: 1,
-    // image: 'https://via.placeholder.com/200',
-    exercises: [
-      {
-        id: 0,
-        index: 0,
-        title: 'Exercise 1',
-        description: 'hello',
-        text: `<h1>안녕</h1><h2>하세요</h2>`,
-      },
-      {
-        id: 1,
-        index: 1,
-        title: 'Exercise 2',
-        description: 'hello',
-        text: `<h1>안녕</h1><h2>하세요</h2>`,
-      },
-      {
-        id: 2,
-        index: 2,
-        title: 'Exercise 3',
-        description: 'hello',
-        text: `<h1>안녕</h1><h3>하세요</h3>`,
-      },
-    ],
-    topic: {
-      id: 1,
-      title: 'topic1',
-      material: { id: 0, title: 'conversation' },
-    },
-  } as Course
+export const UserCourseDetail = () => {
+  const { id } = useParams<{ id: string }>()
+  const { data: course, error } = useQuery(
+    `course/${id}`,
+    () => api.materials.getCourse(Number(id)),
+    {
+      retry: false,
+    }
+  )
+
+  if (error) {
+    return <div>{(error as APIError).message}</div>
+  }
+
+  if (!course) {
+    return <div>loading...</div>
+  }
 
   return (
     <Section className="section">
@@ -129,3 +118,10 @@ export const CourseDetail = () => {
     </Section>
   )
 }
+
+export const CourseDetail = observer(() => {
+  const role = store.userStore.user?.role
+  if (role === Role.ADMIN) return <AdminCourseDetail />
+
+  return <UserCourseDetail />
+})
