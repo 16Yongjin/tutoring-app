@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 const Section = styled.section`
   position: relative;
-  padding: 4rem 2rem;
 
   .title {
     font-family: 'Godo';
@@ -14,7 +13,7 @@ const Section = styled.section`
 
 export const AdminDashboard = () => {
   return (
-    <Section>
+    <Section className="section">
       <div className="container">
         <header>
           <h2 className="title">Dashboard</h2>

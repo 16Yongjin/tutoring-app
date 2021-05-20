@@ -8,7 +8,6 @@ import { Link } from 'react-router-dom'
 
 const Section = styled.section`
   position: relative;
-  padding: 4rem 2rem;
 
   .title {
     font-family: 'Godo';
@@ -21,7 +20,7 @@ export const MaterialSection = () => {
   const { data: materials } = useQuery('materials', api.materials.getMaterials)
 
   return (
-    <Section>
+    <Section className="section">
       <div className="container">
         <Row>
           <Col xs={24}>

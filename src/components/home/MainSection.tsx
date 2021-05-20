@@ -5,7 +5,6 @@ import styled from 'styled-components'
 const Section = styled.section`
   background-color: #fdf093; // ffe680
   position: relative;
-  padding: 4rem 2rem;
 
   .description {
     padding: 6rem 0;
@@ -69,7 +68,7 @@ const Section = styled.section`
 
 export const MainSection = () => {
   return (
-    <Section>
+    <Section className="section">
       <Row className="container">
         <Col md={12} xs={24}>
           <div className="description">

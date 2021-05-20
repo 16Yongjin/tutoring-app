@@ -16,7 +16,6 @@ const { Title, Text } = Typography
 const Section = styled.section`
   background-color: #f2f2f2; // ffe680
   position: relative;
-  padding: 4rem 2rem;
   min-height: 100vh;
 
   @media screen and (max-width: 1024px) {
@@ -131,7 +130,7 @@ const CourseTile = ({
         </Col>
         <Col className="center-y">
           <div style={{ display: 'flex', gap: '1rem' }}>
-            <LevelBadge level={course.level} />
+            <LevelBadge xs level={course.level} />
             <Button onClick={() => onEdit(course)} icon={<EditOutlined />} />
             <Link to={`/materials/courses/${course.id}`}>
               <Button icon={<EllipsisOutlined />} />

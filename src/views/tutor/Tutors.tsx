@@ -7,7 +7,6 @@ import { TutorPreviewCard } from '../../components/tutor'
 
 const Section = styled.section`
   position: relative;
-  padding: 4rem 2rem;
 
   .title {
     font-family: 'Godo';
@@ -57,7 +56,7 @@ export const Tutors = () => {
   ]
 
   return (
-    <Section>
+    <Section className="section">
       <div className="container">
         <header>
           <h2 className="title">Tutors</h2>

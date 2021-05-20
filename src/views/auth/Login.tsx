@@ -13,7 +13,7 @@ const { Title, Paragraph } = Typography
 
 const Section = styled.section`
   max-width: 400px;
-  margin: 2rem auto;
+  margin: 0 auto;
 
   .header {
     display: flex;
@@ -45,8 +45,8 @@ export const Login = () => {
   const afterSignup = !!queryParam.get('afterSignup')
 
   return (
-    <div className="container">
-      <Section>
+    <Section className="section">
+      <div className="container">
         <div className="header">
           <Title level={2}>Login</Title>
           <Paragraph>
@@ -100,7 +100,7 @@ export const Login = () => {
             )}
           </Formik>
         </Card>
-      </Section>
-    </div>
+      </div>
+    </Section>
   )
 }

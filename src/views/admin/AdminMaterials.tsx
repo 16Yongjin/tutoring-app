@@ -12,7 +12,6 @@ const Section = styled.section`
   background-color: #f2f2f2;
   min-height: 100vh;
   position: relative;
-  padding: 4rem 2rem;
 
   .title {
     font-family: 'Godo';
@@ -42,7 +41,7 @@ export const AdminMaterials = () => {
   }
 
   return (
-    <Section>
+    <Section className="section">
       <div className="container">
         <Row justify="space-between" style={{ marginBottom: '1rem' }}>
           <Col>

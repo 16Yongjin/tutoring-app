@@ -18,7 +18,6 @@ const { Title, Text } = Typography
 const Section = styled.section`
   background-color: #f2f2f2; // ffe680
   position: relative;
-  padding: 4rem 2rem;
   min-height: 100vh;
 
   @media screen and (max-width: 1024px) {

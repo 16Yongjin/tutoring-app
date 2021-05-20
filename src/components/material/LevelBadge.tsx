@@ -14,6 +14,12 @@ const Wrapper = styled.div`
     color: white;
     min-height: 1.25rem;
   }
+
+  @media screen and (max-width: 576px) {
+    .adaptive {
+      display: none;
+    }
+  }
 `
 const levels = [
   'Beginner',
@@ -36,7 +42,7 @@ const ColorScheme: Record<string, string> = {
   Proficient: '#FE3955',
 }
 
-export const LevelBadge = ({ level }: { level: number }) => {
+export const LevelBadge = ({ level, xs }: { level: number; xs?: boolean }) => {
   const levelString = levels[level]
   const backgroundColor = ColorScheme[levelString]
 
@@ -45,7 +51,7 @@ export const LevelBadge = ({ level }: { level: number }) => {
       <div className="badge" style={{ backgroundColor }}>
         <div>{level}</div>
       </div>
-      <div>{levelString}</div>
+      <div className={xs ? 'is-hidden-mobile' : ''}>{levelString}</div>
     </Wrapper>
   )
 }

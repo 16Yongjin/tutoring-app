@@ -26,6 +26,12 @@ export const ReviewCard = ({ tutorId }: { tutorId: number }) => {
         rating: 3,
         user: { fullname: 'tester3' },
       },
+      {
+        id: 4,
+        text: '좋아요',
+        rating: 3,
+        user: { fullname: 'tester3' },
+      },
     ],
     []
   )
@@ -39,7 +45,7 @@ export const ReviewCard = ({ tutorId }: { tutorId: number }) => {
   )
 
   return (
-    <Card bodyStyle={{ padding: '0' }}>
+    <Card bodyStyle={{ padding: '0' }} className="scrollbar">
       <Row
         className="center-y"
         justify="space-between"

@@ -17,11 +17,10 @@ const { Title, Text } = Typography
 const Section = styled.section`
   background-color: #f2f2f2; // ffe680
   position: relative;
-  padding: 4rem 2rem;
   min-height: 100vh;
 
   @media screen and (max-width: 1024px) {
-    padding: 4rem 0;
+    padding: 2rem 0;
   }
 
   .change-dir-y {
@@ -48,7 +47,7 @@ const MaterialInfo = ({ material }: { material: Partial<Material> }) => {
         </Col>
         <Col flex="auto">
           <Title level={3}>{material.title}</Title>
-          <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             <LevelBadge level={material.levelStart!} />
             <Text style={{ margin: '0 0.75rem' }}>-</Text>
             <LevelBadge level={material.levelEnd!} />
@@ -96,7 +95,7 @@ const CourseTile = ({ course, index }: { course: Course; index: number }) => {
               className="center-y"
               style={{ marginTop: '1px', height: '100%' }}
             >
-              <LevelBadge level={course.level} />
+              <LevelBadge xs level={course.level} />
               <span style={{ marginLeft: '0.75rem' }}>▶</span>
             </Text>
           </Col>

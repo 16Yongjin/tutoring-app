@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import { Button, Drawer } from 'antd'
-import { Link } from 'react-router-dom'
+import { Button, Card, Divider, Drawer } from 'antd'
+import { Link, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { store } from '../store'
@@ -42,23 +42,24 @@ const Header = styled.header`
     }
   }
 
-  @media screen and (max-width: 576px) {
+  .mobile-header {
     height: 3rem;
+
+    .nav {
+      gap: 1rem;
+      flex-direction: column;
+    }
 
     .icon {
       margin-top: 0.25rem;
       height: 2.5rem;
       width: 2.5rem;
     }
+  }
 
-    .nav {
-      flex-direction: column;
-      gap: 4rem;
-    }
-
+  .drawer {
     .link {
-      display: block;
-      width: 100%;
+      cursor: pointer;
     }
   }
 `
@@ -70,41 +71,55 @@ export const MobileHeader = ({
   loggedIn: boolean
   logout: Function
 }) => {
-  const [drawer, setDrawer] = useState(true)
+  const [drawer, setDrawer] = useState(false)
   const closeDrawer = () => setDrawer(false)
+  const history = useHistory()
+  const goTo = (url: string) => {
+    history.push(url)
+    closeDrawer()
+  }
 
   return (
     <Header>
       <div className="container center-y">
         <MenuOutlined onClick={() => setDrawer(true)} />
-        <Drawer visible={drawer} onClose={closeDrawer} placement="left">
-          <nav className="nav">
-            <Link className="link" to="/">
+        <Drawer
+          className="drawer"
+          title="HoLang"
+          visible={drawer}
+          onClose={closeDrawer}
+          placement="left"
+          bodyStyle={{ padding: '0' }}
+        >
+          <nav className="nav click">
+            <Card type="inner" onClick={() => goTo('/')}>
               Home
-            </Link>
-            <Link className="link" to="/about">
+            </Card>
+            <Card type="inner" onClick={() => goTo('/about')}>
               About
-            </Link>
-            <Link className="link" to="/materials">
+            </Card>
+            <Card type="inner" onClick={() => goTo('/materials')}>
               Materials
-            </Link>
-            <Link className="link" to="/tutors">
+            </Card>
+            <Card type="inner" onClick={() => goTo('/tutors')}>
               Tutors
-            </Link>
-          </nav>
-          <div className="action">
+            </Card>
             {loggedIn ? (
-              <Button shape="round" onClick={() => logout()}>
-                <span className="action-name">Log out</span>
-              </Button>
+              <Card
+                type="inner"
+                onClick={() => {
+                  logout()
+                  closeDrawer()
+                }}
+              >
+                Log out
+              </Card>
             ) : (
-              <Link to="/login">
-                <Button shape="round">
-                  <span className="action-name">Login</span>
-                </Button>
-              </Link>
+              <Card type="inner" onClick={() => goTo('/login')}>
+                Login
+              </Card>
             )}
-          </div>
+          </nav>
         </Drawer>
         <Link to="/">
           <img className="icon" src="/icon.png" alt="icon" />

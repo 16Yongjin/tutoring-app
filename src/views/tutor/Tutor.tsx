@@ -22,7 +22,6 @@ const { Title, Text } = Typography
 
 const Section = styled.section`
   position: relative;
-  padding: 4rem 2rem;
 
   .title {
     font-family: 'Godo';
@@ -143,7 +142,7 @@ export const Tutor = () => {
   }
 
   return (
-    <Section>
+    <Section className="section">
       <div className="container">
         <main>
           <Row gutter={[20, 20]}>
