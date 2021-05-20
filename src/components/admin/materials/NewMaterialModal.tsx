@@ -21,6 +21,7 @@ export const NewMaterialModal = ({
 
   return (
     <Modal
+      centered
       title={material ? `교재 ${material.id} 수정` : '새 교재 추가'}
       visible={show}
       onOk={submit}

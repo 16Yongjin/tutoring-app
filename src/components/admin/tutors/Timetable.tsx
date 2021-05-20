@@ -1,10 +1,12 @@
 import { useMemo } from 'react'
-import { Card, Col, Row } from 'antd'
+import { Card, Col, Row, Typography } from 'antd'
 import styled from 'styled-components'
-import { Schedule } from '../../api/tutors/entity'
-import { ReserveButton } from '../../components/tutor'
+import { Schedule } from '../../../api/tutors/entity'
+import { ReserveButton } from '../../../components/tutor'
 import dayjs, { Dayjs } from 'dayjs'
-import { timeIndeces, timetable } from '../../data/timetable'
+import { timeIndeces, timetable } from '../../../data/timetable'
+
+const { Title, Text } = Typography
 
 const TimetableDiv = styled.div`
   content-visibility: auto;

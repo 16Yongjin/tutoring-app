@@ -115,7 +115,10 @@ export const MobileHeader = ({
                 Log out
               </Card>
             ) : (
-              <Card type="inner" onClick={() => goTo('/login')}>
+              <Card
+                type="inner"
+                onClick={() => goTo(`/login?next=${window.location.pathname}`)}
+              >
                 Login
               </Card>
             )}
@@ -161,7 +164,7 @@ export const LaptopHeader = ({
             <span className="action-name">Log out</span>
           </Button>
         ) : (
-          <Link to="/login">
+          <Link to={`/login?next=${window.location.pathname}`}>
             <Button shape="round">
               <span className="action-name">Login</span>
             </Button>

@@ -9,7 +9,13 @@ export const YoutubeModal = ({
   id: string
   onCancel: Function
 }) => (
-  <Modal width="800px" visible={show} onCancel={() => onCancel()} footer={null}>
+  <Modal
+    centered
+    width="800px"
+    visible={show}
+    onCancel={() => onCancel()}
+    footer={null}
+  >
     <div style={{ paddingTop: '2rem' }}>
       <LiteYoutubeEmbed id="6-LSMpXbGv0" />
     </div>

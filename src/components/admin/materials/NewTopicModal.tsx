@@ -23,6 +23,7 @@ export const NewTopicModal = ({
 
   return (
     <Modal
+      centered
       title={topic ? `토픽 ${topic.id} 수정` : '새 토픽 추가'}
       visible={show}
       onOk={submit}

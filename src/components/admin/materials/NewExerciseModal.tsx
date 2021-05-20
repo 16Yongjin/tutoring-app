@@ -45,6 +45,7 @@ export const NewExerciseModal = ({
 
   return (
     <Modal
+      centered
       title={exercise ? `연습문제 ${exercise.id} 수정` : '새 연습문제 추가'}
       visible={show}
       onOk={submit}

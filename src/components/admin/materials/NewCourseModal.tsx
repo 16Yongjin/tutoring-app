@@ -23,6 +23,7 @@ export const NewCourseModal = ({
 
   return (
     <Modal
+      centered
       title={course ? `강의 ${course.id} 수정` : '새 강의 추가'}
       visible={show}
       onOk={submit}

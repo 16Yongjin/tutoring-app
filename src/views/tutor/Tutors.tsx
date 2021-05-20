@@ -1,9 +1,12 @@
-import { Col, Row } from 'antd'
 import React from 'react'
+import { Col, Row } from 'antd'
+import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { Gender } from '../../api/auth/entity'
+import { Gender, Role } from '../../api/auth/entity'
 import { TutorInfo } from '../../api/tutors/entity'
 import { TutorPreviewCard } from '../../components/tutor'
+import { store } from '../../store'
+import { AdminTutors } from '../admin'
 
 const Section = styled.section`
   position: relative;
@@ -15,7 +18,7 @@ const Section = styled.section`
   }
 `
 
-export const Tutors = () => {
+export const UserTutors = () => {
   const tutors: TutorInfo[] = [
     {
       id: 1,
@@ -74,3 +77,10 @@ export const Tutors = () => {
     </Section>
   )
 }
+
+export const Tutors = observer(() => {
+  const role = store.userStore.user?.role
+  if (role === Role.ADMIN) return <AdminTutors />
+
+  return <UserTutors />
+})

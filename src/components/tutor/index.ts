@@ -1,4 +1,5 @@
 export * from './ReserveButton'
+export * from './ReserveModal'
 export * from './TutorPreviewCard'
 export * from './TutorProfile'
 export * from './YoutubeModal'

@@ -1,11 +1,12 @@
 import React, { useMemo, useState } from 'react'
-import { Alert, Card, Col, Descriptions, Row, Typography } from 'antd'
+import { Alert, Button, Card, Col, Descriptions, Row, Typography } from 'antd'
 import { useParams } from 'react-router'
 import styled from 'styled-components'
 import { Gender } from '../../api/auth/entity'
 import { Schedule, TutorInfo } from '../../api/tutors/entity'
 import {
   ReserveButton,
+  ReserveModal,
   ReviewCard,
   Timetable,
   TutorPreviewCard,
@@ -61,7 +62,6 @@ const Section = styled.section`
 
 export const Tutor = () => {
   const { id } = useParams<{ id: string }>()
-  const [videoVisible, setVideoVisible] = useState(false)
 
   const tutor: TutorInfo = {
     id: 1,
@@ -70,7 +70,7 @@ export const Tutor = () => {
     username: 'hi',
     email: 'hello@world.com',
     gender: Gender.MALE,
-    image: 'https://via.placeholder.com/150',
+    image: 'https://via.placeholder.com/350',
     language: 'en',
     presentation:
       'HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello',
@@ -119,6 +119,20 @@ export const Tutor = () => {
     ],
   }
 
+  const [videoVisible, setVideoVisible] = useState(false)
+  const [reserveModalVisible, setReserveModalVisible] = useState(false)
+  const [scheduleToReserve, setScheduleToReserve] =
+    useState<Schedule | null>(null)
+  const onReserve = (schedule: Schedule) => {
+    setScheduleToReserve(schedule)
+    setReserveModalVisible(true)
+  }
+
+  const onCancelReserve = (updated?: boolean) => {
+    setScheduleToReserve(null)
+    setReserveModalVisible(false)
+  }
+
   const dateToKey = (date: Date | Dayjs) =>
     dayjs(date).format('MM. DD. ddd_HH:mm')
 
@@ -136,10 +150,6 @@ export const Tutor = () => {
       ),
     []
   )
-
-  const onReserve = (schedule: Schedule) => {
-    console.log(schedule)
-  }
 
   return (
     <Section className="section">
@@ -162,17 +172,17 @@ export const Tutor = () => {
                   </div>
                 </div>
 
-                <Descriptions bordered style={{ marginTop: '1rem' }}>
-                  <Descriptions.Item span={3} label="Name">
+                <Descriptions column={1} bordered style={{ marginTop: '1rem' }}>
+                  <Descriptions.Item label="Name">
                     {tutor.fullname}
                   </Descriptions.Item>
-                  <Descriptions.Item span={3} label="Country">
+                  <Descriptions.Item label="Country">
                     {tutor.country}
                   </Descriptions.Item>
-                  <Descriptions.Item span={3} label="Gender">
+                  <Descriptions.Item label="Gender">
                     {tutor.gender}
                   </Descriptions.Item>
-                  <Descriptions.Item span={3} label="Presentation">
+                  <Descriptions.Item label="Presentation">
                     {tutor.presentation}
                   </Descriptions.Item>
                 </Descriptions>
@@ -190,6 +200,13 @@ export const Tutor = () => {
             id={'6-LSMpXbGv0'}
             show={videoVisible}
             onCancel={() => setVideoVisible(false)}
+          />
+
+          <ReserveModal
+            show={reserveModalVisible}
+            tutor={tutor}
+            schedule={scheduleToReserve}
+            onCancel={onCancelReserve}
           />
         </main>
       </div>
