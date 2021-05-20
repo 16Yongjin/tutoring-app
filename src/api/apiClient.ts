@@ -15,6 +15,7 @@ export enum HTTPMethod {
 
 type Constructor<T> = new (...args: any[]) => T
 
+// eslint-disable-next-line
 type ResponseType<T> = T extends APIRequest<infer T> ? T : never
 
 export class APIClient {

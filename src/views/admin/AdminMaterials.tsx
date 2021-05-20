@@ -9,7 +9,8 @@ import * as api from '../../api'
 import { Material } from '../../api/materials/entity'
 
 const Section = styled.section`
-  background-color: white; // ffe680
+  background-color: #f2f2f2;
+  min-height: 100vh;
   position: relative;
   padding: 4rem 2rem;
 

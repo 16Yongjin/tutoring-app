@@ -11,6 +11,7 @@ import { APIError } from '../../api/interfaces/apiError'
 import { EditOutlined, PlusOutlined } from '@ant-design/icons'
 import { NewExerciseModal } from '../../components/admin/materials/NewExerciseModal'
 import { NewCourseModal } from '../../components/admin/materials/NewCourseModal'
+import { useScrollTop } from '../../utils/dom/scrollTop'
 
 const { Title, Text } = Typography
 
@@ -120,6 +121,7 @@ const AddExerciseCard = ({ onClick }: { onClick: Function }) => {
 }
 
 export const AdminCourseDetail = () => {
+  useScrollTop()
   const { id } = useParams<{ id: string }>()
   const queryClient = useQueryClient()
   const { data: course, error } = useQuery(

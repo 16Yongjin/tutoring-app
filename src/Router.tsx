@@ -9,6 +9,8 @@ import {
   MaterialDetail,
   Materials,
   Signup,
+  Tutor,
+  Tutors,
 } from './views'
 import './App.css'
 import { AdminDashboard } from './views/admin'
@@ -34,6 +36,14 @@ const Router = () => {
 
           <Route path="/materials">
             <Materials />
+          </Route>
+
+          <Route path="/tutors/:id">
+            <Tutor />
+          </Route>
+
+          <Route path="/tutors">
+            <Tutors />
           </Route>
 
           <Route exact path="/login">

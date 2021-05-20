@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import { MaterialCard } from '../material/MaterialCard'
 import { useQuery } from 'react-query'
 import * as api from '../../api'
+import { Link } from 'react-router-dom'
 
 const Section = styled.section`
-  background-color: white; // ffe680
   position: relative;
   padding: 4rem 2rem;
 
@@ -25,7 +25,9 @@ export const MaterialSection = () => {
       <div className="container">
         <Row>
           <Col xs={24}>
-            <h1 className="title">Materials</h1>
+            <Link to="/materials">
+              <h1 className="title">Materials</h1>
+            </Link>
           </Col>
         </Row>
 
