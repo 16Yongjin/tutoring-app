@@ -4,8 +4,8 @@ import { Gender, Role } from '../auth/entity'
 export type Schedule = {
   id: number
   tutor?: Tutor
-  startTime: Date | Dayjs
-  endTime: Date | Dayjs
+  startTime: string
+  endTime: string
   closed: boolean
   reserved: boolean
 }

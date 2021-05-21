@@ -42,10 +42,6 @@ const Router = () => {
             <Materials />
           </Route>
 
-          <Route path="/tutor">
-            <TutorDashboard />
-          </Route>
-
           <Route path="/tutors/login">
             <TutorLogin />
           </Route>

@@ -36,8 +36,8 @@ export const Footer = () => {
             <Col xs={24} md={8}>
               <div>
                 <h4>Tutor</h4>
-                <Link className="link" to="/tutor">
-                  Tutor Page
+                <Link className="link" to="/tutors/login">
+                  Tutor Login
                 </Link>
               </div>
             </Col>

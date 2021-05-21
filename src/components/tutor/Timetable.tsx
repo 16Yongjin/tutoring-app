@@ -9,6 +9,19 @@ import { timeIndeces, timetable } from '../../data/timetable'
 const TimetableDiv = styled.div`
   content-visibility: auto;
 
+  .timetable {
+    min-width: 640px;
+
+    &-wrapper {
+      margin-top: 1rem;
+      overflow-x: auto;
+
+      & > div {
+        padding: 0;
+      }
+    }
+  }
+
   .timetile {
     border-bottom: 1px solid #eee;
     border-right: 1px solid #eee;
@@ -17,10 +30,10 @@ const TimetableDiv = styled.div`
     &-header {
       height: 3rem;
     }
+  }
 
-    &-timeline {
-      background-color: #fafafa;
-    }
+  .timeline {
+    background-color: #fafafa;
   }
 `
 
@@ -31,8 +44,7 @@ export const Timetable = ({
   schedules: Schedule[]
   onReserve: Function
 }) => {
-  const dateToKey = (date: Date | Dayjs) =>
-    dayjs(date).format('MM. DD. ddd_HH:mm')
+  const dateToKey = (date: string) => dayjs(date).format('MM. DD. ddd_HH:mm')
 
   const scheduleMap = useMemo(() => {
     return schedules.reduce((acc, v) => {
@@ -50,20 +62,9 @@ export const Timetable = ({
   )
   return (
     <TimetableDiv>
-      <Card
-        type="inner"
-        style={{
-          marginTop: '1rem',
-          overflowX: 'auto',
-        }}
-        bodyStyle={{ padding: '0' }}
-      >
-        <Row
-          style={{
-            minWidth: '640px',
-          }}
-        >
-          <Col xs={3} className="timetile-timeline">
+      <Card type="inner" className="timetable-wrapper">
+        <Row className="timetable">
+          <Col xs={3} className="timeline">
             <Row className="timetile timetile-header center">⠀</Row>
             {timetable.map((time) => (
               <Row key={time} className="timetile center">
@@ -73,7 +74,7 @@ export const Timetable = ({
           </Col>
           {dates.map((date) => (
             <Col key={date} xs={3}>
-              <Row className="timetile timetile-header center ">{date}</Row>
+              <Row className="timetile timetile-header center">{date}</Row>
               {timeIndeces.map((timeIdx) => (
                 <Row key={timeIdx} className="timetile center">
                   <ReserveButton
