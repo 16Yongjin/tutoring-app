@@ -14,3 +14,5 @@ export const tutorSignup = APIClient.of(AuthAPI.TutorSignup)
 export const tutorChangePassword = APIClient.of(AuthAPI.TutorChangePassword)
 
 export const me = APIClient.of(AuthAPI.Me)
+
+export const acceptTutor = APIClient.of(AuthAPI.AcceptTutor)

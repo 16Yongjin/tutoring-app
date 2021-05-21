@@ -1,16 +1,16 @@
 import { Dayjs } from 'dayjs'
-import { Gender } from '../auth/entity'
+import { Gender, Role } from '../auth/entity'
 
 export type Schedule = {
   id: number
-  tutor?: TutorInfo
+  tutor?: Tutor
   startTime: Date | Dayjs
   endTime: Date | Dayjs
   closed: boolean
   reserved: boolean
 }
 
-export type TutorInfo = {
+export type Tutor = {
   id: number
   createdAt?: Date
   updatedAt?: Date
@@ -23,11 +23,14 @@ export type TutorInfo = {
   presentation: string
   country: string
   schedules: Schedule[]
+  verified?: boolean
+  accepted?: boolean
+  role?: Role
 }
 
-export type GetTutorsResponse = TutorInfo[]
+export type GetTutorsResponse = Tutor[]
 
-export type GetTutorResponse = TutorInfo
+export type GetTutorResponse = Tutor
 
 export type UpdateTutorRequest = {
   id: string
@@ -40,14 +43,29 @@ export type UpdateTutorRequest = {
   country?: string
 }
 
-export type UpdateTutorResponse = TutorInfo
+export type UpdateTutorResponse = {
+  id: number
+  username: string
+  fullname: string
+  language: string
+  image: string
+  gender: Gender
+  presentation: string
+  country: string
+}
 
 export type AddSchedulesRequest = {
   tutorId: number
   schedules: Date[]
 }
 
-export type AddSchedulesResponse = TutorInfo
+export type AddSchedulesResponse = Tutor
 
 export type RemoveSchedulesRequest = AddSchedulesRequest
-export type RemoveSchedulesResponse = TutorInfo
+export type RemoveSchedulesResponse = Tutor
+
+export type AcceptTutorRequest = {
+  tutorId: number
+}
+
+export type AcceptTutorResponse = Tutor

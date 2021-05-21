@@ -8,10 +8,13 @@ export class GetTutors<R extends E.GetTutorsResponse> implements APIRequest<R> {
   method = HTTPMethod.GET
   response!: R
   auth = false
-  path = `${endpoint}/`
-  constructor(id: number) {
-    this.path = `${endpoint}/${id}`
-  }
+  path = `${endpoint}`
+}
+export class GetTutorsByAdmin<
+  R extends E.GetTutorsResponse
+> extends GetTutors<R> {
+  auth = true
+  path = `${endpoint}/admin`
 }
 
 export class GetTutor<R extends E.GetTutorResponse> implements APIRequest<R> {
@@ -32,7 +35,7 @@ export class UpdateTutor<R extends E.UpdateTutorResponse>
   auth = true
   path = `${endpoint}/:id`
   constructor(public data: E.UpdateTutorResponse) {
-    this.path = `${endpoint}/${data.id}/schedules`
+    this.path = `${endpoint}/${data.id}`
   }
 }
 

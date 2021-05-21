@@ -9,8 +9,12 @@ import {
   MaterialDetail,
   Materials,
   Signup,
-  Tutor,
+  TutorDashboard,
+  TutorDetail,
+  TutorLogin,
   Tutors,
+  TutorSignup,
+  UserLogin,
 } from './views'
 import './App.css'
 import { AdminDashboard } from './views/admin'
@@ -38,8 +42,20 @@ const Router = () => {
             <Materials />
           </Route>
 
+          <Route path="/tutor">
+            <TutorDashboard />
+          </Route>
+
+          <Route path="/tutors/login">
+            <TutorLogin />
+          </Route>
+
+          <Route path="/tutors/signup">
+            <TutorSignup />
+          </Route>
+
           <Route path="/tutors/:id">
-            <Tutor />
+            <TutorDetail />
           </Route>
 
           <Route path="/tutors">
@@ -47,7 +63,7 @@ const Router = () => {
           </Route>
 
           <Route exact path="/login">
-            <Login />
+            <UserLogin />
           </Route>
 
           <Route exact path="/signup">

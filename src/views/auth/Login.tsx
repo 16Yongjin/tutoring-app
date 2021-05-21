@@ -36,7 +36,15 @@ const ErrorAlert = ({ message }: { message: string }) =>
     <Alert message="Error" description={message} type="error" showIcon />
   ) : null
 
-export const Login = () => {
+export const Login = ({
+  title,
+  login,
+  signupUrl,
+}: {
+  title: string
+  login: Function
+  signupUrl: string
+}) => {
   const history = useHistory()
   const queryParam = useQueryParam()
   const [errorMsg, setErrorMsg] = useState('')
@@ -48,9 +56,9 @@ export const Login = () => {
     <Section className="section">
       <div className="container">
         <div className="header">
-          <Title level={2}>Login</Title>
+          <Title level={2}>{title}</Title>
           <Paragraph>
-            or <Link to="/signup">Signup</Link>
+            or <Link to={signupUrl}>Signup</Link>
           </Paragraph>
         </div>
         <SignupSuccessAlert show={afterSignup} />
@@ -64,7 +72,7 @@ export const Login = () => {
               setErrorMsg('')
 
               try {
-                await store.userStore.login(values)
+                await login(values)
                 if (next) {
                   history.push(next)
                 } else {

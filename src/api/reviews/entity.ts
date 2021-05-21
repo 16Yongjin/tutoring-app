@@ -1,11 +1,11 @@
 import { UserInfo } from '../auth/entity'
-import { TutorInfo } from '../tutors/entity'
+import { Tutor } from '../tutors/entity'
 
 export type Review = {
   id: number
   text: string
   rating: number
-  tutor?: TutorInfo
+  tutor?: Tutor
   user: { fullname: string } & Partial<UserInfo>
   createdAt?: Date
 }

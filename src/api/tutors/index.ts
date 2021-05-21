@@ -3,6 +3,8 @@ import * as TutorAPI from './api'
 
 export const getTutors = APIClient.of(TutorAPI.GetTutors)
 
+export const getTutorsByAdmin = APIClient.of(TutorAPI.GetTutorsByAdmin)
+
 export const getTutor = APIClient.of(TutorAPI.GetTutor)
 
 export const updateTutor = APIClient.of(TutorAPI.UpdateTutor)

@@ -39,6 +39,11 @@ export class UserStore {
     this.setUser(user)
   }
 
+  async tutorLogin(data: LoginRequest) {
+    const user = await api.auth.tutorLogin(data)
+    this.setUser(user)
+  }
+
   logout() {
     localStorage.removeItem(AUTH_TOKEN_KEY)
     this.user = null

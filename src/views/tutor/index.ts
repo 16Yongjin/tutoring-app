@@ -1,2 +1,3 @@
-export * from './Tutor'
+export * from './TutorDashboard'
+export * from './TutorDetail'
 export * from './Tutors'

@@ -36,7 +36,14 @@ export type SignupRequest = {
   fullname: string
   language?: string
   gender?: Gender
-  role?: string
+}
+
+export type TutorSignupRequest = {
+  username: string
+  email: string
+  password: string
+  fullname: string
+  gender: string
 }
 
 export type SignupResponse = LoginResponse

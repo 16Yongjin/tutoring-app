@@ -1,5 +1,5 @@
 import { Button, Col, Row, Spin, Typography } from 'antd'
-import { Schedule, TutorInfo } from '../../api/tutors/entity'
+import { Schedule, Tutor } from '../../api/tutors/entity'
 import Modal from 'antd/lib/modal/Modal'
 import dayjs from 'dayjs'
 import { Formik } from 'formik'
@@ -16,7 +16,7 @@ export const ReserveModal = ({
   onCancel,
 }: {
   show: boolean
-  tutor: TutorInfo
+  tutor: Tutor
   schedule: Schedule | null
   onCancel: Function
 }) => {

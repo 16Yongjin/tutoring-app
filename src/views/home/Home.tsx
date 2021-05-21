@@ -1,11 +1,12 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
-import { MainSection } from '../components/home/MainSection'
-import { MaterialSection } from '../components/home/MaterialSection'
-import { store } from '../store'
-import { AdminDashboard } from './admin'
-import { Dashboard } from './user'
-import { Role } from '../api/auth/entity'
+import { MainSection } from '../../components/home/MainSection'
+import { MaterialSection } from '../../components/home/MaterialSection'
+import { store } from '../../store'
+import { AdminDashboard } from '../admin'
+import { Dashboard } from '../user'
+import { Role } from '../../api/auth/entity'
+import { Footer } from './Footer'
 
 export const Home = observer(() => {
   const role = store.userStore.user?.role
@@ -17,6 +18,7 @@ export const Home = observer(() => {
     <>
       <MainSection />
       <MaterialSection />
+      <Footer />
     </>
   )
 })
