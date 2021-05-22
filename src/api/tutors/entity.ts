@@ -1,4 +1,4 @@
-import { Dayjs } from 'dayjs'
+import { Appointment } from '../appointments/entity'
 import { Gender, Role } from '../auth/entity'
 
 export type Schedule = {
@@ -8,6 +8,8 @@ export type Schedule = {
   endTime: string
   closed: boolean
   reserved: boolean
+  appointmentId?: number
+  appointment?: Appointment
 }
 
 export type Tutor = {
@@ -53,6 +55,8 @@ export type UpdateTutorResponse = {
   presentation: string
   country: string
 }
+
+export type GetTutorSchedulesResponse = Schedule[]
 
 export type AddSchedulesRequest = {
   tutorId: number

@@ -5,6 +5,10 @@ import App from './App'
 import reportWebVitals from './reportWebVitals'
 import 'antd/dist/antd.css'
 
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+dayjs.extend(relativeTime)
+
 ReactDOM.render(
   <React.StrictMode>
     <App />

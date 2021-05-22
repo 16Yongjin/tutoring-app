@@ -9,7 +9,7 @@ import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
 
 const Header = styled.header`
   height: 4rem;
-  padding: 0 1rem;
+  padding: 0 2rem;
 
   .icon {
     margin-top: 0.25rem;

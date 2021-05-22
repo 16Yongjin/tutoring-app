@@ -39,6 +39,18 @@ export class UpdateTutor<R extends E.UpdateTutorResponse>
   }
 }
 
+export class GetTutorSchedules<R extends E.GetTutorSchedulesResponse>
+  implements APIRequest<R>
+{
+  method = HTTPMethod.GET
+  response!: R
+  auth = true
+  path = `${endpoint}/:id/schedules`
+  constructor(tutorId: number) {
+    this.path = `${endpoint}/${tutorId}/schedules`
+  }
+}
+
 export class AddSchedules<R extends E.AddSchedulesResponse>
   implements APIRequest<R>
 {

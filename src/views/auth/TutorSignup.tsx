@@ -8,6 +8,7 @@ import * as api from '../../api'
 import { InputField } from '../../components/form/InputField'
 import * as Yup from 'yup'
 import { Gender } from '../../api/auth/entity'
+import { ErrorAlert } from '../../components/common'
 
 const { Title, Paragraph } = Typography
 
@@ -21,11 +22,6 @@ const Section = styled.section`
     justify-content: space-between;
   }
 `
-
-const ErrorAlert = ({ message }: { message: string }) =>
-  message ? (
-    <Alert message="Error" description={message} type="error" showIcon />
-  ) : null
 
 const SignupSchema = Yup.object().shape({
   username: Yup.string()

@@ -1,3 +1,5 @@
 export * as auth from './auth'
 export * as materials from './materials'
 export * as tutors from './tutors'
+export * as reviews from './reviews'
+export * as appointments from './appointments'

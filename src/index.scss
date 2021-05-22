@@ -41,6 +41,14 @@
   align-items: center;
 }
 
+.abs-center {
+  position: absolute;
+  z-index: 999;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .reset-css {
   *,
   *:before,
@@ -117,4 +125,10 @@
   .is-hidden-mobile {
     display: none;
   }
+}
+
+.success-btn {
+  background-color: #52c41a !important;
+  border-color: #52c41a !important;
+  color: white !important;
 }

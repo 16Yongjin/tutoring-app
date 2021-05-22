@@ -59,9 +59,6 @@ export const ScheduleManager = ({ tutor }: { tutor: Tutor }) => {
     })
     queryClient.invalidateQueries(`tutor/${tutor.id}`)
   }
-  const showReserved = (schedule: Schedule) => {
-    console.log(schedule)
-  }
 
   const dateToKey = (date: string) => dayjs(date).format('YYYY. MM. DD. HH:mm')
 
@@ -106,7 +103,6 @@ export const ScheduleManager = ({ tutor }: { tutor: Tutor }) => {
                       schedule={scheduleMap[dateStr]}
                       onAddSchedule={onAddSchedule}
                       onRemoveSchedule={onRemoveSchedule}
-                      showReserved={showReserved}
                     />
                   </Row>
                 )

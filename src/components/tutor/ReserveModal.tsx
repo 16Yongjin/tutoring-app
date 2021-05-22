@@ -1,4 +1,4 @@
-import { Button, Col, Row, Spin, Typography } from 'antd'
+import { Alert, Button, Col, Row, Typography } from 'antd'
 import { Schedule, Tutor } from '../../api/tutors/entity'
 import Modal from 'antd/lib/modal/Modal'
 import dayjs from 'dayjs'
@@ -6,6 +6,10 @@ import { Formik } from 'formik'
 import { Form, Input, Select } from 'formik-antd'
 import * as api from '../../api'
 import { useQuery } from 'react-query'
+import { Loading } from '../common/Loading'
+import { store } from '../../store'
+import { useEffect, useState } from 'react'
+import { ErrorAlert } from '../common'
 
 const { Title } = Typography
 
@@ -24,6 +28,11 @@ export const ReserveModal = ({
     'materials',
     api.materials.getMaterials
   )
+  const [errorMsg, setErrorMsg] = useState('')
+
+  useEffect(() => {
+    if (schedule) setErrorMsg('')
+  }, [schedule])
 
   if (!schedule) return <div></div>
 
@@ -45,7 +54,7 @@ export const ReserveModal = ({
       footer={null}
     >
       {isLoading || !materials ? (
-        <Spin />
+        <Loading />
       ) : (
         <Formik
           enableReinitialize
@@ -55,16 +64,28 @@ export const ReserveModal = ({
           }}
           onSubmit={async (values, { setErrors }) => {
             console.log(values)
+            setErrorMsg('')
             try {
-              // onCancel(true)
+              await api.appointments.makeAppointment({
+                ...values,
+                startTime: dayjs(schedule.startTime).toDate(),
+                tutorId: tutor.id,
+                userId: store.userStore.user!.id,
+              })
+              onCancel(true)
             } catch (e) {
+              console.log(e)
               setErrors(e.response.data?.errors)
+              setErrorMsg(e.message)
             }
           }}
         >
           {({ isSubmitting, submitForm }) => (
             <div>
               <Row gutter={[20, 20]}>
+                <Col xs={24}>
+                  <ErrorAlert message={errorMsg} />
+                </Col>
                 <Col xs={24} md={6}>
                   <div>
                     <div className="center">
@@ -99,7 +120,11 @@ export const ReserveModal = ({
                     </Form.Item>
 
                     <Form.Item label="Any request to tutor" name="request">
-                      <Input.TextArea name="request" maxLength={200} />
+                      <Input.TextArea
+                        name="request"
+                        placeholder="Max 200 letters"
+                        maxLength={200}
+                      />
                     </Form.Item>
                   </Form>
                 </Col>

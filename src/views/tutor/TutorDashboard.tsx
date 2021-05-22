@@ -5,8 +5,8 @@ import styled from 'styled-components'
 import { Role } from '../../api/auth/entity'
 import { store } from '../../store'
 import * as api from '../../api'
-import { Spin } from 'antd'
 import { ScheduleManager } from '../../components/tutor'
+import { Loading } from '../../components/common/Loading'
 
 const Section = styled.section`
   position: relative;
@@ -32,7 +32,7 @@ export const TutorDashboard = () => {
   )
 
   if (!tutor) {
-    return <Spin />
+    return <Loading />
   }
 
   return (
@@ -42,6 +42,8 @@ export const TutorDashboard = () => {
           <h2 className="title">Tutor Dashboard</h2>
         </header>
         <main>
+          <h3 className="title">Appointments</h3>
+
           <h3 className="title">Schedule</h3>
           <ScheduleManager tutor={tutor} />
         </main>

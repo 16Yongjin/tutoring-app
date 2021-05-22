@@ -1,14 +1,14 @@
 import React from 'react'
-import { Col, Row, Spin } from 'antd'
+import { Col, Row } from 'antd'
 import { observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import { Gender, Role } from '../../api/auth/entity'
-import { Tutor } from '../../api/tutors/entity'
+import { Role } from '../../api/auth/entity'
 import { TutorPreviewCard } from '../../components/tutor'
 import { store } from '../../store'
 import { AdminTutors } from '../admin'
 import { useQuery } from 'react-query'
 import * as api from '../../api'
+import { Loading } from '../../components/common/Loading'
 
 const Section = styled.section`
   position: relative;
@@ -30,11 +30,7 @@ export const UserTutors = () => {
           <h2 className="title">Tutors</h2>
         </header>
         <main>
-          {isLoading ? (
-            <div className="center">
-              <Spin />
-            </div>
-          ) : null}
+          {isLoading ? <Loading /> : null}
 
           <Row gutter={[16, 16]}>
             {tutors?.map((tutor) => (

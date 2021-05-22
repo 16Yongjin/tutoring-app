@@ -1,3 +1,4 @@
+import React from 'react'
 import {
   CheckOutlined,
   CloseOutlined,
@@ -5,18 +6,16 @@ import {
   PlusOutlined,
 } from '@ant-design/icons'
 import { Button } from 'antd'
-import React from 'react'
 import { Schedule } from '../../../api/tutors/entity'
+import { Link } from 'react-router-dom'
 
 export const ScheduleButton = ({
   schedule,
   dateStr,
   onAddSchedule,
   onRemoveSchedule,
-  showReserved,
 }: {
   schedule?: Schedule
-  showReserved: Function
   onAddSchedule: Function
   onRemoveSchedule: Function
   dateStr: string
@@ -33,13 +32,15 @@ export const ScheduleButton = ({
 
   if (schedule.reserved)
     return (
-      <Button
-        onClick={() => showReserved(dateStr)}
-        type="primary"
-        shape="round"
-        size="small"
-        icon={<CheckOutlined />}
-      />
+      <Link to={`/appointments/${schedule.appointmentId}`}>
+        <Button
+          className="success-btn"
+          type="primary"
+          shape="round"
+          size="small"
+          icon={<CheckOutlined />}
+        />
+      </Link>
     )
 
   if (schedule.closed)

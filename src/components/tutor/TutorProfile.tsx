@@ -1,19 +1,39 @@
 import React from 'react'
-import { Card, Typography } from 'antd'
+import { Card, Descriptions } from 'antd'
 import { Tutor } from '../../api/tutors/entity'
-
-const { Title } = Typography
+import { YoutubeOutlined } from '@ant-design/icons'
 
 export const TutorProfile = ({
-  tutor: { id, image, fullname },
+  tutor,
+  setVideoVisible,
 }: {
   tutor: Tutor
+  setVideoVisible: Function
 }) => {
   return (
-    <Card hoverable>
-      <Title level={3} style={{ marginBottom: 0 }}>
-        {fullname}
-      </Title>
+    <Card style={{ position: 'sticky', top: '20px' }}>
+      <div
+        style={{
+          aspectRatio: '1 / 1',
+          backgroundImage: `url(${tutor.image})`,
+          backgroundPosition: 'center',
+          backgroundSize: 'cover',
+        }}
+        onClick={() => setVideoVisible(true)}
+      >
+        <div className="play center click">
+          <YoutubeOutlined size={40} className="play-icon" />
+        </div>
+      </div>
+
+      <Descriptions column={1} bordered style={{ marginTop: '1rem' }}>
+        <Descriptions.Item label="Name">{tutor.fullname}</Descriptions.Item>
+        <Descriptions.Item label="Country">{tutor.country}</Descriptions.Item>
+        <Descriptions.Item label="Gender">{tutor.gender}</Descriptions.Item>
+        <Descriptions.Item label="Presentation">
+          {tutor.presentation}
+        </Descriptions.Item>
+      </Descriptions>
     </Card>
   )
 }

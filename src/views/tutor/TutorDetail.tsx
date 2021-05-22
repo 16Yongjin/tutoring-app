@@ -1,19 +1,21 @@
-import { useMemo, useState } from 'react'
-import { Card, Col, Descriptions, Row, Spin } from 'antd'
+import { useState } from 'react'
+import { Card, Col, Descriptions, Row } from 'antd'
 import { useParams } from 'react-router'
 import styled from 'styled-components'
-import { Gender } from '../../api/auth/entity'
-import { Schedule, Tutor } from '../../api/tutors/entity'
+import { Schedule } from '../../api/tutors/entity'
 import {
+  FakeTimetable,
   ReserveModal,
   ReviewCard,
   Timetable,
   YoutubeModal,
 } from '../../components/tutor'
-import { YoutubeOutlined } from '@ant-design/icons'
-import dayjs from 'dayjs'
 import * as api from '../../api'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
+import { Loading } from '../../components/common/Loading'
+import { TutorProfile } from '../../components/tutor'
+import { store } from '../../store'
+import { observer } from 'mobx-react-lite'
 
 const Section = styled.section`
   position: relative;
@@ -54,10 +56,11 @@ const Section = styled.section`
   }
 `
 
-export const TutorDetail = () => {
+export const TutorDetail = observer(() => {
   const { id } = useParams<{ id: string }>()
   const getTutor = () => api.tutors.getTutor(Number(id))
   const { data: tutor } = useQuery(`tutor/${id}`, getTutor)
+  const queryClient = useQueryClient()
 
   const [videoVisible, setVideoVisible] = useState(false)
   const [reserveModalVisible, setReserveModalVisible] = useState(false)
@@ -71,57 +74,33 @@ export const TutorDetail = () => {
   const onCancelReserve = (updated?: boolean) => {
     setScheduleToReserve(null)
     setReserveModalVisible(false)
+    console.log('updatd', updated)
+    if (updated)
+      queryClient
+        .invalidateQueries(`tutor/${tutor?.id}/schedules`)
+        .then(console.log)
   }
 
   return (
     <Section className="section">
       <div className="container">
         {!tutor ? (
-          <Spin />
+          <Loading />
         ) : (
           <main>
             <Row gutter={[20, 20]}>
               <Col xs={24} md={10}>
-                <Card style={{ position: 'sticky', top: '20px' }}>
-                  <div
-                    style={{
-                      aspectRatio: '1 / 1',
-                      backgroundImage: `url(${tutor.image})`,
-                      backgroundPosition: 'center',
-                      backgroundSize: 'cover',
-                    }}
-                    onClick={() => setVideoVisible(true)}
-                  >
-                    <div className="play center click">
-                      <YoutubeOutlined size={40} className="play-icon" />
-                    </div>
-                  </div>
-
-                  <Descriptions
-                    column={1}
-                    bordered
-                    style={{ marginTop: '1rem' }}
-                  >
-                    <Descriptions.Item label="Name">
-                      {tutor.fullname}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Country">
-                      {tutor.country}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Gender">
-                      {tutor.gender}
-                    </Descriptions.Item>
-                    <Descriptions.Item label="Presentation">
-                      {tutor.presentation}
-                    </Descriptions.Item>
-                  </Descriptions>
-                </Card>
+                <TutorProfile tutor={tutor} setVideoVisible={setVideoVisible} />
               </Col>
 
               <Col xs={24} md={14}>
                 <ReviewCard tutorId={tutor.id} />
 
-                <Timetable schedules={tutor.schedules} onReserve={onReserve} />
+                {store.userStore.user ? (
+                  <Timetable tutor={tutor} onReserve={onReserve} />
+                ) : (
+                  <FakeTimetable />
+                )}
               </Col>
             </Row>
 
@@ -142,4 +121,4 @@ export const TutorDetail = () => {
       </div>
     </Section>
   )
-}
+})
