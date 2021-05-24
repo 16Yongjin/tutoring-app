@@ -127,7 +127,7 @@ export const NewExerciseModal = ({
           onEditorStateChange={setEditorState}
         />
 
-        {course ? (
+        {course && (
           <Button
             onClick={async () => {
               try {
@@ -144,7 +144,7 @@ export const NewExerciseModal = ({
           >
             삭제
           </Button>
-        ) : null}
+        )}
       </div>
     </Modal>
   )

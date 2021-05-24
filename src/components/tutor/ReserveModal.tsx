@@ -134,6 +134,7 @@ export const ReserveModal = ({
               </Row>
               <div className="center">
                 <Button
+                  loading={isSubmitting}
                   onClick={() => submitForm()}
                   type="primary"
                   shape="round"

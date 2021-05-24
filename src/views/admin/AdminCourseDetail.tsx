@@ -41,11 +41,11 @@ const CourseInfo = ({
   return (
     <Card>
       <Row gutter={[20, 0]} wrap={false}>
-        {course.image ? (
+        {course.image && (
           <Col flex="none">
             <img src={course.image} alt={course.title} />
           </Col>
-        ) : null}
+        )}
         <Col flex="auto">
           <Breadcrumb separator=">">
             <Breadcrumb.Item>
@@ -66,11 +66,11 @@ const CourseInfo = ({
           </Title>
           <LevelBadge level={course.level} />
 
-          {course.description ? (
+          {course.description && (
             <div style={{ marginTop: '0.5rem' }}>
               <Text>{course.description}</Text>w
             </div>
-          ) : null}
+          )}
         </Col>
         <Col>
           <Button onClick={() => onEdit()} icon={<EditOutlined />} />

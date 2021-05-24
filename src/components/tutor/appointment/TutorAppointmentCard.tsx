@@ -72,7 +72,7 @@ export const TutorAppointmentCard = ({
           </Col>
         </Row>
 
-        {timeLeft ? (
+        {timeLeft && (
           <Row className="row">
             <Col xs={24} className="center">
               수업 시작까지 남은시간
@@ -81,18 +81,18 @@ export const TutorAppointmentCard = ({
               <Title level={2}>{timeLeft}</Title>
             </Col>
           </Row>
-        ) : null}
+        )}
 
-        {appointment.feedback ? (
+        {appointment.feedback && (
           <Row className="row" gutter={[24, 24]}>
             <Col>
               <Title level={5}>피드백</Title>
               <Text>{appointment.feedback.text}</Text>
             </Col>
           </Row>
-        ) : null}
+        )}
 
-        {!appointment.finished ? (
+        {!appointment.finished && (
           <Row className="row" justify="end">
             <Col>
               <Link to={`/appointments/${appointment.id}`}>
@@ -102,9 +102,9 @@ export const TutorAppointmentCard = ({
               </Link>
             </Col>
           </Row>
-        ) : null}
+        )}
 
-        {appointment.finished && !appointment.feedback ? (
+        {appointment.finished && !appointment.feedback && (
           <Row className="row" justify="end">
             <Col>
               <Button onClick={() => onFeedback?.(appointment)} shape="round">
@@ -112,7 +112,7 @@ export const TutorAppointmentCard = ({
               </Button>
             </Col>
           </Row>
-        ) : null}
+        )}
       </Card>
     </Container>
   )

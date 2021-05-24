@@ -74,7 +74,6 @@ export const TutorDetail = observer(() => {
   const onCancelReserve = (updated?: boolean) => {
     setScheduleToReserve(null)
     setReserveModalVisible(false)
-    console.log('updatd', updated)
     if (updated)
       queryClient
         .invalidateQueries(`tutor/${tutor?.id}/schedules`)

@@ -2,6 +2,7 @@ import React from 'react'
 import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import {
   About,
+  Appointment,
   CourseDetail,
   Home,
   MainHeader,
@@ -57,9 +58,7 @@ const Router = () => {
           </Route>
 
           <Route path="/appointments/:id">
-            <header>
-              <h2 className="title">Appointment</h2>
-            </header>
+            <Appointment />
           </Route>
 
           <Route exact path="/login">

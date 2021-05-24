@@ -32,7 +32,7 @@ export const EditTutorModal = ({
       onOk={submit}
       onCancel={() => onCancel()}
     >
-      {tutor ? (
+      {tutor && (
         <Formik
           enableReinitialize
           initialValues={{ ...tutor }}
@@ -100,9 +100,9 @@ export const EditTutorModal = ({
               <div>이메일 인증: {tutor.verified ? 'O' : 'X'}</div>
               <div>관리자 승인: {tutor.accepted ? 'O' : 'X'}</div>
 
-              {!tutor.accepted ? (
+              {!tutor.accepted && (
                 <Button onClick={() => acceptTutor(tutor.id)}>승인하기</Button>
-              ) : null}
+              )}
 
               <Button
                 style={{ display: 'none' }}
@@ -113,7 +113,7 @@ export const EditTutorModal = ({
             </Form>
           )}
         </Formik>
-      ) : null}
+      )}
     </Modal>
   )
 }

@@ -124,7 +124,7 @@ export const AppointmentCard = ({
           </Col>
         </Row>
 
-        {timeLeft ? (
+        {timeLeft && (
           <Row className="row">
             <Col xs={24} className="center">
               Starts in
@@ -133,12 +133,12 @@ export const AppointmentCard = ({
               <Title level={2}>{timeLeft}</Title>
             </Col>
           </Row>
-        ) : null}
+        )}
 
-        {!appointment.finished ? (
+        {!appointment.finished && (
           <Row className="row" justify="space-between">
             <Col>
-              {appointment.cancelable ? (
+              {appointment.cancelable && (
                 <Popconfirm
                   title="Are you sure to cancel this appointment?"
                   onConfirm={cancelAppointment}
@@ -149,7 +149,7 @@ export const AppointmentCard = ({
                     <CloseOutlined /> Cancel
                   </Button>
                 </Popconfirm>
-              ) : null}
+              )}
             </Col>
             <Col>
               <Link to={`/appointments/${appointment.id}`}>
@@ -159,16 +159,16 @@ export const AppointmentCard = ({
               </Link>
             </Col>
           </Row>
-        ) : null}
+        )}
 
-        {appointment.feedback ? (
+        {appointment.feedback && (
           <Row className="row" gutter={[24, 24]}>
             <Col>
               <Title level={5}>Feedback</Title>
               <Text>{appointment.feedback.text}</Text>
             </Col>
           </Row>
-        ) : null}
+        )}
       </Card>
     </Container>
   )

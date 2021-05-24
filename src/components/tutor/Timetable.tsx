@@ -88,9 +88,7 @@ export const FakeTimetable = () => {
               <Row className="timetile timetile-header center">{date}</Row>
               {timeIndeces.slice(0, 10).map((timeIdx) => (
                 <Row key={timeIdx} className="timetile center">
-                  {timeIdx % 3 === 0 ? (
-                    <Button type="primary">Reserve</Button>
-                  ) : null}
+                  {timeIdx % 3 === 0 && <Button type="primary">Reserve</Button>}
                 </Row>
               ))}
             </Col>

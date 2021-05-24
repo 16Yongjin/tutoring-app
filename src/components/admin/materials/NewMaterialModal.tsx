@@ -105,7 +105,7 @@ export const NewMaterialModal = ({
               Login
             </Button>
 
-            {material ? (
+            {material && (
               <Button
                 onClick={async () => {
                   try {
@@ -122,7 +122,7 @@ export const NewMaterialModal = ({
               >
                 삭제
               </Button>
-            ) : null}
+            )}
           </Form>
         )}
       </Formik>

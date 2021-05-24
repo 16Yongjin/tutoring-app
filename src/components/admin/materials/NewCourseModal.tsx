@@ -90,7 +90,7 @@ export const NewCourseModal = ({
               Submit
             </Button>
 
-            {course ? (
+            {course && (
               <Button
                 onClick={async () => {
                   try {
@@ -107,7 +107,7 @@ export const NewCourseModal = ({
               >
                 삭제
               </Button>
-            ) : null}
+            )}
           </Form>
         )}
       </Formik>

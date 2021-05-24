@@ -84,7 +84,7 @@ export const NewTopicModal = ({
               Submit
             </Button>
 
-            {topic ? (
+            {topic && (
               <Button
                 onClick={async () => {
                   try {
@@ -101,7 +101,7 @@ export const NewTopicModal = ({
               >
                 삭제
               </Button>
-            ) : null}
+            )}
           </Form>
         )}
       </Formik>
