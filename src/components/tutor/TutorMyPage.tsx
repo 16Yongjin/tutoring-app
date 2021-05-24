@@ -17,7 +17,7 @@ const Section = styled.section`
 
   .label {
     text-align: right;
-    font-weight: 500;
+    font-weight: 600;
   }
 
   .text {
@@ -47,31 +47,31 @@ const DetailTile = ({ label, text }: { label: string; text: string }) => (
   </Row>
 )
 
-export const MyPage = () => {
+export const TutorMyPage = () => {
   useIsAuth()
   const userId = store.userStore.user!.id
-  const getUser = () => api.users.getUser(userId)
-  const { data: user } = useQuery('user', getUser)
+  const getTutor = () => api.tutors.getTutor(userId)
+  const { data: tutor } = useQuery('tutor', getTutor)
   const [modalVisible, setModalVisible] = useState(false)
 
-  if (!user) return <Loading />
+  if (!tutor) return <Loading />
 
   return (
     <Section>
       <header>
-        <Title level={3}>My Page</Title>
+        <Title level={3}>마이 페이지</Title>
       </header>
 
       <main>
         <Card>
-          <DetailTile label="Username" text={user.username} />
-          <DetailTile label="Name" text={user.fullname} />
-          <DetailTile label="Email" text={user.email} />
+          <DetailTile label="아이디" text={tutor.username} />
+          <DetailTile label="이름" text={tutor.fullname} />
+          <DetailTile label="이메일" text={tutor.email} />
           <DetailTile
-            label="Gender"
-            text={user.gender === 'other' ? '' : user.gender}
+            label="성별"
+            text={tutor.gender === 'other' ? '' : tutor.gender}
           />
-          <DetailTile label="Language" text={user.language} />
+          <DetailTile label="언어" text={tutor.language} />
 
           <Row className="mt-4" justify="center">
             <Col>
@@ -80,7 +80,7 @@ export const MyPage = () => {
                 type="primary"
                 shape="round"
               >
-                Change Password
+                비밀번호 변경
               </Button>
             </Col>
           </Row>
@@ -89,7 +89,7 @@ export const MyPage = () => {
 
       <ChangePasswordModal
         changePassword={api.auth.changePassword}
-        username={user.username}
+        username={tutor.username}
         show={modalVisible}
         onClose={() => setModalVisible(false)}
       />

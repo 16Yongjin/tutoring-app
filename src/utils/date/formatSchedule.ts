@@ -7,6 +7,6 @@ export const formatSchedule = ({
   startTime: string
   endTime: string
 }) =>
-  `${dayjs(startTime).format('YYYY. MM. DD. dddd hh:mm')} ~ ${dayjs(
+  `${dayjs(startTime).format('YYYY. MM. DD. dddd HH:mm')} ~ ${dayjs(
     endTime
-  ).format('hh:mm')}`
+  ).format('HH:mm')}`

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Card, Divider, Drawer } from 'antd'
+import { Button, Card, Drawer } from 'antd'
 import { Link, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
@@ -61,6 +61,10 @@ const Header = styled.header`
     .link {
       cursor: pointer;
     }
+  }
+
+  @media screen and (max-width: 768px) {
+    padding: 0 1rem;
   }
 `
 
@@ -181,13 +185,13 @@ export const MainHeader = observer(() => {
 
   return (
     <Header>
-      {screens.xs ? (
-        <MobileHeader
+      {screens.md ? (
+        <LaptopHeader
           loggedIn={!!userStore.user}
           logout={() => userStore.logout()}
         />
       ) : (
-        <LaptopHeader
+        <MobileHeader
           loggedIn={!!userStore.user}
           logout={() => userStore.logout()}
         />

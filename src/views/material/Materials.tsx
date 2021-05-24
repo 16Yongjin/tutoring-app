@@ -8,7 +8,7 @@ import styled from 'styled-components'
 
 const Container = styled.div`
   background-color: #f2f2f2;
-  min-height: 100vh;
+  min-height: calc(100vh - 64px);
 `
 
 export const Materials = observer(() => {

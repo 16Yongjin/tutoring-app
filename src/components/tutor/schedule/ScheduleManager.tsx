@@ -1,12 +1,13 @@
 import { useMemo } from 'react'
-import { Card, Col, Row } from 'antd'
+import { Card, Col, Row, Typography } from 'antd'
 import styled from 'styled-components'
 import { Schedule, Tutor } from '../../../api/tutors/entity'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import { timeIndeces, timetable } from '../../../data/timetable'
 import { ScheduleButton } from './ScheduleButton'
 import * as api from '../../../api'
 import { useQueryClient } from 'react-query'
+const { Title } = Typography
 
 const Container = styled.div`
   content-visibility: auto;
@@ -78,39 +79,45 @@ export const ScheduleManager = ({ tutor }: { tutor: Tutor }) => {
   )
 
   return (
-    <Container>
-      <Card type="inner" className="timetable-wrapper">
-        <Row className="timetable">
-          <Col xs={3} className="timeline">
-            <Row className="timetile timetile-header center"></Row>
-            {timetable.map((time) => (
-              <Row key={time} className="timetile center">
-                {time}
-              </Row>
-            ))}
-          </Col>
-          {dates.map((date) => (
-            <Col key={date} xs={3}>
-              <Row className="timetile timetile-header center">
-                {dayjs(date).format('MM. DD. ddd')}
-              </Row>
-              {timeIndeces.map((timeIdx) => {
-                const dateStr = `${date} ${timetable[timeIdx]}`
-                return (
-                  <Row key={timeIdx} className="timetile center">
-                    <ScheduleButton
-                      dateStr={dateStr}
-                      schedule={scheduleMap[dateStr]}
-                      onAddSchedule={onAddSchedule}
-                      onRemoveSchedule={onRemoveSchedule}
-                    />
-                  </Row>
-                )
-              })}
+    <Container className="mt-8">
+      <header>
+        <Title level={3}>스케쥴 관리</Title>
+      </header>
+
+      <main>
+        <Card type="inner" className="timetable-wrapper">
+          <Row className="timetable">
+            <Col xs={3} className="timeline">
+              <Row className="timetile timetile-header center"></Row>
+              {timetable.map((time) => (
+                <Row key={time} className="timetile center">
+                  {time}
+                </Row>
+              ))}
             </Col>
-          ))}
-        </Row>
-      </Card>
+            {dates.map((date) => (
+              <Col key={date} xs={3}>
+                <Row className="timetile timetile-header center">
+                  {dayjs(date).format('MM. DD. ddd')}
+                </Row>
+                {timeIndeces.map((timeIdx) => {
+                  const dateStr = `${date} ${timetable[timeIdx]}`
+                  return (
+                    <Row key={timeIdx} className="timetile center">
+                      <ScheduleButton
+                        dateStr={dateStr}
+                        schedule={scheduleMap[dateStr]}
+                        onAddSchedule={onAddSchedule}
+                        onRemoveSchedule={onRemoveSchedule}
+                      />
+                    </Row>
+                  )
+                })}
+              </Col>
+            ))}
+          </Row>
+        </Card>
+      </main>
     </Container>
   )
 }

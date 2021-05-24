@@ -13,6 +13,9 @@ import { Loading } from '../../components/common/Loading'
 const Section = styled.section`
   position: relative;
 
+  background-color: #f2f2f2;
+  min-height: calc(100vh - 64px);
+
   .title {
     font-family: 'Godo';
     font-size: 2rem;

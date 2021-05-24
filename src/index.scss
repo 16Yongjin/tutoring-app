@@ -118,11 +118,17 @@
 }
 
 @media screen and (max-width: 576px) {
+  .is-hidden-mobile {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 768px) {
   .section {
     padding: 1rem 2rem;
   }
 
-  .is-hidden-mobile {
+  .is-hidden-tablet {
     display: none;
   }
 }
@@ -131,4 +137,30 @@
   background-color: #52c41a !important;
   border-color: #52c41a !important;
   color: white !important;
+}
+
+$spaceamounts: (
+  0.25,
+  0.5,
+  0.75,
+  1,
+  1.25,
+  1.5,
+  1.75,
+  2
+); // Adjust this to include the pixel amounts you need.
+$sides: (top, bottom, left, right); // Leave this variable alone
+
+@for $index from 1 through length($spaceamounts) {
+  $space: nth($spaceamounts, $index);
+
+  @each $side in $sides {
+    .m#{str-slice($side, 0, 1)}-#{$index} {
+      margin-#{$side}: #{$space}rem !important;
+    }
+
+    .p#{str-slice($side, 0, 1)}-#{$index} {
+      padding-#{$side}: #{$space}rem !important;
+    }
+  }
 }

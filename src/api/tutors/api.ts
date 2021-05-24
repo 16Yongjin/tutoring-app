@@ -34,7 +34,7 @@ export class UpdateTutor<R extends E.UpdateTutorResponse>
   response!: R
   auth = true
   path = `${endpoint}/:id`
-  constructor(public data: E.UpdateTutorResponse) {
+  constructor(public data: E.UpdateTutorRequest) {
     this.path = `${endpoint}/${data.id}`
   }
 }

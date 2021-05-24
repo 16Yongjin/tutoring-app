@@ -11,7 +11,7 @@ const Container = styled.div`
   }
 `
 
-const { Title, Text } = Typography
+const { Title } = Typography
 
 export const AdminTutorCard = ({
   tutor,

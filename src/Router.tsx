@@ -56,6 +56,12 @@ const Router = () => {
             <Tutors />
           </Route>
 
+          <Route path="/appointments/:id">
+            <header>
+              <h2 className="title">Appointment</h2>
+            </header>
+          </Route>
+
           <Route exact path="/login">
             <UserLogin />
           </Route>

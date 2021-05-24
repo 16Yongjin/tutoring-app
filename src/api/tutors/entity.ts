@@ -35,7 +35,7 @@ export type GetTutorsResponse = Tutor[]
 export type GetTutorResponse = Tutor
 
 export type UpdateTutorRequest = {
-  id: string
+  id: number
   username: string
   fullname: string
   gender?: Gender

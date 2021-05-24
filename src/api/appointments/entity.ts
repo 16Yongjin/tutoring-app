@@ -1,5 +1,5 @@
-import { UserInfo } from '../auth/entity'
 import { Tutor } from '../tutors/entity'
+import { User } from '../users/entity'
 
 export type Feedback = {
   id: number
@@ -10,13 +10,15 @@ export type Feedback = {
 export type Appointment = {
   id: number
   tutor: Tutor
-  user: UserInfo
+  user: User
   startTime: string
   endTime: string
   material: string
   request: string
   feedbackId: number
-  feedback: Feedback
+  feedback?: Feedback
+  cancelable: boolean
+  finished: boolean
 }
 
 export type MakeAppointmentRequest = {

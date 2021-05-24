@@ -1,4 +1,4 @@
-import { Alert, Button, Col, Row, Typography } from 'antd'
+import { Alert, Button, Col, notification, Row, Typography } from 'antd'
 import { Schedule, Tutor } from '../../api/tutors/entity'
 import Modal from 'antd/lib/modal/Modal'
 import dayjs from 'dayjs'
@@ -73,6 +73,9 @@ export const ReserveModal = ({
                 userId: store.userStore.user!.id,
               })
               onCancel(true)
+              notification.success({
+                message: 'Appointment reserved successfully',
+              })
             } catch (e) {
               console.log(e)
               setErrors(e.response.data?.errors)
