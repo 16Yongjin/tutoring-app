@@ -4,7 +4,7 @@ import { APIResponse } from './interfaces/apiResponse'
 import { APIError } from './interfaces/apiError'
 import { AUTH_TOKEN_KEY } from '../consts'
 
-const { API_URL = 'http://localhost:4000' } = process.env
+const { API_URL = 'http://192.168.0.20:4000' } = process.env
 
 export enum HTTPMethod {
   GET = 'GET',

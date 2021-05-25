@@ -7,7 +7,7 @@ import React, {
   LegacyRef,
   MutableRefObject,
 } from 'react'
-import { io, Socket } from 'socket.io-client'
+import io from 'socket.io-client'
 import Peer, { SignalData } from 'simple-peer'
 
 export interface ISocketContext {
@@ -15,19 +15,22 @@ export interface ISocketContext {
   callAccepted: boolean
   myVideo: any
   userVideo: any
-  stream: MediaStream | null
+  stream?: MediaStream
   name: string
   callEnded: boolean
   me: string
-  initSocket: () => void
+  initSocket: (roomId: number) => void
   startCamera: () => void
   stopCamera: () => void
   setName: (name: string) => void
   callUser: (name: string) => void
   leaveCall: () => void
   answerCall: () => void
+  startCall: () => void
   joinRoom: (roomId: number) => void
   destroy: () => void
+  test: () => void
+  user: string
 }
 
 interface CallUserData {
@@ -36,42 +39,61 @@ interface CallUserData {
   signal: SignalData
 }
 
-interface Call extends CallUserData {
-  isReceivedCall: boolean
+interface Call {
+  signal: SignalData
 }
 
 export const SocketContext = createContext<ISocketContext>({} as ISocketContext)
 
 export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
-  const [socket, setSocket] = useState<Socket | null>(null)
-  const [stream, setStream] = useState<MediaStream | null>(null)
+  const [socket, setSocket] = useState<any | null>(null)
+  const [stream, setStream] = useState<MediaStream | undefined>(undefined)
   const [me, setMe] = useState('')
   const [call, setCall] = useState<Call | null>(null)
   const [callAccepted, setCallAccepted] = useState(false)
   const [callEnded, setCallEnded] = useState(false)
   const [name, setName] = useState('')
+  const [user, setUser] = useState<string>('')
 
   const myVideo = useRef<HTMLVideoElement>()
   const userVideo = useRef<HTMLVideoElement>()
   const connectionRef = useRef<Peer.Instance>()
 
   useEffect(() => {
-    // return () => {
-    //   console.log('[exit video context provider]')
-    //   stopCamera()
-    //   destroy()
-    // }
     return () => {
       console.log('[exit socket context]')
     }
   }, [])
 
-  const initSocket = () => {
-    const socket = io(process.env.API_URL)
+  const test = () => {
+    socket?.emit('test', 'hi')
+  }
+
+  const initSocket = (roomId: number) => {
+    const socket = io('http://192.168.0.20:4000')
     setSocket(socket)
+    socket.emit('joinRoom', roomId)
     socket.on('me', (id: string) => setMe(id))
-    socket.on('callUser', ({ from, name, signal }: CallUserData) => {
-      setCall({ isReceivedCall: true, from, name, signal })
+    // socket.on('joinUser', ({ signal }: CallUserData) => {
+    //   console.log('set call!!!!!!')
+    //   setCall({ signal })
+    // })
+
+    socket.on('hasUser', (userId: string) => {
+      console.log('has user', userId)
+      setUser(userId)
+      socket.emit('meToo', { roomId })
+    })
+
+    socket.on('hasUserToo', (userId: string) => {
+      console.log('has user too', userId)
+      setUser(userId)
+    })
+
+    socket.on('startCall', ({ signal }: CallUserData) => {
+      console.log('[start call from server]')
+      console.log('set call', signal)
+      setCall({ signal })
     })
   }
 
@@ -81,7 +103,6 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
-        console.log('get new Stream', currentStream, stream)
         setStream(currentStream)
         currentStream.getTracks().forEach((t) => console.log(t))
 
@@ -99,32 +120,74 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
     if (myVideo.current) myVideo.current.srcObject = null
     if (stream) connectionRef.current?.removeStream(stream)
     connectionRef.current?.destroy()
-    setStream(null)
+    setStream(undefined)
+  }
+
+  const toggleCamera = () => {
+    if (!stream) {
+      startCamera()
+      if (stream) connectionRef.current?.addStream(stream)
+
+      return
+    }
+
+    stream.getVideoTracks().forEach((track) => track.stop())
+    connectionRef.current?.removeStream(stream)
   }
 
   const destroy = () => {
     console.log('[destroy]')
     connectionRef.current?.destroy()
     socket?.disconnect()
-    setStream(null)
+    // setStream(null)
     setSocket(null)
     setCall(null)
   }
 
   const joinRoom = (roomId: number) => {
-    socket?.emit('joinRoom', { roomId })
+    socket.emit('joinRoom', roomId)
+  }
+
+  const startCall = () => {
+    if (!stream) return console.error('no Stream')
+    if (!socket) return console.error('no Socket')
+    if (!user) return console.error('no user')
+
+    console.log('전화 걸기 누름')
+    const peer = new Peer({ initiator: true, trickle: false, stream })
+
+    peer.on('signal', (signal) => {
+      console.log('시그널 생성 후 서버에 전달')
+      socket.emit('startCall', { signal, userId: user })
+    })
+
+    peer.on('stream', (currentStream) => {
+      console.log('userVideo', userVideo)
+      if (userVideo.current) userVideo.current.srcObject = currentStream
+    })
+
+    socket.on('callAccepted', (signal: SignalData) => {
+      console.log('[전화 수락됨]')
+      setCallAccepted(true)
+      peer.signal(signal)
+    })
+
+    connectionRef.current = peer
   }
 
   const answerCall = () => {
     setCallAccepted(true)
+    console.log(stream, call, socket)
 
-    if (!stream) return console.log('no stream')
+    if (!stream) console.log('no stream')
     if (!call) return console.log('no Call')
+    if (!socket) return console.log('no socket')
 
+    console.log('[피어 생성]')
     const peer = new Peer({ initiator: false, trickle: false, stream })
 
     peer.on('signal', (signal) => {
-      socket?.emit('answerCall', { signal, to: call.from })
+      socket.emit('answerCall', { signal, userId: user })
     })
 
     peer.on('stream', (currentStream) => {
@@ -138,7 +201,6 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
 
   const callUser = (userId: string) => {
     if (!stream) return console.log('no stream')
-    if (!call) return console.log('no Call')
 
     const peer = new Peer({ initiator: true, trickle: false, stream })
 
@@ -160,6 +222,7 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
 
   const leaveCall = () => {
     setCallEnded(true)
+    stopCamera()
     connectionRef.current?.destroy()
     window.location.reload()
   }
@@ -170,6 +233,7 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
     <SocketContext.Provider
       value={{
         me,
+        user,
         name,
         stream,
         call,
@@ -180,12 +244,14 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
         initSocket,
         startCamera,
         stopCamera,
-        joinRoom,
+        startCall,
         setName,
         callUser,
         leaveCall,
         answerCall,
         destroy,
+        test,
+        joinRoom,
       }}
     >
       {children}

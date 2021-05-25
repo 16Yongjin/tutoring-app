@@ -42,6 +42,7 @@ const TimetableDiv = styled.div`
   .fake {
     filter: blur(4px);
     user-select: none;
+    pointer-events: none;
 
     &.timetable {
       min-width: unset;
