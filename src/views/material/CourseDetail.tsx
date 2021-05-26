@@ -12,6 +12,7 @@ import { useParams } from 'react-router'
 import { useQuery } from 'react-query'
 import { APIError } from '../../api/interfaces/apiError'
 import * as api from '../../api'
+import { MaterialHeader } from '../Header'
 
 const { Title, Text } = Typography
 
@@ -29,7 +30,13 @@ const Section = styled.section`
   }
 `
 
-const CourseInfo = ({ course }: { course: Course }) => {
+const CourseInfo = ({
+  course,
+  urlPrefix,
+}: {
+  course: Course
+  urlPrefix?: string
+}) => {
   const topic = course.topic
   const material = topic.material
   return (
@@ -43,13 +50,17 @@ const CourseInfo = ({ course }: { course: Course }) => {
         <Col flex="auto">
           <Breadcrumb separator=">">
             <Breadcrumb.Item>
-              <Link to={`/materials/${material.id}`}>
+              <Link to={`${urlPrefix || ''}/materials/${material.id}`}>
                 <Text>{material.title}</Text>
               </Link>
             </Breadcrumb.Item>
             <Breadcrumb.Item>
               {' '}
-              <Link to={`/materials/${material.id}#topic-${topic.id}`}>
+              <Link
+                to={`${urlPrefix || ''}/materials/${material.id}#topic-${
+                  topic.id
+                }`}
+              >
                 <Text>{topic.title}</Text>
               </Link>
             </Breadcrumb.Item>
@@ -88,11 +99,11 @@ const ExerciseCard = ({ exercise }: { exercise: Exercise }) => {
   )
 }
 
-export const UserCourseDetail = () => {
-  const { id } = useParams<{ id: string }>()
+export const UserCourseDetail = ({ urlPrefix }: { urlPrefix?: string }) => {
+  const { courseId } = useParams<{ courseId: string }>()
   const { data: course, error } = useQuery(
-    `course/${id}`,
-    () => api.materials.getCourse(Number(id)),
+    `course/${courseId}`,
+    () => api.materials.getCourse(Number(courseId)),
     {
       retry: false,
     }
@@ -109,7 +120,7 @@ export const UserCourseDetail = () => {
   return (
     <Section className="section">
       <div className="container">
-        <CourseInfo course={course} />
+        <CourseInfo course={course} urlPrefix={urlPrefix} />
         {course.exercises.map((exercise) => (
           <ExerciseCard key={exercise.id} exercise={exercise} />
         ))}

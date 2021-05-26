@@ -11,13 +11,13 @@ const Container = styled.div`
   min-height: calc(100vh - 64px);
 `
 
-export const Materials = observer(() => {
+export const Materials = observer(({ urlPrefix }: { urlPrefix?: string }) => {
   const role = store.userStore.user?.role
   if (role === Role.ADMIN) return <AdminMaterials />
 
   return (
     <Container>
-      <MaterialSection />
+      <MaterialSection urlPrefix={urlPrefix || ''} />
     </Container>
   )
 })

@@ -16,7 +16,7 @@ const Section = styled.section`
   }
 `
 
-export const MaterialSection = () => {
+export const MaterialSection = ({ urlPrefix }: { urlPrefix?: string }) => {
   const { data: materials } = useQuery('materials', api.materials.getMaterials)
 
   return (
@@ -24,7 +24,7 @@ export const MaterialSection = () => {
       <div className="container">
         <Row>
           <Col xs={24}>
-            <Link to="/materials">
+            <Link to={`${urlPrefix || ''}/materials`}>
               <h1 className="title">Materials</h1>
             </Link>
           </Col>
@@ -33,7 +33,7 @@ export const MaterialSection = () => {
         <Row gutter={[16, 16]}>
           {materials?.map((material) => (
             <Col key={material.id} xs={24} md={12} lg={8}>
-              <MaterialCard material={material} />
+              <MaterialCard material={material} urlPrefix={urlPrefix} />
             </Col>
           ))}
         </Row>

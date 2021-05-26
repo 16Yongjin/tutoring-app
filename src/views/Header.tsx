@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Button, Card, Drawer } from 'antd'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useHistory, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { observer } from 'mobx-react-lite'
 import { store } from '../store'
@@ -31,6 +31,12 @@ const Header = styled.header`
   .link {
     color: black;
     font-size: 1rem;
+
+    &-title {
+      font-family: 'Godo';
+      font-size: 1.2rem;
+      font-weight: 500;
+    }
   }
 
   .action {
@@ -179,9 +185,31 @@ export const LaptopHeader = ({
   )
 }
 
+export const MaterialHeader = () => {
+  return (
+    <Header>
+      <div className="container">
+        <nav className="nav">
+          <Link className="link" to="/materials">
+            <span className="link-title">Materials</span>
+          </Link>
+        </nav>
+        <Link to="/">
+          <img className="icon" src="/icon.png" alt="icon" />
+        </Link>
+      </div>
+    </Header>
+  )
+}
+
 export const MainHeader = observer(() => {
   const [userStore] = useState(store.userStore)
   const screens = useBreakpoint()
+  const location = useLocation()
+
+  if (location.pathname.startsWith('/materials')) return <MaterialHeader />
+
+  if (location.pathname.startsWith('/appointments/')) return null
 
   return (
     <Header>

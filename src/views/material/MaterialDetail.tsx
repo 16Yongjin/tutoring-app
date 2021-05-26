@@ -73,9 +73,17 @@ const TopicCard = ({ topic }: { topic: Partial<Topic> }) => {
   )
 }
 
-const CourseTile = ({ course, index }: { course: Course; index: number }) => {
+const CourseTile = ({
+  course,
+  index,
+  urlPrefix,
+}: {
+  course: Course
+  index: number
+  urlPrefix?: string
+}) => {
   return (
-    <Link to={`/materials/courses/${course.id}`}>
+    <Link to={`${urlPrefix || ''}/materials/courses/${course.id}`}>
       <Card className="card-hover" type="inner">
         <Row justify="space-between">
           <Col>
@@ -105,11 +113,11 @@ const CourseTile = ({ course, index }: { course: Course; index: number }) => {
   )
 }
 
-export const UserMaterialDetail = () => {
-  const { id } = useParams<{ id: string }>()
+export const UserMaterialDetail = ({ urlPrefix }: { urlPrefix?: string }) => {
+  const { materialId } = useParams<{ materialId: string }>()
   const { data: material, error } = useQuery(
-    `material/${id}`,
-    () => api.materials.getMaterial(Number(id)),
+    `material/${materialId}`,
+    () => api.materials.getMaterial(Number(materialId)),
     {
       retry: false,
     }
@@ -131,7 +139,12 @@ export const UserMaterialDetail = () => {
           <div key={topic.id}>
             <TopicCard topic={topic} />
             {topic.courses.map((course, index) => (
-              <CourseTile key={course.id} index={index} course={course} />
+              <CourseTile
+                key={course.id}
+                index={index}
+                course={course}
+                urlPrefix={urlPrefix}
+              />
             ))}
           </div>
         ))}
@@ -140,9 +153,11 @@ export const UserMaterialDetail = () => {
   )
 }
 
-export const MaterialDetail = observer(() => {
-  const role = store.userStore.user?.role
-  if (role === Role.ADMIN) return <AdminMaterialDetail />
+export const MaterialDetail = observer(
+  ({ urlPrefix }: { urlPrefix?: string }) => {
+    const role = store.userStore.user?.role
+    if (role === Role.ADMIN) return <AdminMaterialDetail />
 
-  return <UserMaterialDetail />
-})
+    return <UserMaterialDetail urlPrefix={urlPrefix} />
+  }
+)

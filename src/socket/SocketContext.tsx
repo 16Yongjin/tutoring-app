@@ -4,11 +4,18 @@ import React, {
   useRef,
   useEffect,
   FunctionComponent,
-  LegacyRef,
   MutableRefObject,
 } from 'react'
 import io from 'socket.io-client'
 import Peer, { SignalData } from 'simple-peer'
+
+type Location = {
+  pathname: string
+  url: string
+  hash: string
+}
+
+type UrlChangeParams = Location & { roomId: string }
 
 export interface ISocketContext {
   call: Call | null
@@ -27,9 +34,13 @@ export interface ISocketContext {
   leaveCall: () => void
   answerCall: () => void
   startCall: () => void
-  joinRoom: (roomId: number) => void
+  joinRoom: (roomId: string) => void
   destroy: () => void
   test: () => void
+  urlChange: (args: UrlChangeParams) => void
+  sendChat: (args: ChatData) => void
+  chatHandler: MutableRefObject<Function | undefined>
+  currentLocation: Location | null
   user: string
 }
 
@@ -43,6 +54,17 @@ interface Call {
   signal: SignalData
 }
 
+export type ChatData = {
+  roomId: string
+  name: string
+  text: string
+  date: Date
+  id: string
+  me?: boolean
+  dateStr?: string
+  hideInfo?: boolean
+}
+
 export const SocketContext = createContext<ISocketContext>({} as ISocketContext)
 
 export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
@@ -54,10 +76,12 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
   const [callEnded, setCallEnded] = useState(false)
   const [name, setName] = useState('')
   const [user, setUser] = useState<string>('')
+  const [currentLocation, setCurrentLocation] = useState<Location | null>(null)
 
   const myVideo = useRef<HTMLVideoElement>()
   const userVideo = useRef<HTMLVideoElement>()
   const connectionRef = useRef<Peer.Instance>()
+  const chatHandler = useRef<Function>()
 
   useEffect(() => {
     return () => {
@@ -94,6 +118,15 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
       console.log('[start call from server]')
       console.log('set call', signal)
       setCall({ signal })
+    })
+
+    socket.on('urlChange', ({ url, hash, pathname }: Location) => {
+      setCurrentLocation({ url, hash, pathname })
+    })
+
+    socket.on('sendChat', (chatData: ChatData) => {
+      console.log('chat recievd', chatHandler, chatData)
+      chatHandler.current?.(chatData)
     })
   }
 
@@ -144,8 +177,8 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
     setCall(null)
   }
 
-  const joinRoom = (roomId: number) => {
-    socket.emit('joinRoom', roomId)
+  const joinRoom = (roomId: string) => {
+    socket?.emit('joinRoom', roomId)
   }
 
   const startCall = () => {
@@ -220,11 +253,19 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
     connectionRef.current = peer
   }
 
+  const urlChange = ({ roomId, url, hash, pathname }: UrlChangeParams) => {
+    socket?.emit('urlChange', { roomId, url, hash, pathname })
+  }
+
   const leaveCall = () => {
     setCallEnded(true)
     stopCamera()
     connectionRef.current?.destroy()
     window.location.reload()
+  }
+
+  const sendChat = (chatData: ChatData) => {
+    socket?.emit('sendChat', chatData)
   }
 
   console.log()
@@ -252,6 +293,10 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
         destroy,
         test,
         joinRoom,
+        urlChange,
+        sendChat,
+        chatHandler,
+        currentLocation,
       }}
     >
       {children}

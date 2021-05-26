@@ -57,9 +57,9 @@ const Section = styled.section`
 `
 
 export const TutorDetail = observer(() => {
-  const { id } = useParams<{ id: string }>()
-  const getTutor = () => api.tutors.getTutor(Number(id))
-  const { data: tutor } = useQuery(`tutor/${id}`, getTutor)
+  const { tutorId } = useParams<{ tutorId: string }>()
+  const getTutor = () => api.tutors.getTutor(Number(tutorId))
+  const { data: tutor } = useQuery(`tutor/${tutorId}`, getTutor)
   const queryClient = useQueryClient()
 
   const [videoVisible, setVideoVisible] = useState(false)

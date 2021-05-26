@@ -7,11 +7,13 @@ const { Title, Text } = Typography
 
 export const MaterialCard = ({
   material: { id, image, levelEnd, levelStart, title, description },
+  urlPrefix,
 }: {
   material: Partial<Material>
+  urlPrefix?: string
 }) => {
   return (
-    <Link to={`/materials/${id}`}>
+    <Link to={`${urlPrefix || ''}/materials/${id}`}>
       <Card cover={<img src={image} alt={title} />} hoverable>
         <Title level={3} style={{ marginBottom: 0 }}>
           {title}

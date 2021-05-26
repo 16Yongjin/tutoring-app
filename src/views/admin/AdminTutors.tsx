@@ -1,12 +1,10 @@
 import React, { useState } from 'react'
-import { Button, Col, Row } from 'antd'
+import { Col, Row } from 'antd'
 import styled from 'styled-components'
 import { useQuery, useQueryClient } from 'react-query'
 import * as api from '../../api'
-import { Gender } from '../../api/auth/entity'
 import { Tutor } from '../../api/tutors/entity'
 import { AdminTutorCard, EditTutorModal } from '../../components/admin/tutors'
-import { PlusOutlined } from '@ant-design/icons'
 
 const Section = styled.section`
   position: relative;
@@ -27,7 +25,6 @@ export const AdminTutors = () => {
   const [modalVisible, setModalVisible] = useState(false)
   const [tutorToEdit, setTutorToEdit] = useState<Tutor | null>(null)
   const queryClient = useQueryClient()
-  // const { data } = useQuery('tutors', api.tutors.getTutors)
 
   const showModal = () => {
     setTutorToEdit(null)
@@ -50,9 +47,6 @@ export const AdminTutors = () => {
           <Row justify="space-between" style={{ marginBottom: '1rem' }}>
             <Col>
               <h1 className="title">Tutors</h1>
-            </Col>
-            <Col className="center-y">
-              <Button onClick={showModal} icon={<PlusOutlined />} />
             </Col>
           </Row>
         </header>

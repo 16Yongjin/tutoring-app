@@ -39,7 +39,7 @@ export const NewCourseModal = ({
             level: 1,
           }
         }
-        onSubmit={async (values, { setErrors }) => {
+        onSubmit={async (values, { setErrors, resetForm }) => {
           console.log(values)
           try {
             if (course)
@@ -54,6 +54,7 @@ export const NewCourseModal = ({
               })
 
             onCancel(true)
+            resetForm()
           } catch (e) {
             setErrors(e.response.data?.errors)
           }

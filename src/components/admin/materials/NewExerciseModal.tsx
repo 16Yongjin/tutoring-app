@@ -64,7 +64,7 @@ export const NewExerciseModal = ({
               image: '',
             }
           }
-          onSubmit={async (values, { setErrors }) => {
+          onSubmit={async (values, { setErrors, resetForm }) => {
             values.text = draftToHtml(
               convertToRaw(editorState.getCurrentContent())
             )
@@ -82,6 +82,7 @@ export const NewExerciseModal = ({
                 })
 
               onCancel(true)
+              resetForm()
             } catch (e) {
               setErrors(e.errors)
             }

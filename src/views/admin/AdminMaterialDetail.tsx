@@ -171,13 +171,16 @@ const AddTopicCard = ({ onClick }: { onClick: Function }) => (
 )
 
 export const AdminMaterialDetail = () => {
-  const { id } = useParams<{ id: string }>()
+  const { materialId } = useParams<{ materialId: string }>()
   const queryClient = useQueryClient()
   const getMaterial = useCallback(
-    () => api.materials.getMaterial(Number(id)),
-    [id]
+    () => api.materials.getMaterial(Number(materialId)),
+    [materialId]
   )
-  const { data: material, isLoading } = useQuery(`material/${id}`, getMaterial)
+  const { data: material, isLoading } = useQuery(
+    `material/${materialId}`,
+    getMaterial
+  )
 
   /**
    * 교재 수정 로직
@@ -188,7 +191,7 @@ export const AdminMaterialDetail = () => {
   }
   const closeMaterialModal = (updated: boolean) => {
     setMaterialModalVisible(false)
-    if (updated) queryClient.invalidateQueries(`material/${id}`)
+    if (updated) queryClient.invalidateQueries(`material/${materialId}`)
   }
 
   /**
@@ -208,7 +211,7 @@ export const AdminMaterialDetail = () => {
   const closeTopicModal = (updated: boolean) => {
     setTopicToEdit(null)
     setTopicModalVisible(false)
-    if (updated) queryClient.invalidateQueries(`material/${id}`)
+    if (updated) queryClient.invalidateQueries(`material/${materialId}`)
   }
 
   /**
@@ -232,7 +235,7 @@ export const AdminMaterialDetail = () => {
     setCourseToEdit(null)
     setCourseToAddTopic(null)
     setCourseModalVisible(false)
-    if (updated) queryClient.invalidateQueries(`material/${id}`)
+    if (updated) queryClient.invalidateQueries(`material/${materialId}`)
   }
 
   if (isLoading) {

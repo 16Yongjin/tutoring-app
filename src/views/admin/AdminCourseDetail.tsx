@@ -121,11 +121,11 @@ const AddExerciseCard = ({ onClick }: { onClick: Function }) => {
 
 export const AdminCourseDetail = () => {
   useScrollTop()
-  const { id } = useParams<{ id: string }>()
+  const { courseId } = useParams<{ courseId: string }>()
   const queryClient = useQueryClient()
   const { data: course, error } = useQuery(
-    `course/${id}`,
-    () => api.materials.getCourse(Number(id)),
+    `course/${courseId}`,
+    () => api.materials.getCourse(Number(courseId)),
     {
       retry: false,
     }
@@ -141,7 +141,7 @@ export const AdminCourseDetail = () => {
   }
   const closeCourseModal = (updated: boolean) => {
     setCourseModalVisible(false)
-    if (updated) queryClient.invalidateQueries(`course/${id}`)
+    if (updated) queryClient.invalidateQueries(`course/${courseId}`)
   }
 
   /**
@@ -161,7 +161,7 @@ export const AdminCourseDetail = () => {
   const closeExerciseModal = (updated: boolean) => {
     setExerciseToEdit(null)
     setExerciseModalVisible(false)
-    if (updated) queryClient.invalidateQueries(`course/${id}`)
+    if (updated) queryClient.invalidateQueries(`course/${courseId}`)
   }
 
   if (error) {

@@ -29,11 +29,11 @@ const Router = () => {
             <About />
           </Route>
 
-          <Route path="/materials/courses/:id">
+          <Route path="/materials/courses/:courseId">
             <CourseDetail />
           </Route>
 
-          <Route path="/materials/:id">
+          <Route path="/materials/:materialId">
             <MaterialDetail />
           </Route>
 
@@ -49,7 +49,7 @@ const Router = () => {
             <TutorSignup />
           </Route>
 
-          <Route path="/tutors/:id">
+          <Route path="/tutors/:tutorId">
             <TutorDetail />
           </Route>
 
@@ -57,7 +57,7 @@ const Router = () => {
             <Tutors />
           </Route>
 
-          <Route path="/appointments/:id">
+          <Route path="/appointments/:appointmentId">
             <Appointment />
           </Route>
 
