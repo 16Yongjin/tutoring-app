@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Card, Col, Descriptions, Row } from 'antd'
+import { Col, Row } from 'antd'
 import { useParams } from 'react-router'
 import styled from 'styled-components'
 import { Schedule } from '../../api/tutors/entity'

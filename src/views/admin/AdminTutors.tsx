@@ -26,10 +26,6 @@ export const AdminTutors = () => {
   const [tutorToEdit, setTutorToEdit] = useState<Tutor | null>(null)
   const queryClient = useQueryClient()
 
-  const showModal = () => {
-    setTutorToEdit(null)
-    setModalVisible(true)
-  }
   const onEditRequest = (tutor: Tutor) => {
     setTutorToEdit(tutor)
     console.log(tutor)

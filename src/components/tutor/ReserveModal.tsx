@@ -1,4 +1,4 @@
-import { Alert, Button, Col, notification, Row, Typography } from 'antd'
+import { Button, Col, notification, Row, Typography } from 'antd'
 import { Schedule, Tutor } from '../../api/tutors/entity'
 import Modal from 'antd/lib/modal/Modal'
 import dayjs from 'dayjs'

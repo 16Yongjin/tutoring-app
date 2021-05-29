@@ -1,3 +1,4 @@
+import { Review } from '../reviews/entity'
 import { Tutor } from '../tutors/entity'
 import { User } from '../users/entity'
 

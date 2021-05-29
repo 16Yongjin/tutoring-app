@@ -1,11 +1,15 @@
 import React from 'react'
 import { SocketContext } from '../../socket/SocketContext'
-import { Button, Col, Row } from 'antd'
+import { Button } from 'antd'
 import styled from 'styled-components'
+import { VideoCameraOutlined } from '@ant-design/icons'
 
 const Section = styled.section`
+  height: 100%;
+
   .video-container {
     position: relative;
+    height: 100%;
   }
 
   .opponent-video {
@@ -13,9 +17,9 @@ const Section = styled.section`
     max-height: 100%;
 
     &-wrapper {
+      height: 100%;
       width: 100%;
       background-color: blue;
-      aspect-ratio: 16/9;
       max-height: 100%;
     }
   }
@@ -38,18 +42,29 @@ const Section = styled.section`
     top: 0;
     left: 0;
   }
+
+  .video-offline {
+    color: red;
+    background: linear-gradient(
+      to top right,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) calc(50% - 1px),
+      red 50%,
+      rgba(0, 0, 0, 0) calc(50% + 1px),
+      rgba(0, 0, 0, 0) 100%
+    );
+  }
 `
 
-export class VideoPlayer extends React.Component<{ id: number }> {
+export class VideoPlayer extends React.Component<{ id: string }> {
   static contextType = SocketContext
 
   componentDidMount() {
-    this.context.initSocket(this.props.id)
     this.context.startCamera()
   }
 
   componentWillUnmount() {
-    // this.context.stopCamera()
+    this.context.stopCamera()
   }
 
   render() {
@@ -57,7 +72,6 @@ export class VideoPlayer extends React.Component<{ id: number }> {
       <SocketContext.Consumer>
         {({
           stream,
-          name,
           user,
           call,
           myVideo,
@@ -98,9 +112,21 @@ export class VideoPlayer extends React.Component<{ id: number }> {
               </div>
               <div className="video-controllers">
                 {stream ? (
-                  <Button onClick={stopCamera}>Turn off camera</Button>
+                  <Button
+                    shape="circle"
+                    icon={<VideoCameraOutlined />}
+                    onClick={stopCamera}
+                  />
                 ) : (
-                  <Button onClick={startCamera}>Turn on camera</Button>
+                  <Button
+                    shape="circle"
+                    icon={
+                      <span className="video-offline">
+                        <VideoCameraOutlined />
+                      </span>
+                    }
+                    onClick={startCamera}
+                  />
                 )}
 
                 {call && (

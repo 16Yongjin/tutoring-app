@@ -6,7 +6,6 @@ import { Formik } from 'formik'
 import { Link, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { InputField } from '../../components/form/InputField'
-import { store } from '../../store'
 import { useQueryParam } from '../../utils/router/useQueryParams'
 
 const { Title, Paragraph } = Typography

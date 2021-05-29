@@ -8,7 +8,7 @@ import {
   Typography,
 } from 'antd'
 import styled from 'styled-components'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQueryClient } from 'react-query'
 import * as api from '../../api'
 import { formatSchedule } from '../../utils/date/formatSchedule'
 import { CloseOutlined } from '@ant-design/icons'
@@ -45,8 +45,10 @@ export const EmptyAppointmentCard = () => {
 
 export const AppointmentCard = ({
   appointment,
+  onReviewTutor,
 }: {
   appointment: Appointment
+  onReviewTutor?: Function
 }) => {
   const queryClient = useQueryClient()
 
@@ -166,6 +168,19 @@ export const AppointmentCard = ({
             <Col>
               <Title level={5}>Feedback</Title>
               <Text>{appointment.feedback.text}</Text>
+            </Col>
+          </Row>
+        )}
+
+        {appointment.finished && !appointment.tutor?.reviews?.length && (
+          <Row className="row" justify="end">
+            <Col>
+              <Button
+                onClick={() => onReviewTutor?.(appointment)}
+                shape="round"
+              >
+                Review Tutor
+              </Button>
             </Col>
           </Row>
         )}

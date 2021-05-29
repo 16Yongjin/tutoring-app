@@ -12,7 +12,6 @@ import { useParams } from 'react-router'
 import { useQuery } from 'react-query'
 import { APIError } from '../../api/interfaces/apiError'
 import * as api from '../../api'
-import { MaterialHeader } from '../Header'
 
 const { Title, Text } = Typography
 

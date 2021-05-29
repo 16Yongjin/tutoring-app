@@ -1,5 +1,6 @@
 import { Appointment } from '../appointments/entity'
 import { Gender, Role } from '../auth/entity'
+import { Review } from '../reviews/entity'
 
 export type Schedule = {
   id: number
@@ -28,6 +29,7 @@ export type Tutor = {
   verified?: boolean
   accepted?: boolean
   role?: Role
+  reviews?: Review[]
 }
 
 export type GetTutorsResponse = Tutor[]
