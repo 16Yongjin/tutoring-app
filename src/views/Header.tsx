@@ -6,6 +6,7 @@ import { observer } from 'mobx-react-lite'
 import { store } from '../store'
 import { MenuOutlined } from '@ant-design/icons'
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
+import { Role } from '../api/auth/entity'
 
 const Header = styled.header`
   height: 4rem;
@@ -77,9 +78,17 @@ const Header = styled.header`
 export const MobileHeader = ({
   loggedIn,
   logout,
+  isPublic,
+  isUser,
+  isTutor,
+  isAdmin,
 }: {
   loggedIn: boolean
   logout: Function
+  isPublic: boolean
+  isUser: boolean
+  isTutor: boolean
+  isAdmin: boolean
 }) => {
   const [drawer, setDrawer] = useState(false)
   const closeDrawer = () => setDrawer(false)
@@ -101,18 +110,80 @@ export const MobileHeader = ({
         bodyStyle={{ padding: '0' }}
       >
         <nav className="nav click">
-          <Card type="inner" onClick={() => goTo('/')}>
-            Home
-          </Card>
-          <Card type="inner" onClick={() => goTo('/about')}>
-            About
-          </Card>
-          <Card type="inner" onClick={() => goTo('/materials')}>
-            Materials
-          </Card>
-          <Card type="inner" onClick={() => goTo('/tutors')}>
-            Tutors
-          </Card>
+          {isPublic && (
+            <>
+              <Card type="inner" onClick={() => goTo('/')}>
+                Home
+              </Card>
+              <Card type="inner" onClick={() => goTo('/about')}>
+                About
+              </Card>
+              <Card type="inner" onClick={() => goTo('/materials')}>
+                Materials
+              </Card>
+              <Card type="inner" onClick={() => goTo('/tutors')}>
+                Tutors
+              </Card>
+            </>
+          )}
+
+          {isUser && (
+            <>
+              <Card type="inner" onClick={() => goTo('/')}>
+                Main Page
+              </Card>
+              <Card type="inner" onClick={() => goTo('/my')}>
+                My Page
+              </Card>
+              <Card type="inner" onClick={() => goTo('/appointments')}>
+                My Appointments
+              </Card>
+              <Card type="inner" onClick={() => goTo('/materials')}>
+                Materials
+              </Card>
+              <Card type="inner" onClick={() => goTo('/tutors')}>
+                Tutors
+              </Card>
+            </>
+          )}
+
+          {isTutor && (
+            <>
+              <Card type="inner" onClick={() => goTo('/')}>
+                메인 페이지
+              </Card>
+              <Card type="inner" onClick={() => goTo('/my')}>
+                마이 페이지
+              </Card>
+              <Card type="inner" onClick={() => goTo('/appointments')}>
+                약속 목록
+              </Card>
+              <Card type="inner" onClick={() => goTo('/materials')}>
+                교재
+              </Card>
+            </>
+          )}
+
+          {isAdmin && (
+            <>
+              <Card type="inner" onClick={() => goTo('/')}>
+                Main Page
+              </Card>
+              <Card type="inner" onClick={() => goTo('/my')}>
+                My Page
+              </Card>
+              <Card type="inner" onClick={() => goTo('/appointments')}>
+                My Appointments
+              </Card>
+              <Card type="inner" onClick={() => goTo('/materials')}>
+                Materials
+              </Card>
+              <Card type="inner" onClick={() => goTo('/tutors')}>
+                Tutors
+              </Card>
+            </>
+          )}
+
           {loggedIn ? (
             <Card
               type="inner"
@@ -204,8 +275,7 @@ export const MainHeader = observer(() => {
   const [userStore] = useState(store.userStore)
   const screens = useBreakpoint()
   const location = useLocation()
-
-  if (location.pathname.startsWith('/materials')) return <MaterialHeader />
+  const role = userStore.user?.role
 
   if (location.pathname.startsWith('/appointments/')) return null
 
@@ -220,6 +290,10 @@ export const MainHeader = observer(() => {
         <MobileHeader
           loggedIn={!!userStore.user}
           logout={() => userStore.logout()}
+          isPublic={!role}
+          isUser={role === Role.USER}
+          isTutor={role === Role.TUTOR}
+          isAdmin={role === Role.ADMIN}
         />
       )}
     </Header>

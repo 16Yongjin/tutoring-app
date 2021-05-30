@@ -17,6 +17,7 @@ import { SocketContext } from '../../socket/SocketContext'
 import { Chat } from './Chat'
 import { Role } from '../../api/auth/entity'
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
+import { AppointmentControl } from './AppointmentControl'
 
 const Section = styled.section`
   position: relative;
@@ -31,9 +32,10 @@ const Section = styled.section`
     grid-template-areas:
       'materials-header video-player'
       'materials video-player'
+      'materials appointment-control'
       'materials chat';
     grid-template-columns: 3fr 400px;
-    grid-template-rows: 56px 169px auto;
+    grid-template-rows: 56px 169px 54px auto;
   }
 
   @media screen and (max-width: 576px) {
@@ -90,10 +92,16 @@ const Section = styled.section`
     grid-area: video-player;
   }
 
+  .appointment-control {
+    height: 54px;
+    grid-area: appointment-control;
+  }
+
   .chat {
     grid-area: chat;
     background-color: white;
-    max-height: calc(100vh - 225px);
+    height: 100%;
+    max-height: calc(100vh - 225px - 42px);
   }
 
   @media screen and (max-width: 768px) {
@@ -103,6 +111,7 @@ const Section = styled.section`
 
       grid-template-areas:
         'video-player'
+        'appointment-control'
         'materials';
       grid-template-columns: auto;
       grid-template-rows: 225px auto;
@@ -112,8 +121,13 @@ const Section = styled.section`
       height: 225px;
     }
 
+    .appointment-control {
+      position: sticky;
+      top: -1px;
+    }
+
     .chat {
-      max-height: calc(100vh - 84px - 225px);
+      max-height: calc(100vh - 84px - 225px - 54px);
     }
 
     .materials-header {
@@ -152,6 +166,7 @@ const Section = styled.section`
       &.grid-container {
         grid-template-areas:
           'video-player'
+          'appointment-control'
           'chat';
       }
 
@@ -297,7 +312,7 @@ export const Appointment = observer(() => {
 
   return (
     <Switch>
-      <Section className="scrollbar">
+      <Section className={md ? 'scrollbar' : ''}>
         <MobileAppoinmentHeader
           show={!md}
           tab={tab}
@@ -330,7 +345,11 @@ export const Appointment = observer(() => {
           </div>
 
           <div className="video-player">
-            <VideoPlayer id={appointmentId} />
+            <VideoPlayer id={appointmentId} appointment={appointment} />
+          </div>
+
+          <div className="appointment-control">
+            <AppointmentControl appointment={appointment} isTutor={isTutor} />
           </div>
 
           <div className="chat">
@@ -340,6 +359,7 @@ export const Appointment = observer(() => {
               username={
                 isTutor ? appointment.tutor.fullname : appointment.user.fullname
               }
+              isTutor={isTutor}
               setHasNewChatting={setHasNewChatting}
             />
           </div>

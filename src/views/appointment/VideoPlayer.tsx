@@ -3,6 +3,7 @@ import { SocketContext } from '../../socket/SocketContext'
 import { Button } from 'antd'
 import styled from 'styled-components'
 import { VideoCameraOutlined } from '@ant-design/icons'
+import { Appointment } from '../../api/appointments/entity'
 
 const Section = styled.section`
   height: 100%;
@@ -19,20 +20,30 @@ const Section = styled.section`
     &-wrapper {
       height: 100%;
       width: 100%;
-      background-color: blue;
       max-height: 100%;
+      background-color: #444;
+    }
+
+    &-thumbnail {
+      border-radius: 50%;
+      aspect-ratio: 1 / 1;
+      background-position: center;
+      background-size: cover;
+      height: 80%;
     }
   }
 
   .my-video {
     max-width: 100%;
+    max-height: 100%;
+    border: 2px solid #eee;
+    border-radius: 5px;
 
     &-wrapper {
-      background-color: red;
       position: absolute;
       z-index: 999;
-      bottom: 12px;
-      right: 12px;
+      bottom: 6px;
+      right: 6px;
       max-width: 20%;
     }
   }
@@ -56,7 +67,10 @@ const Section = styled.section`
   }
 `
 
-export class VideoPlayer extends React.Component<{ id: string }> {
+export class VideoPlayer extends React.Component<{
+  id: string
+  appointment: Appointment
+}> {
   static contextType = SocketContext
 
   componentDidMount() {
@@ -80,6 +94,7 @@ export class VideoPlayer extends React.Component<{ id: string }> {
           startCamera,
           callAccepted,
           callEnded,
+          callInProgress,
           startCall,
           answerCall,
           leaveCall,
@@ -88,7 +103,7 @@ export class VideoPlayer extends React.Component<{ id: string }> {
           <Section>
             <div className="video-container">
               <div className="opponent-video-wrapper center">
-                {callAccepted && !callEnded && (
+                {callInProgress ? (
                   <video
                     className="opponent-video"
                     playsInline
@@ -96,6 +111,20 @@ export class VideoPlayer extends React.Component<{ id: string }> {
                     ref={userVideo}
                     autoPlay
                   />
+                ) : (
+                  <div
+                    className="opponent-video center"
+                    style={{
+                      height: '100%',
+                    }}
+                  >
+                    <div
+                      className="opponent-video-thumbnail"
+                      style={{
+                        backgroundImage: `url(${this.props.appointment.tutor.image})`,
+                      }}
+                    ></div>
+                  </div>
                 )}
 
                 {stream && (
@@ -138,6 +167,7 @@ export class VideoPlayer extends React.Component<{ id: string }> {
                 )}
 
                 {user && <Button onClick={() => startCall()}>전화 걸기</Button>}
+
                 <Button onClick={() => test()}>테스터</Button>
               </div>
             </div>

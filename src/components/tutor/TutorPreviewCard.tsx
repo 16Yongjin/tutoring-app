@@ -12,7 +12,19 @@ export const TutorPreviewCard = ({
 }) => {
   return (
     <Link to={`/tutors/${id}`}>
-      <Card cover={<img src={image} alt={fullname} />} hoverable>
+      <Card
+        cover={
+          <div
+            style={{
+              aspectRatio: '1 / 1',
+              backgroundImage: `url(${image})`,
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+            }}
+          ></div>
+        }
+        hoverable
+      >
         <Title level={3} style={{ marginBottom: 0 }}>
           {fullname}
         </Title>

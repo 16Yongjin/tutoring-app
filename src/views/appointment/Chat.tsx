@@ -120,11 +120,13 @@ export const Chat = ({
   username,
   appointment,
   setHasNewChatting,
+  isTutor,
 }: {
   roomId: string
   username: string
   appointment: Appointment
   setHasNewChatting: Function
+  isTutor: boolean
 }) => {
   const { chatHandler, sendChat, initSocket } = useContext(SocketContext)
   const [chats, setChats] = useState<ChatData[]>([
@@ -284,6 +286,7 @@ export const Chat = ({
     initSocket({
       roomId: appointment.id.toString(),
       username,
+      isTutor,
     })
   }, [])
 

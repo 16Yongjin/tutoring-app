@@ -26,7 +26,16 @@ export const AdminTutorCard = ({
     <Container>
       <Card
         className={!accepted ? 'not-accepted' : ''}
-        cover={<img src={image} alt={fullname} />}
+        cover={
+          <div
+            style={{
+              aspectRatio: '1 / 1',
+              backgroundImage: `url(${image})`,
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+            }}
+          ></div>
+        }
         actions={[
           <EditOutlined key="edit" onClick={() => onEdit(tutor)} />,
           <Link key="ellipsis" to={`/tutors/${id}`}>

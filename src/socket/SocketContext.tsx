@@ -5,6 +5,7 @@ import React, {
   useEffect,
   FunctionComponent,
   MutableRefObject,
+  useMemo,
 } from 'react'
 import io from 'socket.io-client'
 import Peer, { SignalData } from 'simple-peer'
@@ -20,27 +21,43 @@ type UrlChangeParams = Location & { roomId: string }
 
 export interface ISocketContext {
   call: Call | null
-  callAccepted: boolean
   myVideo: any
   userVideo: any
   stream?: MediaStream
+  /** 상대가 연결 시도 후 시그널 생성 & 전송 기다리기 */
+  userReady: boolean
+  callAccepted: boolean
   callEnded: boolean
-  initSocket: (args: { roomId: string; username: string }) => void
+  callInProgress: boolean
+  /** 통화 연결 시도 후 유저 응답 기다리기 */
+  waitingUser: boolean
+  initSocket: (args: InitSocketData) => void
   startCamera: () => void
   stopCamera: () => void
   leaveCall: () => void
   answerCall: () => void
   startCall: () => void
-  joinRoom: (roomId: string) => void
   destroy: () => void
   test: () => void
   urlChange: (args: UrlChangeParams) => void
   sendChat: (args: ChatData) => void
+  getReady: (args: ReadyData) => void
   chatHandler: MutableRefObject<Function | undefined>
   currentLocation: Location | null
   user: string
+  tutor: string
 }
 
+type InitSocketData = {
+  roomId: string
+  username: string
+  isTutor: boolean
+}
+
+type InitUserData = {
+  userId: string
+  isTutor: boolean
+}
 interface CallUserData {
   from: string
   name: string
@@ -63,21 +80,34 @@ export type ChatData = {
   hideInfo?: boolean
 }
 
+type ReadyData = {
+  roomId: string
+  isTutor: boolean
+  userId?: string
+}
+
 export const SocketContext = createContext<ISocketContext>({} as ISocketContext)
 
 export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
   const [socket, setSocket] = useState<any | null>(null)
   const [stream, setStream] = useState<MediaStream | undefined>(undefined)
   const [call, setCall] = useState<Call | null>(null)
+  const [userReady, setUserReady] = useState(false)
   const [callAccepted, setCallAccepted] = useState(false)
   const [callEnded, setCallEnded] = useState(false)
+  const callInProgress = useMemo(
+    () => callAccepted && !callEnded,
+    [callAccepted, callEnded]
+  )
   const [user, setUser] = useState<string>('')
+  const [tutor, setTutor] = useState<string>('')
   const [currentLocation, setCurrentLocation] = useState<Location | null>(null)
 
   const myVideo = useRef<HTMLVideoElement>()
   const userVideo = useRef<HTMLVideoElement>()
   const connectionRef = useRef<Peer.Instance>()
   const chatHandler = useRef<Function>()
+  const [waitingUser, setWaitingUser] = useState(false)
 
   useEffect(() => {
     return () => {
@@ -89,40 +119,41 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
     socket?.emit('test', 'hi')
   }
 
-  /** 소켓 시동 걸리 */
-  const initSocket = ({
-    roomId,
-    username,
-  }: {
-    roomId: string
-    username: string
-  }) => {
+  /** 소켓 시동 걸기 */
+  const initSocket = ({ roomId, username, isTutor }: InitSocketData) => {
     if (socket) return
 
     console.log('[init socket]')
 
     const socketClient = io('http://192.168.0.20:4000')
     setSocket(socketClient)
-    socketClient.emit('joinRoom', roomId)
-    // socketClient.on('joinUser', ({ signal }: CallUserData) => {
-    //   console.log('set call!!!!!!')
-    //   setCall({ signal })
-    // })
-
-    socketClient.on('hasUser', (userId: string) => {
-      console.log('has user', userId)
-      setUser(userId)
-      socketClient.emit('meToo', { roomId })
+    socketClient.emit('joinRoom', {
+      roomId,
+      isTutor,
     })
 
-    socketClient.on('hasUserToo', (userId: string) => {
+    socketClient.on(
+      'hasUser',
+      ({ userId, isTutor: isUserTutor }: InitUserData) => {
+        console.log('has user', userId)
+
+        if (isUserTutor) setTutor(userId)
+        else setUser(userId)
+
+        socketClient.emit('meToo', { roomId, isTutor })
+      }
+    )
+
+    socketClient.on('hasUserToo', ({ userId, isTutor }: InitUserData) => {
       console.log('has user too', userId)
-      setUser(userId)
+      if (isTutor) setTutor(userId)
+      else setUser(userId)
     })
 
     socketClient.on('startCall', ({ signal }: CallUserData) => {
       console.log('[start call from server]')
       console.log('set call', signal)
+      setUserReady(false)
       setCall({ signal })
     })
 
@@ -135,7 +166,21 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
       chatHandler.current?.(chatData)
     })
 
+    socketClient.on('getReady', (readyData: ReadyData) => {
+      console.log('get Ready', readyData)
+      setUserReady(true)
+    })
+
+    socketClient.on('leaveRoom', clearUser)
+
     alertJoin({ socket: socketClient, roomId, username })
+  }
+
+  const clearUser = ({ userId, isTutor }: InitUserData) => {
+    setWaitingUser(false)
+
+    if (isTutor) setTutor('')
+    else setUser('')
   }
 
   /**
@@ -186,18 +231,37 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
     socket?.emit('joinRoom', roomId)
   }
 
+  const getReady = ({ roomId, isTutor }: ReadyData) => {
+    setWaitingUser(true)
+    socket?.emit('getReady', { roomId, isTutor })
+
+    if (isTutor) {
+      if (user) {
+        if (call) answerCall()
+        else startCall()
+      }
+    } else {
+      if (tutor) {
+        if (call) answerCall()
+        else startCall()
+      }
+    }
+  }
+
   /** 전화 걸기 */
   const startCall = () => {
-    if (!stream) return console.error('no Stream')
+    console.log('[start call]')
+    console.log(socket)
+    // if (!stream) return console.error('no Stream')
     if (!socket) return console.error('no Socket')
-    if (!user) return console.error('no user')
+    if (!user && !tutor) return console.error('no user')
 
     console.log('전화 걸기 누름')
     const peer = new Peer({ initiator: true, trickle: false, stream })
 
     peer.on('signal', (signal) => {
       console.log('시그널 생성 후 서버에 전달')
-      socket.emit('startCall', { signal, userId: user })
+      socket.emit('startCall', { signal, userId: tutor || user })
     })
 
     peer.on('stream', (currentStream) => {
@@ -216,10 +280,11 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
 
   /** 전화 받기 */
   const answerCall = () => {
+    console.log('[answer call]')
     setCallAccepted(true)
     console.log(stream, call, socket)
 
-    if (!stream) console.log('no stream')
+    // if (!stream) console.log('no stream')
     if (!call) return console.log('no Call')
     if (!socket) return console.log('no socket')
 
@@ -227,7 +292,7 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
     const peer = new Peer({ initiator: false, trickle: false, stream })
 
     peer.on('signal', (signal) => {
-      socket.emit('answerCall', { signal, userId: user })
+      socket.emit('answerCall', { signal, userId: tutor || user })
     })
 
     peer.on('stream', (currentStream) => {
@@ -276,18 +341,21 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
     })
   }
 
-  console.log()
-
   return (
     <SocketContext.Provider
       value={{
         user,
+        tutor,
         stream,
         call,
+        userReady,
         callAccepted,
         callEnded,
+        callInProgress,
         myVideo,
         userVideo,
+        waitingUser,
+        getReady,
         initSocket,
         startCamera,
         stopCamera,
@@ -296,7 +364,6 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
         answerCall,
         destroy,
         test,
-        joinRoom,
         urlChange,
         sendChat,
         chatHandler,
