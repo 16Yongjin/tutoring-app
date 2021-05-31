@@ -220,6 +220,9 @@ export const LaptopHeader = ({
 }) => {
   return (
     <div className="container">
+      <Link to="/">
+        <img className="icon" src="/icon.png" alt="icon" />
+      </Link>
       <nav className="nav">
         <Link className="link" to="/">
           Home

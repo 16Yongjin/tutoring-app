@@ -103,11 +103,18 @@ export const AppointmentCard = ({
           <Col xs={24} md={6}>
             <div>
               <div className="center">
-                <img
-                  style={{ width: '100%', maxWidth: '200px' }}
-                  src={appointment.tutor.image}
-                  alt={appointment.tutor.fullname}
-                />
+                <div
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    maxWidth: '200px',
+                    maxHeight: '200px',
+                    aspectRatio: '1 / 1',
+                    backgroundImage: `url(${appointment.tutor.image})`,
+                    backgroundPosition: 'center',
+                    backgroundSize: 'cover',
+                  }}
+                ></div>
               </div>
               <Title
                 className="center"

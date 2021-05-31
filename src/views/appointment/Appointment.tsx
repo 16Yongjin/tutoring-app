@@ -2,7 +2,14 @@ import { useContext, useEffect, useMemo, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import { store } from '../../store'
 
-import { Route, Switch, useHistory, useLocation, useParams } from 'react-router'
+import {
+  Prompt,
+  Route,
+  Switch,
+  useHistory,
+  useLocation,
+  useParams,
+} from 'react-router'
 import { Badge, Card, Popconfirm } from 'antd'
 import { VideoPlayer } from './VideoPlayer'
 import * as api from '../../api'
@@ -200,8 +207,6 @@ const MobileAppoinmentHeader = ({
   urlPrefix: string
   showNewChatBadge: boolean
 }) => {
-  const history = useHistory()
-
   return show ? (
     <header className="materials-header">
       <Card>
@@ -214,15 +219,9 @@ const MobileAppoinmentHeader = ({
             <span className="link-title">Materials</span>
           </Link>
 
-          <Popconfirm
-            title="Are you sure to exit appointment?"
-            onConfirm={() => history.push('/')}
-            okText="Yes"
-            cancelText="No"
-            placement="bottomRight"
-          >
+          <Link to="/">
             <CloseOutlined />
-          </Popconfirm>
+          </Link>
         </nav>
       </Card>
       <Card>
@@ -266,15 +265,9 @@ const PCAppointmentHeader = ({
             <span className="link-title">Materials</span>
           </Link>
 
-          <Popconfirm
-            title="Are you sure to exit appointment?"
-            onConfirm={() => history.push('/')}
-            okText="Yes"
-            cancelText="No"
-            placement="bottomRight"
-          >
+          <Link to="/">
             <CloseOutlined />
-          </Popconfirm>
+          </Link>
         </nav>
       </Card>
     </header>
@@ -285,7 +278,8 @@ export const Appointment = observer(() => {
   const { appointmentId } = useParams<{ appointmentId: string }>()
   const history = useHistory()
   const { pathname, hash } = useLocation()
-  const { urlChange, currentLocation } = useContext(SocketContext)
+  const { urlChange, currentLocation, callInProgress } =
+    useContext(SocketContext)
   const urlPrefix = `/appointments/${appointmentId}`
   const [tab, setTab] = useState('materials-tab')
   const { md } = useBreakpoint()
@@ -343,6 +337,14 @@ export const Appointment = observer(() => {
   return (
     <Switch>
       <Section className={md ? 'scrollbar' : ''}>
+        <Prompt
+          message={({ pathname }) =>
+            callInProgress && !pathname.startsWith(urlPrefix)
+              ? 'Are you sure you want to leave appointment?'
+              : true
+          }
+        />
+
         <MobileAppoinmentHeader
           show={!md}
           tab={tab}

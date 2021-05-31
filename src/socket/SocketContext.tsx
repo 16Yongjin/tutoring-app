@@ -174,12 +174,17 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
     })
 
     socketClient.on('leaveRoom', clearUser)
-
     alertJoin({ socket: socketClient, roomId, username })
   }
 
-  const clearUser = ({ userId, isTutor }: InitUserData) => {
+  const clearUser = ({ isTutor }: InitUserData) => {
+    cleanUp()
+    message.warning(isTutor ? 'Tutor left call' : 'User left call')
+  }
+
+  const cleanUp = () => {
     setCallAccepted(false)
+    setCallEnded(false)
     setWaitingUser(false)
     setUserReady(false)
     setCall(null)
@@ -187,7 +192,6 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
     setUser('')
     peerRef.current?.destroy()
     peerRef.current = undefined
-    message.warning(isTutor ? 'Tutor left call' : 'User left call')
   }
 
   /**

@@ -94,23 +94,13 @@ export class VideoPlayer extends React.Component<{
       <SocketContext.Consumer>
         {({
           stream,
-          user,
-          call,
           myVideo,
           userVideo,
-          stopMedia,
-          startMedia,
           toggleVideo,
           videoOn,
           toggleAudio,
           audioOn,
-          callAccepted,
-          callEnded,
           callInProgress,
-          startCall,
-          answerCall,
-          leaveCall,
-          test,
         }) => (
           <Section>
             <div className="video-container">
@@ -119,7 +109,6 @@ export class VideoPlayer extends React.Component<{
                   <video
                     className="opponent-video"
                     playsInline
-                    muted
                     ref={userVideo}
                     autoPlay
                   />
