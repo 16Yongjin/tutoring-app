@@ -3,7 +3,7 @@ import { observer } from 'mobx-react-lite'
 import { store } from '../../store'
 
 import { Route, Switch, useHistory, useLocation, useParams } from 'react-router'
-import { Badge, Card } from 'antd'
+import { Badge, Card, Popconfirm } from 'antd'
 import { VideoPlayer } from './VideoPlayer'
 import * as api from '../../api'
 import { useQuery } from 'react-query'
@@ -18,6 +18,7 @@ import { Chat } from './Chat'
 import { Role } from '../../api/auth/entity'
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
 import { AppointmentControl } from './AppointmentControl'
+import { CloseOutlined } from '@ant-design/icons'
 
 const Section = styled.section`
   position: relative;
@@ -67,6 +68,11 @@ const Section = styled.section`
         /* box-shadow: 0 2px 2px -2px #d4d4d4; */
       }
       margin-bottom: 0.5rem;
+
+      .nav {
+        display: flex;
+        justify-content: space-between;
+      }
     }
   }
 
@@ -194,10 +200,12 @@ const MobileAppoinmentHeader = ({
   urlPrefix: string
   showNewChatBadge: boolean
 }) => {
+  const history = useHistory()
+
   return show ? (
     <header className="materials-header">
       <Card>
-        <nav className="nav">
+        <nav className="nav center-y">
           <Link
             className="link"
             to={`${urlPrefix}/materials`}
@@ -205,6 +213,16 @@ const MobileAppoinmentHeader = ({
           >
             <span className="link-title">Materials</span>
           </Link>
+
+          <Popconfirm
+            title="Are you sure to exit appointment?"
+            onConfirm={() => history.push('/')}
+            okText="Yes"
+            cancelText="No"
+            placement="bottomRight"
+          >
+            <CloseOutlined />
+          </Popconfirm>
         </nav>
       </Card>
       <Card>
@@ -238,13 +256,25 @@ const PCAppointmentHeader = ({
   show: boolean
   urlPrefix: string
 }) => {
+  const history = useHistory()
+
   return show ? (
     <header className="materials-header">
       <Card>
-        <nav className="nav">
+        <nav className="nav center-y">
           <Link className="link" to={`${urlPrefix}/materials`}>
             <span className="link-title">Materials</span>
           </Link>
+
+          <Popconfirm
+            title="Are you sure to exit appointment?"
+            onConfirm={() => history.push('/')}
+            okText="Yes"
+            cancelText="No"
+            placement="bottomRight"
+          >
+            <CloseOutlined />
+          </Popconfirm>
         </nav>
       </Card>
     </header>

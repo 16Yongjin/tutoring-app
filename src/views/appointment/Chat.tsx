@@ -128,7 +128,8 @@ export const Chat = ({
   setHasNewChatting: Function
   isTutor: boolean
 }) => {
-  const { chatHandler, sendChat, initSocket } = useContext(SocketContext)
+  const { chatHandler, sendChat, initSocket, destroy } =
+    useContext(SocketContext)
   const [chats, setChats] = useState<ChatData[]>([
     {
       id: '123',
@@ -288,6 +289,10 @@ export const Chat = ({
       username,
       isTutor,
     })
+
+    return () => {
+      destroy()
+    }
   }, [])
 
   const onSendChat = () => {

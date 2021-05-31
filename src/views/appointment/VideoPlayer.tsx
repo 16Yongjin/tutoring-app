@@ -2,7 +2,11 @@ import React from 'react'
 import { SocketContext } from '../../socket/SocketContext'
 import { Button } from 'antd'
 import styled from 'styled-components'
-import { VideoCameraOutlined } from '@ant-design/icons'
+import {
+  AudioMutedOutlined,
+  AudioOutlined,
+  VideoCameraOutlined,
+} from '@ant-design/icons'
 import { Appointment } from '../../api/appointments/entity'
 
 const Section = styled.section`
@@ -50,14 +54,18 @@ const Section = styled.section`
 
   .video-controllers {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 0.5rem;
+    left: 0.25rem;
+    display: flex;
+    flex-direction: column;
+
+    gap: 0.5rem;
   }
 
   .video-offline {
     color: red;
     background: linear-gradient(
-      to top right,
+      to top left,
       rgba(0, 0, 0, 0) 0%,
       rgba(0, 0, 0, 0) calc(50% - 1px),
       red 50%,
@@ -74,11 +82,11 @@ export class VideoPlayer extends React.Component<{
   static contextType = SocketContext
 
   componentDidMount() {
-    this.context.startCamera()
+    this.context.startMedia()
   }
 
   componentWillUnmount() {
-    this.context.stopCamera()
+    this.context.stopMedia()
   }
 
   render() {
@@ -90,8 +98,12 @@ export class VideoPlayer extends React.Component<{
           call,
           myVideo,
           userVideo,
-          stopCamera,
-          startCamera,
+          stopMedia,
+          startMedia,
+          toggleVideo,
+          videoOn,
+          toggleAudio,
+          audioOn,
           callAccepted,
           callEnded,
           callInProgress,
@@ -140,35 +152,31 @@ export class VideoPlayer extends React.Component<{
                 )}
               </div>
               <div className="video-controllers">
-                {stream ? (
-                  <Button
-                    shape="circle"
-                    icon={<VideoCameraOutlined />}
-                    onClick={stopCamera}
-                  />
-                ) : (
-                  <Button
-                    shape="circle"
-                    icon={
+                <Button
+                  shape="circle"
+                  icon={
+                    videoOn ? (
+                      <VideoCameraOutlined />
+                    ) : (
                       <span className="video-offline">
                         <VideoCameraOutlined />
                       </span>
-                    }
-                    onClick={startCamera}
-                  />
-                )}
+                    )
+                  }
+                  onClick={toggleVideo}
+                />
 
-                {call && (
-                  <Button onClick={() => answerCall()}>전화 받기</Button>
-                )}
-
-                {callAccepted && !callEnded && (
-                  <Button onClick={leaveCall}>Hang up</Button>
-                )}
-
-                {user && <Button onClick={() => startCall()}>전화 걸기</Button>}
-
-                <Button onClick={() => test()}>테스터</Button>
+                <Button
+                  shape="circle"
+                  icon={
+                    audioOn ? (
+                      <AudioOutlined />
+                    ) : (
+                      <AudioMutedOutlined style={{ color: 'red' }} />
+                    )
+                  }
+                  onClick={toggleAudio}
+                />
               </div>
             </div>
           </Section>

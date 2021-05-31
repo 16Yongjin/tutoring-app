@@ -14,7 +14,7 @@ import { formatSchedule, formatDate } from '../../utils/date/formatSchedule'
 import { CloseOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import { useInterval } from 'react-use'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import dayjs from 'dayjs'
 import { Appointment } from '../../api/appointments/entity'
 import { SocketContext } from '../../socket/SocketContext'
@@ -57,12 +57,18 @@ export const AppointmentControl = ({
     getReady,
     userReady,
     leaveCall,
+    stream,
+    startMedia,
   } = useContext(SocketContext)
   /** 타이머 로직, 수업 시작 시 멈춤 */
   const [timeLeft, setTimeLeft] = useState('')
   const [stopTimer, setStopTimer] = useState(false)
   const [state, setState] = useState(AppointmentState.NotStarted)
   const [progressTime, setProgressTime] = useState('')
+  const opponentEntered = useMemo(
+    () => !!((isTutor && user) || (!isTutor && tutor)),
+    [isTutor, user, tutor]
+  )
 
   const updateProgressTime = () => {
     const secondSinceStarted = dayjs().diff(dayjs(appointment.startTime))
@@ -110,7 +116,18 @@ export const AppointmentControl = ({
         {state === AppointmentState.NotStarted && (
           <Row className="center-y" justify="space-between">
             <Col>{appointment.tutor.fullname}</Col>
-            <Col>Starts at {formatDate(appointment.startTime)}</Col>
+            <Col>
+              <Row className="center-y">
+                <Col>Starts at {formatDate(appointment.startTime)}</Col>
+                <Col>
+                  <Link to="/">
+                    <Button type="primary" danger shape="round">
+                      Exit
+                    </Button>
+                  </Link>
+                </Col>
+              </Row>
+            </Col>
           </Row>
         )}
 
@@ -121,19 +138,29 @@ export const AppointmentControl = ({
               <Row className="center-y">
                 <Col className="mr-2">Starts in {timeLeft}</Col>
                 <Col>
-                  <Button
-                    type="primary"
-                    shape="round"
-                    loading={waitingUser || userReady}
-                    onClick={() => {
-                      getReady({
-                        roomId: appointment.id.toString(),
-                        isTutor,
-                      })
-                    }}
-                  >
-                    Ready
-                  </Button>
+                  {!stream ? (
+                    <Button type="primary" shape="round">
+                      Allow Media
+                    </Button>
+                  ) : !opponentEntered ? (
+                    <Button disabled shape="round">
+                      Waiting {isTutor ? 'User' : 'Tutor'}
+                    </Button>
+                  ) : (
+                    <Button
+                      type="primary"
+                      shape="round"
+                      loading={waitingUser || userReady}
+                      onClick={() => {
+                        getReady({
+                          roomId: appointment.id.toString(),
+                          isTutor,
+                        })
+                      }}
+                    >
+                      Ready
+                    </Button>
+                  )}
                 </Col>
               </Row>
             </Col>
@@ -149,19 +176,33 @@ export const AppointmentControl = ({
               <Row className="center-y">
                 <Col className="mr-4">{progressTime}</Col>
                 <Col>
-                  <Button
-                    type="primary"
-                    shape="round"
-                    loading={waitingUser || userReady}
-                    onClick={() => {
-                      getReady({
-                        roomId: appointment.id.toString(),
-                        isTutor,
-                      })
-                    }}
-                  >
-                    Ready
-                  </Button>
+                  {!stream ? (
+                    <Button
+                      type="primary"
+                      shape="round"
+                      onClick={() => startMedia()}
+                    >
+                      Allow Media
+                    </Button>
+                  ) : !opponentEntered ? (
+                    <Button disabled shape="round">
+                      Waiting {isTutor ? 'User' : 'Tutor'}
+                    </Button>
+                  ) : (
+                    <Button
+                      type="primary"
+                      shape="round"
+                      loading={waitingUser || userReady}
+                      onClick={() => {
+                        getReady({
+                          roomId: appointment.id.toString(),
+                          isTutor,
+                        })
+                      }}
+                    >
+                      Ready
+                    </Button>
+                  )}
                 </Col>
               </Row>
             </Col>
@@ -206,8 +247,15 @@ export const AppointmentControl = ({
         )}
 
         {state === AppointmentState.Ended && (
-          <Row className="center-y">
+          <Row className="center-y" justify="space-between">
             <Col>Ended Appointment</Col>
+            <Col>
+              <Link to="/">
+                <Button type="primary" danger shape="round">
+                  Exit
+                </Button>
+              </Link>
+            </Col>
           </Row>
         )}
 
