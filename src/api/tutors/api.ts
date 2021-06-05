@@ -26,6 +26,16 @@ export class GetTutor<R extends E.GetTutorResponse> implements APIRequest<R> {
     this.path = `${endpoint}/${id}`
   }
 }
+export class SearchTutors<R extends E.Tutor[]> implements APIRequest<R> {
+  method = HTTPMethod.GET
+  response!: R
+  auth = false
+  path = `${endpoint}/search`
+  params = {}
+  constructor(params: E.SearchTutorsRequest) {
+    this.params = params
+  }
+}
 
 export class UpdateTutor<R extends E.UpdateTutorResponse>
   implements APIRequest<R>

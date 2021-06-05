@@ -17,8 +17,13 @@ import {
 } from './views'
 import './App.css'
 import { AdminDashboard } from './views/admin'
+import { observer } from 'mobx-react-lite'
+import { store } from './store'
+import { Role } from './api/auth/entity'
 
 const Router = () => {
+  const isUser = store.userStore.user?.role === Role.USER
+
   return (
     <BrowserRouter>
       <div>
@@ -49,14 +54,6 @@ const Router = () => {
             <TutorSignup />
           </Route>
 
-          <Route path="/tutors/:tutorId">
-            <TutorDetail />
-          </Route>
-
-          <Route path="/tutors">
-            <Tutors />
-          </Route>
-
           <Route path="/appointments/:appointmentId">
             <Appointment />
           </Route>
@@ -73,6 +70,16 @@ const Router = () => {
             <AdminDashboard />
           </Route>
 
+          <Route path="/tutors/:tutorId">
+            <TutorDetail />
+          </Route>
+
+          {!isUser && (
+            <Route path="/tutors">
+              <Tutors />
+            </Route>
+          )}
+
           <Route path="/">
             <Home />
           </Route>
@@ -82,4 +89,4 @@ const Router = () => {
   )
 }
 
-export default Router
+export default observer(Router)

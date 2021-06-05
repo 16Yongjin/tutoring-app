@@ -30,6 +30,8 @@ export type Tutor = {
   accepted?: boolean
   role?: Role
   reviews?: Review[]
+  reviewCount: number
+  rating: number
 }
 
 export type GetTutorsResponse = Tutor[]
@@ -59,6 +61,11 @@ export type UpdateTutorResponse = {
 }
 
 export type GetTutorSchedulesResponse = Schedule[]
+
+export type SearchTutorsRequest = {
+  startTime: string
+  endTime: string
+}
 
 export type AddSchedulesRequest = {
   tutorId: number

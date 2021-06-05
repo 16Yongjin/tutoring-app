@@ -1,22 +1,14 @@
-import { useMemo } from 'react'
 import { Card, Col, Row, Typography } from 'antd'
 import { StarFilled } from '@ant-design/icons'
 import { useQuery } from 'react-query'
 import * as api from '../../api'
+import { Tutor } from '../../api/tutors/entity'
 
 const { Title, Text } = Typography
 
-export const ReviewCard = ({ tutorId }: { tutorId: number }) => {
-  const getReviews = () => api.reviews.getTutorReviews(tutorId)
-  const { data: reviews } = useQuery(`reviews/${tutorId}`, getReviews)
-
-  const averageRating = useMemo(
-    () =>
-      reviews?.length
-        ? reviews.reduce((acc, v) => acc + v.rating, 0) / reviews.length
-        : 5,
-    [reviews]
-  )
+export const ReviewCard = ({ tutor }: { tutor: Tutor }) => {
+  const getReviews = () => api.reviews.getTutorReviews(tutor.id)
+  const { data: reviews } = useQuery(`reviews/${tutor.id}`, getReviews)
 
   return (
     <Card bodyStyle={{ padding: '0' }} className="scrollbar">
@@ -38,9 +30,9 @@ export const ReviewCard = ({ tutorId }: { tutorId: number }) => {
                 color: 'orange',
               }}
             >
-              <StarFilled /> {averageRating}
+              <StarFilled /> {tutor.rating}
             </span>
-            <span>({reviews?.length || 0})</span>
+            <span>({tutor.reviewCount})</span>
           </div>
         </Col>
       </Row>

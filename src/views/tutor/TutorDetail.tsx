@@ -93,7 +93,7 @@ export const TutorDetail = observer(() => {
               </Col>
 
               <Col xs={24} md={14}>
-                <ReviewCard tutorId={tutor.id} />
+                <ReviewCard tutor={tutor} />
 
                 {store.userStore.user ? (
                   <Timetable tutor={tutor} onReserve={onReserve} />

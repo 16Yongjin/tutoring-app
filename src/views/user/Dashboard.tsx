@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 import { Switch, Route, Link } from 'react-router-dom'
 import { AppointmentsSection } from '../../components/user'
-import { Card, Col, Row } from 'antd'
+import { Button, Card, Col, Row } from 'antd'
 import { UpcomingAppointment } from '../../components/appointment'
 import { MyPage } from './MyPage'
+import { Tutors, TutorSearch } from '../tutor'
 
 const Section = styled.section`
   position: relative;
@@ -46,6 +47,13 @@ export const Dashboard = () => {
           <Row wrap={false} gutter={[20, 20]}>
             <Col flex="none" className="is-hidden-tablet">
               <div className="sidebar">
+                <Link className="link" to="/tutors">
+                  <Card type="inner" className="center">
+                    <Button type="primary" shape="round">
+                      Make Appointment
+                    </Button>
+                  </Card>
+                </Link>
                 <Link className="link" to="/">
                   <Card type="inner">Main Page</Card>
                 </Link>
@@ -61,6 +69,10 @@ export const Dashboard = () => {
             <Col flex="auto">
               <Route exact path="/">
                 <UpcomingAppointment />
+              </Route>
+
+              <Route exact path="/tutors">
+                <TutorSearch />
               </Route>
 
               <Route exact path="/my">

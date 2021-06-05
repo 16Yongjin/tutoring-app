@@ -27,7 +27,11 @@ export const ReserveButton = ({
 
   return (
     <Button
-      onClick={() => onReserve(schedule)}
+      onClick={(e) => {
+        e.stopPropagation()
+        e.preventDefault()
+        onReserve(schedule)
+      }}
       type="primary"
       shape="round"
       size="small"
