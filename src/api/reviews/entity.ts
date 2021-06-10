@@ -8,6 +8,7 @@ export type Review = {
   tutor?: Tutor
   user: { fullname: string } & Partial<UserInfo>
   createdAt?: Date
+  featured: boolean
 }
 
 export type GetReviewsResponse = Review[]
@@ -24,3 +25,8 @@ export type CreateReviewRequest = {
 export type CreateReviewResponse = Review
 
 export type RemoveReviewResponse = Review
+
+export type SetReviewFeaturedRequest = {
+  id: number
+  featured: boolean
+}

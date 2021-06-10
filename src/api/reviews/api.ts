@@ -12,6 +12,15 @@ export class GetReviews<R extends E.GetReviewsResponse>
   auth = true
   path = `${endpoint}/`
 }
+export class GetFeaturedReviews<R extends E.Review[]> extends GetReviews<R> {
+  path = `${endpoint}/featured`
+}
+
+export class GetAdminFeaturedReviews<
+  R extends E.Review[]
+> extends GetReviews<R> {
+  path = `${endpoint}/featured/admin`
+}
 
 export class GetTutorReviews<R extends E.GetTutorReviewsResponse>
   implements APIRequest<R>
@@ -53,5 +62,14 @@ export class RemoveReview<R extends E.RemoveReviewResponse>
   path = `${endpoint}/:id`
   constructor(reviewId: number) {
     this.path = `${endpoint}/${reviewId}`
+  }
+}
+export class SetReviewFeatured<R extends E.Review> implements APIRequest<R> {
+  method = HTTPMethod.PUT
+  response!: R
+  auth = true
+  path = `${endpoint}`
+  constructor(public data: E.SetReviewFeaturedRequest) {
+    this.path = `${endpoint}/${data.id}/featured`
   }
 }

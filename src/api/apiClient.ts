@@ -115,7 +115,10 @@ export class APIClient {
     }
 
     // json body 사용
-    if (request.method === HTTPMethod.POST) {
+    if (
+      request.method === HTTPMethod.POST ||
+      request.method === HTTPMethod.PUT
+    ) {
       headers['Content-Type'] = 'application/json'
     }
 
