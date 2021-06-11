@@ -1,7 +1,7 @@
 import React from 'react'
 import { observer } from 'mobx-react-lite'
 import { MainSection } from '../../components/home/MainSection'
-import { MaterialSection } from '../../components/home/MaterialSection'
+import { MaterialSection, FeaturedReviewSection } from '../../components/home'
 import { store } from '../../store'
 import { AdminDashboard } from '../admin'
 import { Dashboard } from '../user'
@@ -19,6 +19,7 @@ export const Home = observer(() => {
     <>
       <MainSection />
       <MaterialSection />
+      <FeaturedReviewSection />
       <Footer />
     </>
   )

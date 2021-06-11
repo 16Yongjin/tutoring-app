@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, Typography } from 'antd'
 import { Material } from '../../api/materials/entity'
 import { Link } from 'react-router-dom'
+import { LevelBadge } from './LevelBadge'
 
 const { Title, Text } = Typography
 
@@ -19,8 +20,10 @@ export const MaterialCard = ({
           {title}
         </Title>
         <Text>{description}</Text>
-        <div>
-          {levelStart} ~ {levelEnd}
+        <div className="mt-4" style={{ display: 'flex', flexWrap: 'wrap' }}>
+          <LevelBadge level={levelStart!} />
+          <Text style={{ margin: '0 0.75rem' }}>-</Text>
+          <LevelBadge level={levelEnd!} />
         </div>
       </Card>
     </Link>

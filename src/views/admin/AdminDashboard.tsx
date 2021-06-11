@@ -1,9 +1,8 @@
 import styled from 'styled-components'
 import { Switch, Route, Link } from 'react-router-dom'
 import { AppointmentsSection } from '../../components/user'
-import { Button, Card, Col, Row } from 'antd'
-import { UpcomingAppointment } from '../../components/appointment'
-import { Tutors, TutorSearch } from '../tutor'
+import { Card, Col, Row } from 'antd'
+import { TutorSearch } from '../tutor'
 import { AdminReviews } from './AdminReviews'
 
 const Section = styled.section`
