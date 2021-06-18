@@ -13,6 +13,6 @@ export const updateTutor = APIClient.of(TutorAPI.UpdateTutor)
 
 export const getTutorSchedules = APIClient.of(TutorAPI.GetTutorSchedules)
 
-export const addSchedules = APIClient.of(TutorAPI.AddSchedules)
+export const addSchedules = APIClient.of(TutorAPI.AddSchedule)
 
 export const removeSchedules = APIClient.of(TutorAPI.RemoveSchedules)

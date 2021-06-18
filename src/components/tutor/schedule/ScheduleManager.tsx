@@ -49,14 +49,14 @@ export const ScheduleManager = ({ tutor }: { tutor: Tutor }) => {
   const onAddSchedule = async (dateStr: string) => {
     await api.tutors.addSchedules({
       tutorId: tutor.id,
-      schedules: [dayjs(dateStr).toDate()],
+      schedule: dayjs(dateStr).toDate(),
     })
     queryClient.invalidateQueries(`tutor/${tutor.id}`)
   }
   const onRemoveSchedule = async (schedule: Schedule) => {
     await api.tutors.removeSchedules({
       tutorId: tutor.id,
-      schedules: [new Date(schedule.startTime)],
+      schedule: new Date(schedule.startTime),
     })
     queryClient.invalidateQueries(`tutor/${tutor.id}`)
   }

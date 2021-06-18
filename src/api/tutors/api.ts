@@ -49,7 +49,7 @@ export class UpdateTutor<R extends E.UpdateTutorResponse>
   }
 }
 
-export class GetTutorSchedules<R extends E.GetTutorSchedulesResponse>
+export class GetTutorSchedules<R extends E.Schedule[]>
   implements APIRequest<R>
 {
   method = HTTPMethod.GET
@@ -61,26 +61,22 @@ export class GetTutorSchedules<R extends E.GetTutorSchedulesResponse>
   }
 }
 
-export class AddSchedules<R extends E.AddSchedulesResponse>
-  implements APIRequest<R>
-{
+export class AddSchedule<R extends E.Schedule> implements APIRequest<R> {
   method = HTTPMethod.POST
   response!: R
   auth = true
   path = `${endpoint}/:id/schedules`
-  constructor(public data: E.AddSchedulesRequest) {
+  constructor(public data: E.AddScheduleRequest) {
     this.path = `${endpoint}/${data.tutorId}/schedules`
   }
 }
 
-export class RemoveSchedules<R extends E.RemoveSchedulesResponse>
-  implements APIRequest<R>
-{
+export class RemoveSchedules<R extends E.Schedule> implements APIRequest<R> {
   method = HTTPMethod.POST
   response!: R
   auth = true
   path = `${endpoint}/:id/schedules/remove`
-  constructor(public data: E.RemoveSchedulesRequest) {
+  constructor(public data: E.RemoveScheduleRequest) {
     this.path = `${endpoint}/${data.tutorId}/schedules/remove`
   }
 }

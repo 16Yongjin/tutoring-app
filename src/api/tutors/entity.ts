@@ -67,15 +67,12 @@ export type SearchTutorsRequest = {
   endTime: string
 }
 
-export type AddSchedulesRequest = {
+export type AddScheduleRequest = {
   tutorId: number
-  schedules: Date[]
+  schedule: Date
 }
 
-export type AddSchedulesResponse = Tutor
-
-export type RemoveSchedulesRequest = AddSchedulesRequest
-export type RemoveSchedulesResponse = Tutor
+export type RemoveScheduleRequest = AddScheduleRequest
 
 export type AcceptTutorRequest = {
   tutorId: number
