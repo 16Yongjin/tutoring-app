@@ -41,6 +41,19 @@
   align-items: center;
 }
 
+.center-col {
+  margin: auto 0;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.flex-col {
+  display: flex !important;
+  flex-direction: column;
+}
+
 .abs-center {
   position: absolute;
   z-index: 999;

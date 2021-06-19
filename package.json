@@ -76,6 +76,7 @@
     "@types/styled-components": "^5.1.9",
     "@types/yup": "^0.29.11",
     "autoprefixer": "9",
+    "craco-less": "^1.17.1",
     "node-sass": "5",
     "postcss": "7"
   }

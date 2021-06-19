@@ -1,6 +1,6 @@
 import { Button, Card, Col, Row } from 'antd'
 import styled from 'styled-components'
-import { formatDate } from '../../utils/date/formatSchedule'
+import { formatDateFull } from '../../utils/date/formatSchedule'
 import { Link } from 'react-router-dom'
 import { useInterval } from 'react-use'
 import { CSSProperties, useContext, useEffect, useMemo, useState } from 'react'
@@ -165,7 +165,7 @@ export const AppointmentControl = ({
         {state === AppointmentState.NotStarted && (
           <ControlContainer
             name={opponentName}
-            time={`Starts at ${formatDate(appointment.startTime)}`}
+            time={`Starts at ${formatDateFull(appointment.startTime)}`}
           >
             <Link to="/">
               <Button type="primary" danger shape="round">

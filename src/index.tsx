@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import './index.scss'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import 'antd/dist/antd.css'
+import 'antd/dist/antd.less'
 
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'

@@ -10,7 +10,10 @@ import {
 import styled from 'styled-components'
 import { useQueryClient } from 'react-query'
 import * as api from '../../api'
-import { formatSchedule } from '../../utils/date/formatSchedule'
+import {
+  formatDateWithSlash,
+  formatTimeRange,
+} from '../../utils/date/formatSchedule'
 import { CloseOutlined } from '@ant-design/icons'
 import { Link } from 'react-router-dom'
 import { useInterval } from 'react-use'
@@ -21,8 +24,96 @@ import { Appointment } from '../../api/appointments/entity'
 const { Title, Text } = Typography
 
 const Container = styled.div`
-  .row {
-    margin-top: 1rem;
+  .card {
+    border-radius: 5px;
+    box-shadow: 0 1px 20px rgba(0, 0, 0, 0.05), 0 1px 20px rgba(0, 0, 0, 0.05);
+    padding: 1rem;
+    position: relative;
+  }
+
+  .info-row {
+    margin: 0.25rem 0.75rem;
+  }
+
+  .divider {
+    &-y {
+      border-right: 1px dashed #888;
+    }
+
+    &-x {
+      border-bottom: 1px dashed #888;
+    }
+  }
+
+  .heading {
+    font-weight: 600;
+    color: #555;
+  }
+
+  .text {
+    font-weight: 700;
+    font-size: 1rem;
+
+    &.lg {
+      font-size: 1.2rem;
+    }
+
+    &.primary {
+      color: #feae3b;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .pa-0-tablet {
+      padding: 0 !important;
+    }
+  }
+
+  .barcode {
+    max-height: 1.5rem;
+  }
+
+  .tip-left {
+    position: absolute;
+    height: 100%;
+    width: 1.5rem;
+    font-size: 1.2rem;
+    top: 0;
+    left: 0.75rem;
+    writing-mode: vertical-lr;
+    text-orientation: mixed;
+    text-align: center;
+    transform: rotate(180deg);
+    color: #b1b1b1;
+  }
+
+  .tip-right {
+    position: absolute;
+    background-color: #feae3b;
+    height: 100%;
+    width: 1rem;
+    top: 0;
+    right: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  .flight {
+    position: absolute;
+    top: 0.5rem;
+    right: 5.5rem;
+    height: 3rem;
+    width: 6rem;
+  }
+
+  .korea {
+    position: absolute;
+    top: 0.5rem;
+    right: 2rem;
+    font-style: italic;
+    font-weight: 600;
+    font-stretch: condensed;
+    color: #474d50;
   }
 `
 
@@ -90,18 +181,14 @@ export const AppointmentCard = ({
 
   return (
     <Container>
-      <Card>
-        <Row justify="space-between">
-          <Col>
-            <Title level={5}>{appointment.tutor.fullname}</Title>
-          </Col>
-          <Col>
-            <Title level={5}>{formatSchedule(appointment)}</Title>
-          </Col>
-        </Row>
-        <Row className="row" gutter={[24, 24]}>
-          <Col xs={24} md={6}>
-            <div>
+      <Card className="card" bodyStyle={{ padding: '0' }}>
+        <Row>
+          <Col
+            xs={24}
+            md={8}
+            className="divider-y flex-col pr-4 pl-6 pa-0-tablet"
+          >
+            <div className="">
               <div className="center">
                 <div
                   style={{
@@ -124,73 +211,109 @@ export const AppointmentCard = ({
                 {appointment.tutor.fullname}
               </Title>
             </div>
+
+            <div className="spacer" />
+            <div className="is-hidden-tablet">
+              <img className="barcode" src="barcode.svg" alt="barcode"></img>
+            </div>
           </Col>
-          <Col xs={24} md={18}>
-            <Title level={5}>Material</Title>
-            <Text>{appointment.material}</Text>
-            <Title level={5}>Request</Title>
-            <Text>{appointment.request || '-'}</Text>
+
+          <Col xs={23} md={15}>
+            <div className="info-row">
+              <div className="heading">TIME</div>
+              <div className="text lg">{formatTimeRange(appointment)}</div>
+            </div>
+            <div className="divider-x" />
+            <div className="info-row">
+              <div className="heading">DATE</div>
+              <div className="text lg primary">
+                {formatDateWithSlash(appointment.startTime)}
+              </div>
+            </div>
+            <div className="divider-x" />
+            <div className="info-row">
+              <div className="heading">MATERIAL</div>
+              <div className="text">{appointment.material}</div>
+            </div>
+            <div className="divider-x" />
+            <div className="info-row">
+              <div className="heading">REQUESET</div>
+              <div className="text">{appointment.request || '-'}</div>
+            </div>
+            <div className="divider-x" />
+
+            {timeLeft && (
+              <Row className="mt-4 ml-2">
+                <Col xs={24} className="center">
+                  Starts in
+                </Col>
+                <Col xs={24} className="center">
+                  <Title level={2}>{timeLeft}</Title>
+                </Col>
+              </Row>
+            )}
+
+            <div className="actions">
+              {!appointment.finished && (
+                <Row className="mt-3 ml-4" justify="space-between">
+                  <Col>
+                    {appointment.cancelable && (
+                      <Popconfirm
+                        title="Are you sure to cancel this appointment?"
+                        onConfirm={cancelAppointment}
+                        okText="Yes"
+                        cancelText="No"
+                      >
+                        <Button shape="round">
+                          <CloseOutlined /> Cancel
+                        </Button>
+                      </Popconfirm>
+                    )}
+                  </Col>
+                  <Col>
+                    <Link to={`/appointments/${appointment.id}`}>
+                      <Button type="primary" shape="round">
+                        Enter
+                      </Button>
+                    </Link>
+                  </Col>
+                </Row>
+              )}
+
+              {appointment.feedback && (
+                <>
+                  <Row className="mt-1 ml-1 mb-1" gutter={[24, 24]}>
+                    <Col>
+                      <div className="heading">Feedback</div>
+                      <div className="text">{appointment.feedback.text}</div>
+                    </Col>
+                  </Row>
+                  <div className="divider-x" />
+                </>
+              )}
+
+              {appointment.finished && !appointment.tutor?.reviews?.length && (
+                <Row className="mt-3 ml-2" justify="end">
+                  <Col>
+                    <Button
+                      onClick={() => onReviewTutor?.(appointment)}
+                      shape="round"
+                    >
+                      Review Tutor
+                    </Button>
+                  </Col>
+                </Row>
+              )}
+            </div>
           </Col>
         </Row>
 
-        {timeLeft && (
-          <Row className="row">
-            <Col xs={24} className="center">
-              Starts in
-            </Col>
-            <Col xs={24} className="center">
-              <Title level={2}>{timeLeft}</Title>
-            </Col>
-          </Row>
-        )}
-
-        {!appointment.finished && (
-          <Row className="row" justify="space-between">
-            <Col>
-              {appointment.cancelable && (
-                <Popconfirm
-                  title="Are you sure to cancel this appointment?"
-                  onConfirm={cancelAppointment}
-                  okText="Yes"
-                  cancelText="No"
-                >
-                  <Button shape="round">
-                    <CloseOutlined /> Cancel
-                  </Button>
-                </Popconfirm>
-              )}
-            </Col>
-            <Col>
-              <Link to={`/appointments/${appointment.id}`}>
-                <Button type="primary" shape="round">
-                  Enter
-                </Button>
-              </Link>
-            </Col>
-          </Row>
-        )}
-
-        {appointment.feedback && (
-          <Row className="row" gutter={[24, 24]}>
-            <Col>
-              <Title level={5}>Feedback</Title>
-              <Text>{appointment.feedback.text}</Text>
-            </Col>
-          </Row>
-        )}
-
-        {appointment.finished && !appointment.tutor?.reviews?.length && (
-          <Row className="row" justify="end">
-            <Col>
-              <Button
-                onClick={() => onReviewTutor?.(appointment)}
-                shape="round"
-              >
-                Review Tutor
-              </Button>
-            </Col>
-          </Row>
-        )}
+        <div className="tip-left is-hidden-tablet">BOARDING PASS</div>
+        <div className="tip-right"></div>
+        <div className="flight is-hidden-tablet">
+          <img className="flight-img" src="flight.svg" alt="flight" />
+        </div>
+        <div className="korea is-hidden-tablet">KOREA</div>
       </Card>
     </Container>
   )

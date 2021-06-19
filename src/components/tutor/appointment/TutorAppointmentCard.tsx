@@ -9,11 +9,7 @@ import { Appointment } from '../../../api/appointments/entity'
 
 const { Title, Text } = Typography
 
-const Container = styled.div`
-  .row {
-    margin-top: 1rem;
-  }
-`
+const Container = styled.div``
 
 export const EmptyTutorAppointmentCard = () => {
   return (
@@ -63,7 +59,7 @@ export const TutorAppointmentCard = ({
           </Col>
         </Row>
 
-        <Row className="row" gutter={[24, 24]}>
+        <Row className="mt-4" gutter={[24, 24]}>
           <Col xs={24} md={18}>
             <Title level={5}>교재</Title>
             <Text>{appointment.material}</Text>
@@ -73,7 +69,7 @@ export const TutorAppointmentCard = ({
         </Row>
 
         {timeLeft && (
-          <Row className="row">
+          <Row className="mt-4">
             <Col xs={24} className="center">
               수업 시작까지 남은시간
             </Col>
@@ -84,7 +80,7 @@ export const TutorAppointmentCard = ({
         )}
 
         {appointment.feedback && (
-          <Row className="row" gutter={[24, 24]}>
+          <Row className="mt-4" gutter={[24, 24]}>
             <Col>
               <Title level={5}>피드백</Title>
               <Text>{appointment.feedback.text}</Text>
@@ -93,7 +89,7 @@ export const TutorAppointmentCard = ({
         )}
 
         {!appointment.finished && (
-          <Row className="row" justify="end">
+          <Row className="mt-4" justify="end">
             <Col>
               <Link to={`/appointments/${appointment.id}`}>
                 <Button type="primary" shape="round">
@@ -105,7 +101,7 @@ export const TutorAppointmentCard = ({
         )}
 
         {appointment.finished && !appointment.feedback && (
-          <Row className="row" justify="end">
+          <Row className="mt-4" justify="end">
             <Col>
               <Button onClick={() => onFeedback?.(appointment)} shape="round">
                 피드백 남기기

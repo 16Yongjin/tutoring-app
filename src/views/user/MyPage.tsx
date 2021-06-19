@@ -67,11 +67,11 @@ export const MyPage = () => {
           <DetailTile label="Username" text={user.username} />
           <DetailTile label="Name" text={user.fullname} />
           <DetailTile label="Email" text={user.email} />
-          <DetailTile
+          {/* <DetailTile
             label="Gender"
             text={user.gender === 'other' ? '' : user.gender}
           />
-          <DetailTile label="Language" text={user.language} />
+          <DetailTile label="Language" text={user.language} /> */}
 
           <Row className="mt-4" justify="center">
             <Col>
