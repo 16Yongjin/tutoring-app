@@ -1,6 +1,7 @@
 import { APIRequest } from '../interfaces/apiRequest'
 import { HTTPMethod } from '../apiClient'
 import * as E from './entity'
+import { PaginationParams } from '../interfaces/paginationParams'
 
 const endpoint = '/appointments'
 
@@ -21,6 +22,7 @@ export class GetAdminAppointments<R extends E.Appointment[]>
   response!: R
   auth = true
   path = `${endpoint}/`
+  constructor(public params: PaginationParams) {}
 }
 
 export class GetUserAppointments<R extends E.Appointment[]>
@@ -30,6 +32,7 @@ export class GetUserAppointments<R extends E.Appointment[]>
   response!: R
   auth = true
   path = `${endpoint}/me`
+  constructor(public params: PaginationParams) {}
 }
 
 export class GetUpcomingUserAppointment<R extends E.Appointment>

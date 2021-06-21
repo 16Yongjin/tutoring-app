@@ -1,12 +1,15 @@
-import { Col, Row, Typography } from 'antd'
+import { Col, Row, Typography, Button } from 'antd'
 import styled from 'styled-components'
 import { useQuery, useQueryClient } from 'react-query'
 import * as api from '../../../api'
 import { Loading } from '../../common/Loading'
 import { TutorAppointmentCard } from './TutorAppointmentCard'
 import { Appointment } from '../../../api/appointments/entity'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FeedbackModal } from './FeedbackModal'
+import { useHistory } from 'react-router-dom'
+import { useQueryParam } from '../../../utils/router/useQueryParams'
+import { LeftOutlined, RightOutlined } from '@ant-design/icons'
 const { Title } = Typography
 
 const Section = styled.section`
@@ -15,14 +18,22 @@ const Section = styled.section`
     font-size: 1.5rem;
     font-weight: bold;
   }
+
+  .page-number {
+    margin: 0 1rem;
+  }
 `
 
 export const TutorAppointmentsSection = () => {
-  const queryClient = useQueryClient()
+  const history = useHistory()
+  const queryParam = useQueryParam()
+  const [page, setPage] = useState(+(queryParam.get('page') || 1))
   const { data: appointments, isLoading } = useQuery(
-    'appointments/tutor',
-    api.appointments.getTutorAppointments
+    ['appointments/me', page],
+    () => api.appointments.getTutorAppointments({ page }),
+    { keepPreviousData: true }
   )
+  const queryClient = useQueryClient()
 
   const [appointmentToFeedback, setAppointmentToFeedback] =
     useState<Appointment | null>(null)
@@ -36,6 +47,12 @@ export const TutorAppointmentsSection = () => {
     setAppointmentToFeedback(null)
     if (updated) queryClient.invalidateQueries('appointments/tutor')
   }
+
+  // page 변경 시 쿼리 파라미터 업데이트 & 스크롤 업
+  useEffect(() => {
+    history.replace(`${window.location.pathname}?page=${page}`)
+    window.scrollTo(0, 0)
+  }, [page, history])
 
   return (
     <Section>
@@ -55,6 +72,22 @@ export const TutorAppointmentsSection = () => {
             </Col>
           ))}
         </Row>
+
+        {appointments && (
+          <Row justify="end" className="mt-4">
+            <Button
+              icon={<LeftOutlined />}
+              onClick={() => setPage(Math.max(page - 1, 1))}
+              disabled={page === 1}
+            />
+            <span className="page-number center-y">{page}</span>
+            <Button
+              icon={<RightOutlined />}
+              onClick={() => setPage(page + 1)}
+              disabled={appointments.length < 10}
+            />
+          </Row>
+        )}
 
         {appointmentToFeedback ? (
           <FeedbackModal
