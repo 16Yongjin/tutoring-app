@@ -1,7 +1,6 @@
 import { useContext, useEffect, useMemo, useState } from 'react'
 import { observer } from 'mobx-react-lite'
 import { store } from '../../store'
-
 import {
   Prompt,
   Route,
@@ -10,7 +9,7 @@ import {
   useLocation,
   useParams,
 } from 'react-router'
-import { Badge, Card, Popconfirm } from 'antd'
+import { Badge, Button, Card } from 'antd'
 import { VideoPlayer } from './VideoPlayer'
 import * as api from '../../api'
 import { useQuery } from 'react-query'
@@ -25,7 +24,7 @@ import { Chat } from './Chat'
 import { Role } from '../../api/auth/entity'
 import useBreakpoint from 'antd/lib/grid/hooks/useBreakpoint'
 import { AppointmentControl } from './AppointmentControl'
-import { CloseOutlined } from '@ant-design/icons'
+import { CloseOutlined, ReadOutlined } from '@ant-design/icons'
 
 const Section = styled.section`
   position: relative;
@@ -127,7 +126,7 @@ const Section = styled.section`
         'appointment-control'
         'materials';
       grid-template-columns: auto;
-      grid-template-rows: 225px auto;
+      grid-template-rows: 225px 54px auto;
     }
 
     .video-player {
@@ -141,6 +140,13 @@ const Section = styled.section`
 
     .chat {
       max-height: calc(100vh - 84px - 225px - 54px);
+    }
+
+    .materials {
+      .fab {
+        position: fixed;
+        right: 0.5rem;
+      }
     }
 
     .materials-header {
@@ -191,6 +197,12 @@ const Section = styled.section`
       .chat {
       }
     }
+  }
+
+  .fab {
+    position: fixed;
+    bottom: 0.5rem;
+    right: calc(400px + 0.5rem);
   }
 `
 
@@ -255,8 +267,6 @@ const PCAppointmentHeader = ({
   show: boolean
   urlPrefix: string
 }) => {
-  const history = useHistory()
-
   return show ? (
     <header className="materials-header">
       <Card>
@@ -330,7 +340,10 @@ export const Appointment = observer(() => {
     data: appointment,
   } = useQuery(`appointment/${appointmentId}`, getAppointment, { retry: 0 })
 
-  if (error) return <div>{(error as APIError).message}</div>
+  if (error) {
+    history.push('/')
+    return <div>{(error as APIError).message}</div>
+  }
 
   if (isLoading || !appointment) return <Loading />
 
@@ -374,6 +387,18 @@ export const Appointment = observer(() => {
             <Route exact path={`${urlPrefix}/materials`}>
               <MaterialSection urlPrefix={urlPrefix} />
             </Route>
+
+            <Link
+              to={`${urlPrefix}/materials/courses/${appointment.courseId}`}
+              title={appointment.material}
+            >
+              <Button
+                size="large"
+                shape="circle"
+                className="fab"
+                icon={<ReadOutlined />}
+              />
+            </Link>
           </div>
 
           <div className="video-player">

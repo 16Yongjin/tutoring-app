@@ -130,83 +130,7 @@ export const Chat = ({
 }) => {
   const { chatHandler, sendChat, initSocket, destroy } =
     useContext(SocketContext)
-  const [chats, setChats] = useState<ChatData[]>([
-    {
-      id: '123',
-      name: username,
-      text: 'hhelo',
-      me: true,
-      date: new Date(),
-      dateStr: dayjs().format('HH:mm a'),
-      roomId,
-    },
-    {
-      id: '1234',
-      name: username,
-      text: 'hhelo',
-      me: true,
-      date: new Date(),
-      dateStr: dayjs().format('HH:mm a'),
-      hideInfo: true,
-      roomId,
-    },
-    {
-      id: '1235',
-      name: username,
-      text: 'hhelo',
-      me: true,
-      date: new Date(),
-      dateStr: dayjs().format('HH:mm a'),
-      hideInfo: true,
-      roomId,
-    },
-    {
-      id: '1236',
-      name: username,
-      text: 'hhelo',
-      me: true,
-      date: new Date(),
-      dateStr: dayjs().format('HH:mm a'),
-      hideInfo: true,
-      roomId,
-    },
-    {
-      id: '123621',
-      name: 'tutor',
-      text: 'hhelo',
-      me: false,
-      date: new Date(),
-      roomId,
-    },
-    {
-      id: '1236111',
-      name: 'tutor',
-      text: 'hhelo',
-      me: false,
-      dateStr: dayjs().format('HH:mm a'),
-      hideInfo: true,
-      date: new Date(),
-      roomId,
-    },
-    {
-      id: '12365555',
-      name: 'tutor',
-      text: 'hhelo',
-      me: false,
-      dateStr: dayjs().format('HH:mm a'),
-      hideInfo: true,
-      date: new Date(),
-      roomId,
-    },
-    {
-      id: '1233',
-      name: username,
-      text: 'hhelddo',
-      me: true,
-      date: new Date(),
-      roomId,
-    },
-  ])
+  const [chats, setChats] = useState<ChatData[]>([])
   const [text, setText] = useState('')
   const [hasNewChat, setHasNewChat] = useState(false)
   const containerRef = useRef<HTMLDivElement>(null)
@@ -273,7 +197,6 @@ export const Chat = ({
   )
 
   const setChatHandler = () => {
-    console.log('setChatHandler')
     chatHandler.current = addChat
     return () => (chatHandler.current = undefined)
   }

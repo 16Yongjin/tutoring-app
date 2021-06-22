@@ -4,12 +4,11 @@ import { useQuery, useQueryClient } from 'react-query'
 import * as api from '../../api'
 import { Loading } from '../common/Loading'
 import { AppointmentCard } from '../appointment'
-import { Tutor } from '../../api/tutors/entity'
 import { ReviewTutorModal } from './ReviewTutorModal'
 import { useEffect, useState } from 'react'
 import { Appointment } from '../../api/appointments/entity'
 import { LeftOutlined, RightOutlined } from '@ant-design/icons'
-import { useHistory, useParams } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import { useQueryParam } from '../../utils/router/useQueryParams'
 const { Title } = Typography
 

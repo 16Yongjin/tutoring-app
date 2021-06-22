@@ -1,4 +1,3 @@
-import { Review } from '../reviews/entity'
 import { Tutor } from '../tutors/entity'
 import { User } from '../users/entity'
 
@@ -15,6 +14,7 @@ export type Appointment = {
   startTime: string
   endTime: string
   material: string
+  courseId?: number
   request: string
   feedbackId: number
   feedback?: Feedback
@@ -28,6 +28,7 @@ export type MakeAppointmentRequest = {
   startTime: Date
   material: string
   request: string
+  courseId: number
 }
 
 export type RemoveAppointmentRequest = {

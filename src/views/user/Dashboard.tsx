@@ -4,7 +4,7 @@ import { AppointmentsSection } from '../../components/user'
 import { Button, Card, Col, Row } from 'antd'
 import { UpcomingAppointment } from '../../components/appointment'
 import { MyPage } from './MyPage'
-import { Tutors, TutorSearch } from '../tutor'
+import { TutorSearch } from '../tutor'
 
 const Section = styled.section`
   position: relative;
