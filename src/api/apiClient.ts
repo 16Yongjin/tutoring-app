@@ -4,7 +4,7 @@ import { APIResponse } from './interfaces/apiResponse'
 import { APIError } from './interfaces/apiError'
 import { AUTH_TOKEN_KEY } from '../consts'
 
-const { API_URL = 'http://192.168.0.20:4000' } = process.env
+const API_URL = process.env.NODE_ENV === 'development' ? 'http://192.168.0.20:4000' :'https://api.holang.app'
 
 export enum HTTPMethod {
   GET = 'GET',

@@ -1,10 +1,15 @@
 import React from 'react'
 import { Button, Col, Row } from 'antd'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const Section = styled.section`
   background-color: #fdf093; // ffe680
   position: relative;
+  background-image: url('hero.png');
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
 
   .description {
     padding: 6rem 0;
@@ -26,12 +31,19 @@ const Section = styled.section`
 
   .title {
     font-family: 'Godo';
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     font-weight: bold;
   }
 
   .subtitle {
+    font-family: 'Godo';
     font-size: 1.5rem;
+    color: #333;
+  }
+
+  .text {
+    font-family: 'Godo';
+    font-size: 1rem;
     color: #666;
   }
 
@@ -74,15 +86,23 @@ export const MainSection = () => {
         <Col md={12} xs={24}>
           <div className="description">
             <h1 className="title">
-              Hello World
+              Are you ready for trip to{' '}
+              <span style={{ color: 'red' }}>Kor</span>
+              <span style={{ color: 'blue' }}>ea</span>?
               <br />
-              Let's learn about Korea
             </h1>
-            <h3 className="subtitle">Study with us</h3>
+            <h3 className="subtitle mb-1">No difficult grammar</h3>
+            <h3 className="subtitle">
+              Just 25 minutes of <strong>Korean-SPEAKING</strong>
+            </h3>
+
+            <h5 className="text">anytime anywhere 1:1 Online-tutoring</h5>
             <div className="cta-wrapper">
-              <Button shape="round" size="large">
-                <span className="cta">Let's go</span>
-              </Button>
+              <Link to="/signup">
+                <Button shape="round" size="large" type="primary">
+                  <span className="cta">Let's go</span>
+                </Button>
+              </Link>
             </div>
           </div>
         </Col>
