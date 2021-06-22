@@ -115,6 +115,13 @@ const Container = styled.div`
     font-stretch: condensed;
     color: #474d50;
   }
+
+  .stamp {
+    position: absolute;
+    top: 1.5rem;
+    right: 0;
+    width: 6rem;
+  }
 `
 
 export const EmptyAppointmentCard = () => {
@@ -289,6 +296,7 @@ export const AppointmentCard = ({
                     </Col>
                   </Row>
                   <div className="divider-x" />
+                  <img className="stamp" src="stamp.png" alt="stamp" />
                 </>
               )}
 
