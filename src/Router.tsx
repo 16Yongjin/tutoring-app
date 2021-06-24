@@ -16,7 +16,6 @@ import {
   UserLogin,
 } from './views'
 import './App.css'
-import { AdminDashboard } from './views/admin'
 import { observer } from 'mobx-react-lite'
 import { store } from './store'
 import { Role } from './api/auth/entity'
@@ -64,10 +63,6 @@ const Router = () => {
 
           <Route exact path="/signup">
             <Signup />
-          </Route>
-
-          <Route path="/admin">
-            <AdminDashboard />
           </Route>
 
           <Route path="/tutors/:tutorId">

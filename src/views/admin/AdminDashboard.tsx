@@ -1,9 +1,10 @@
+import React from 'react'
 import styled from 'styled-components'
 import { Switch, Route, Link } from 'react-router-dom'
 import { AppointmentsSection } from '../../components/user'
 import { Card, Col, Row } from 'antd'
 import { TutorSearch } from '../tutor'
-import { AdminReviews } from './AdminReviews'
+const AdminReviews = React.lazy(() => import('./AdminReviews'))
 
 const Section = styled.section`
   position: relative;
@@ -64,9 +65,7 @@ export const AdminDashboard = () => {
             <Col flex="auto">
               <Route exact path="/"></Route>
 
-              <Route exact path="/reviews">
-                <AdminReviews />
-              </Route>
+              <Route exact path="/reviews" render={() => <AdminReviews />} />
 
               <Route exact path="/tutors">
                 <TutorSearch />
@@ -82,3 +81,5 @@ export const AdminDashboard = () => {
     </Switch>
   )
 }
+
+export default AdminDashboard

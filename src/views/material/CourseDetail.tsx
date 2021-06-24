@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import { Breadcrumb, Card, Col, Row, Typography } from 'antd'
 import { HashLink as Link } from 'react-router-hash-link'
 import styled from 'styled-components'
@@ -7,11 +7,11 @@ import { LevelBadge } from '../../components/material/LevelBadge'
 import { store } from '../../store'
 import { observer } from 'mobx-react-lite'
 import { Role } from '../../api/auth/entity'
-import { AdminCourseDetail } from '../admin'
 import { useParams } from 'react-router'
 import { useQuery } from 'react-query'
 import { APIError } from '../../api/interfaces/apiError'
 import * as api from '../../api'
+const AdminCourseDetail = React.lazy(() => import('../admin/AdminCourseDetail'))
 
 const { Title, Text } = Typography
 
@@ -130,7 +130,12 @@ export const UserCourseDetail = ({ urlPrefix }: { urlPrefix?: string }) => {
 
 export const CourseDetail = observer(() => {
   const role = store.userStore.user?.role
-  if (role === Role.ADMIN) return <AdminCourseDetail />
+  if (role === Role.ADMIN)
+    return (
+      <Suspense fallback={<div>Loading...</div>}>
+        <AdminCourseDetail />
+      </Suspense>
+    )
 
   return <UserCourseDetail />
 })

@@ -202,3 +202,5 @@ export const AdminCourseDetail = () => {
     </Section>
   )
 }
+
+export default AdminCourseDetail

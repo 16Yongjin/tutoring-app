@@ -74,3 +74,5 @@ export const AdminReviews = () => {
     </Section>
   )
 }
+
+export default AdminReviews

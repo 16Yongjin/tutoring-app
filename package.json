@@ -44,7 +44,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "gen-env": "npx gen-env-types .env -o src/env.d.ts -e ."
+    "gen-env": "npx gen-env-types .env -o src/env.d.ts -e .",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "eslintConfig": {
     "extends": [
@@ -78,6 +79,7 @@
     "autoprefixer": "9",
     "craco-less": "^1.17.1",
     "node-sass": "5",
-    "postcss": "7"
+    "postcss": "7",
+    "source-map-explorer": "^2.5.2"
   }
 }
