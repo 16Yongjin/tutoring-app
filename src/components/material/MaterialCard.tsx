@@ -15,7 +15,25 @@ export const MaterialCard = ({
 }) => {
   return (
     <Link to={`${urlPrefix || ''}/materials/${id}`}>
-      <Card cover={<img src={image} alt={title} />} hoverable>
+      <Card
+        cover={
+          <div
+            style={{
+              width: '100%',
+              height: '100%',
+              maxWidth: '200px',
+              maxHeight: '200px',
+              aspectRatio: '1 / 1',
+              backgroundImage: `url(${image})`,
+              backgroundPosition: 'center',
+              backgroundSize: 'contain',
+              backgroundRepeat: 'no-repeat',
+              margin: '0 auto',
+            }}
+          ></div>
+        }
+        hoverable
+      >
         <Title level={3} style={{ marginBottom: 0 }}>
           {title}
         </Title>
