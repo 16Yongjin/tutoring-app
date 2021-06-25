@@ -1,0 +1,633 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>About HoLang</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	text-indent: -1.7em;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, YuMincho, "Yu Mincho", "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Songti TC", "Songti SC", "SimSun", "Nanum Myeongjo", NanumMyeongjo, Batang, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC', 'Noto Sans CJK KR'; }
+
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC', 'Noto Sans Mono CJK KR'; }
+
+.highlight-default {
+}
+.highlight-gray {
+	color: rgb(155,154,151);
+}
+.highlight-brown {
+	color: rgb(100,71,58);
+}
+.highlight-orange {
+	color: rgb(217,115,13);
+}
+.highlight-yellow {
+	color: rgb(223,171,1);
+}
+.highlight-teal {
+	color: rgb(15,123,108);
+}
+.highlight-blue {
+	color: rgb(11,110,153);
+}
+.highlight-purple {
+	color: rgb(105,64,165);
+}
+.highlight-pink {
+	color: rgb(173,26,114);
+}
+.highlight-red {
+	color: rgb(224,62,62);
+}
+.highlight-gray_background {
+	background: rgb(235,236,237);
+}
+.highlight-brown_background {
+	background: rgb(233,229,227);
+}
+.highlight-orange_background {
+	background: rgb(250,235,221);
+}
+.highlight-yellow_background {
+	background: rgb(251,243,219);
+}
+.highlight-teal_background {
+	background: rgb(221,237,234);
+}
+.highlight-blue_background {
+	background: rgb(221,235,241);
+}
+.highlight-purple_background {
+	background: rgb(234,228,242);
+}
+.highlight-pink_background {
+	background: rgb(244,223,235);
+}
+.highlight-red_background {
+	background: rgb(251,228,228);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(55, 53, 47, 0.6);
+	fill: rgba(55, 53, 47, 0.6);
+}
+.block-color-brown {
+	color: rgb(100,71,58);
+	fill: rgb(100,71,58);
+}
+.block-color-orange {
+	color: rgb(217,115,13);
+	fill: rgb(217,115,13);
+}
+.block-color-yellow {
+	color: rgb(223,171,1);
+	fill: rgb(223,171,1);
+}
+.block-color-teal {
+	color: rgb(15,123,108);
+	fill: rgb(15,123,108);
+}
+.block-color-blue {
+	color: rgb(11,110,153);
+	fill: rgb(11,110,153);
+}
+.block-color-purple {
+	color: rgb(105,64,165);
+	fill: rgb(105,64,165);
+}
+.block-color-pink {
+	color: rgb(173,26,114);
+	fill: rgb(173,26,114);
+}
+.block-color-red {
+	color: rgb(224,62,62);
+	fill: rgb(224,62,62);
+}
+.block-color-gray_background {
+	background: rgb(235,236,237);
+}
+.block-color-brown_background {
+	background: rgb(233,229,227);
+}
+.block-color-orange_background {
+	background: rgb(250,235,221);
+}
+.block-color-yellow_background {
+	background: rgb(251,243,219);
+}
+.block-color-teal_background {
+	background: rgb(221,237,234);
+}
+.block-color-blue_background {
+	background: rgb(221,235,241);
+}
+.block-color-purple_background {
+	background: rgb(234,228,242);
+}
+.block-color-pink_background {
+	background: rgb(244,223,235);
+}
+.block-color-red_background {
+	background: rgb(251,228,228);
+}
+.select-value-color-default { background-color: rgba(206,205,202,0.5); }
+.select-value-color-gray { background-color: rgba(155,154,151, 0.4); }
+.select-value-color-brown { background-color: rgba(140,46,0,0.2); }
+.select-value-color-orange { background-color: rgba(245,93,0,0.2); }
+.select-value-color-yellow { background-color: rgba(233,168,0,0.2); }
+.select-value-color-green { background-color: rgba(0,135,107,0.2); }
+.select-value-color-blue { background-color: rgba(0,120,223,0.2); }
+.select-value-color-purple { background-color: rgba(103,36,222,0.2); }
+.select-value-color-pink { background-color: rgba(221,0,129,0.2); }
+.select-value-color-red { background-color: rgba(255,0,26,0.2); }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="b71a1325-90cb-4982-ace4-ddc5b6d62716" class="page sans"><header><h1 class="page-title">About HoLang</h1></header><div class="page-body"><div id="2c6c4aec-e6fc-447b-8dde-1c0e8f9cb07a" class="column-list"><div id="63ba22f7-2d2a-4ccc-af14-9b6080e6db27" style="width:19.04761904761905%" class="column"><hr id="b570ca22-cc40-447d-a3fa-15f1f9bc3ea8"/><figure id="b0907822-b0e7-43ac-8a7b-89b91665e9a9" class="image"><a href="About%20HoLang%20b0907822b0e743ac8a7b89b91665e9a9/_.png"><img style="width:288px" src="About%20HoLang%20b0907822b0e743ac8a7b89b91665e9a9/_.png"/></a></figure></div><div id="7ced18d5-5861-41dd-82dc-0c9676819c2c" style="width:58.33333333333333%" class="column"><h1 id="6c3e5b9a-7b0e-4f61-9cd1-6ab5de5e21b7" class="block-color-yellow_background">안녕하세요. HoLang에서 한국어를 배워봐요</h1><h1 id="b2957b05-513b-4121-a8f4-a4ee5fbb83a1" class="block-color-teal_background">✈️Are you ready for Trip to Korea?</h1><hr id="0cbf0382-47eb-4996-b2eb-ac33a790765e"/><h3 id="b4a59c09-dbd6-4100-94e1-d2b2317b5af9" class="">📌 No difficult grammar But<mark class="highlight-teal"> EASY &amp; FUN </mark><mark class="highlight-red">Speaking &amp; Reading</mark></h3><h3 id="bb922ccf-2110-4d5c-b47f-e0559e1199aa" class="">📌 <mark class="highlight-blue">EVERYDAY</mark> 25 minute Lessons </h3><h3 id="38bc3eb6-786e-4386-a37c-47428dc99dde" class="">📌 Fun &amp; Interesting Learning Material <mark class="highlight-purple"><strong>for All Levels</strong></mark><mark class="highlight-purple">  </mark></h3></div><div id="b2afdf0b-2f6a-4b8c-999a-9ded3311ac76" style="width:22.619047619047617%" class="column"><h2 id="9b410e36-319e-4159-8366-6190cce06340" class="block-color-pink_background">📌 SNS</h2><figure class="block-color-pink_background callout" style="white-space:pre-wrap;display:flex" id="1716d612-bbc6-48bf-9fa0-04d76d6cea0b"><div style="font-size:1.5em"><img class="icon" src="About%20HoLang%20b0907822b0e743ac8a7b89b91665e9a9/2122ee7f9df41666d2ff5c634d6a5c2d.png"/></div><div style="width:100%"><a href="https://www.youtube.com/channel/UCjHT_owIaVt1np-WYVMJyfQ">Youtube</a></div></figure><figure class="block-color-pink_background callout" style="white-space:pre-wrap;display:flex" id="5996d115-ecdc-4434-9bd8-fcb5131a80e1"><div style="font-size:1.5em"><img class="icon" src="About%20HoLang%20b0907822b0e743ac8a7b89b91665e9a9/instagram_PNG9.png"/></div><div style="width:100%"><a href="https://www.instagram.com/dx_yz/">Instagram</a></div></figure><figure class="block-color-pink_background callout" style="white-space:pre-wrap;display:flex" id="bc32d401-4e03-4d3a-9d37-5044a5e29676"><div style="font-size:1.5em"><img class="icon" src="https://noticon-static.tammolo.com/dgggcrkxq/image/upload/v1567008602/noticon/ird3id54hstap8dtokdx.png"/></div><div style="width:100%"><a href="https://www.instagram.com/dx_yz/">Facebook</a></div></figure></div></div><h1 id="14d70021-6a3e-453d-938c-605057a01e0c" class="block-color-orange_background">WHY HoLang?</h1><div id="5dd05ed8-b103-4a8d-8651-f7e0a23c911b" class="column-list"><div id="7682f1eb-ad6a-40b2-844d-018e6bd207f3" style="width:33.33333333333333%" class="column"><h2 id="d3744c93-ff5b-44f2-9816-2a0752a14dbf" class="">🌐 <strong>Anytime, Anywhere</strong></h2><p id="31f84fe4-d836-4829-a03a-2553760becbb" class="">Take online lessons at the time and place that suits you.</p><p id="cf888c40-4c38-487e-9fe5-79f82841aa15" class="">
+</p><h2 id="efc6cd68-8762-4c47-bc2e-57a89de0cb42" class="">🗣️ SPEAKING focused</h2><p id="6ebd21f9-6091-4bc6-b6fb-30174e4d087d" class="">Discuss whatever you want to say in Korean</p></div><div id="6e2a056b-d628-4b1b-972d-fc3d4d37010b" style="width:33.33333333333333%" class="column"><h2 id="d0baac07-649d-418f-9b4f-359a9f0c1ee4" class="">👥 <strong><strong>1-on-1 / 25 Minute</strong></strong></h2><p id="205233ab-97c2-4ecf-b505-3d6579a57b65" class="">1:1 Online Tutoring</p><p id="e191bd45-f584-4ed3-acd4-95dc5a42f164" class="">Everyday 25 minute Lessons</p><h2 id="e7f6bc72-83a5-4d51-94ba-337f6e428130" class="">👩‍💻 👨‍💻Bilingual Korean Native Tutors</h2><p id="a0fbfad1-86d0-451c-baf2-02b0c7d1da99" class="">All bilingual Korean native Tutors with enthusiasm</p><p id="8024c253-b42a-4f96-9af5-93b8a0da5244" class="">Can explain Korean specifically with 2nd Language</p></div><div id="0a0349fd-3a7e-4c2c-9960-7a4c015fd553" style="width:33.33333333333333%" class="column"><h2 id="859effb3-c3b4-48ba-aaf3-fa098fc7afd5" class="">📑 Various Material for All Levels</h2><p id="03c83a3e-b106-4125-8540-a629b22f5577" class="">Suiting Different Needs and Interests</p><p id="12284d0a-74b9-4b72-a5a3-92e02fa8adcd" class="">No Downloads Required</p><h2 id="f87677a5-a128-4d62-b181-4ad1698787f8" class="">🇰🇷Learn more about Korea</h2><p id="69399904-cd91-442e-9da0-a2d3c56b1577" class="">Materials about Korean Culture</p><p id="0d3d5c2e-1321-414f-a855-12a5077831a2" class="">Tutor with native understanding about Korea</p></div></div><hr id="18cbe75f-77ec-42db-ab63-09d817ced63d"/><h1 id="d8efc49c-aef5-4148-b454-a18e4cace89d" class="block-color-purple_background">How does HoLang work? </h1><div id="b528c587-4912-484f-94c7-5d30b93e8982" class="column-list"><div id="a570d075-60e9-4c30-9f54-ca98e186eae3" style="width:31.25%" class="column"><figure id="c9c44953-83b9-44ab-a82d-603c4dd16aa9" class="image"><a href="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"><img style="width:480px" src="https://images.unsplash.com/photo-1552196563-55cd4e45efb3?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"/></a></figure></div><div id="4c2ecfd9-603d-4b76-ae6b-17eaf0c75b8f" style="width:68.75%" class="column"><h2 id="3b118b2d-bcdc-4a6e-a6d8-e1db01ea38e8" class="">1. Choose Your Tutor</h2><h3 id="4959aabb-120f-4346-a340-dbfd532d3548" class="">📍Watch Tutor introduction videos and read reviews from other Tutees.</h3><h3 id="8275665f-7974-41fe-aa6a-a2eb9704386c" class="">📍Tutors are all bilingual Korean Native!</h3></div></div><hr id="525d83ff-6d54-474e-8cae-69854f915ed0"/><h2 id="68c84617-84b5-4e3f-b997-03eedc6d16d3" class="">2.  Choose the Learning Material</h2><div id="940b0097-be71-4a8d-844d-92f0da6f1481" class="column-list"><div id="6b326793-f4a4-4869-975d-919cd16e51a6" style="width:62.5%" class="column"><h3 id="e17f9a0b-7e30-40b0-8a78-88b467f213c3" class="">📍No download is required</h3><h3 id="9db4b2bc-ccbe-4b68-8afa-a1166f92dc1e" class="">📍Select Learning Materials that suits your Level</h3><figure id="d495e905-1437-4f81-ae95-9f52d110299b" class="image"><a href="About%20HoLang%20b0907822b0e743ac8a7b89b91665e9a9/level.png"><img style="width:572px" src="About%20HoLang%20b0907822b0e743ac8a7b89b91665e9a9/level.png"/></a></figure><ul id="307279c3-6643-4dfa-9596-c731bd6cd14b" class="bulleted-list"><li>Beginner : Just know How to read Korean alphabet (Hangul)</li></ul><ul id="cc804b00-95b8-462c-afc4-621a38b121c9" class="bulleted-list"><li>Pre-Intermediate : Master the Basics and know some Korean words</li></ul><ul id="fee302e0-1884-4589-8fab-8d42a351c16a" class="bulleted-list"><li>Intermediate : Able to have basic conversation in Korean</li></ul><ul id="2d36ea7a-685d-4944-978b-3204ce34e80d" class="bulleted-list"><li>Advanced : Enjoy Speaking With Confidence</li></ul><ul id="5d2a1c2b-f02b-4109-b3eb-a0863c354a17" class="bulleted-list"><li>Proficient : Communicate in Social &amp; Business Situations</li></ul></div><div id="f25d43c9-9d3b-4f3c-b661-fbbc13fbf1c4" style="width:37.50000000000001%" class="column"><figure id="fcf7ccd8-0c63-4a23-871f-3bcdc9556258" class="image"><a href="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"><img style="width:816px" src="https://images.unsplash.com/photo-1599901860904-17e6ed7083a0?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"/></a></figure><p id="dc2bee6d-223f-4e5c-b1f2-6d217e09e837" class="">
+</p></div></div><hr id="a1654c89-976f-42de-93ef-a54156c3e8f6"/><div id="52eba8d0-e3f5-4281-ac0e-afc56a3dd9f3" class="column-list"><div id="df45ba98-be3c-4e71-b4c9-cd8b418d8e97" style="width:37.5%" class="column"><figure id="b9bcf593-867a-40e9-a99c-e55b64ef0967" class="image"><a href="https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"><img style="width:624px" src="https://images.unsplash.com/photo-1518611012118-696072aa579a?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"/></a></figure></div><div id="43eea365-9424-41a4-8295-284c1f1a0da5" style="width:62.5%" class="column"><h2 id="f81f2f42-eb21-4725-b3c8-e0fa39bf8772" class="">3.  Book your Lesson</h2><h3 id="84d78cd8-60e9-4beb-ab84-ec3c6023d03a" class="">📍Only schedule lessons at a time and date that suit you.</h3></div></div><hr id="74d142f8-5520-4d61-965a-45679a86b354"/><div id="c80eea7b-43e3-4668-b90a-997cf17972c2" class="column-list"><div id="29b1b515-9723-4a54-bb25-eba8540b59ea" style="width:56.25%" class="column"><h2 id="8c4d5d2d-13aa-4b01-bdd1-64b04f88aa5a" class="">4. Start Your Journey</h2><h3 id="cbe81cfb-23b5-4ac9-bdbe-3efe14a1561a" class="">📍Connect with your tutor via video chat software, and let the learning begin</h3></div><div id="20e1da33-5c2d-4b88-9fb7-ccfd81ad9ef3" style="width:43.75%" class="column"><figure id="3f1e2a6b-e13c-40ea-aaf4-692abcef586f" class="image"><a href="https://images.unsplash.com/photo-1551656927-4f07ba471344?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"><img style="width:624px" src="https://images.unsplash.com/photo-1551656927-4f07ba471344?ixlib=rb-1.2.1&amp;q=85&amp;fm=jpg&amp;crop=entropy&amp;cs=srgb"/></a></figure></div></div><hr id="0c97af45-5e65-4241-bf31-a01a91603787"/><h1 id="0e6de3de-2335-4975-af93-2b267ec388b4" class="">멤버십 안내 💰 </h1><div id="289e4979-0bd8-455b-89d9-8d27316cb57c" class="column-list"><div id="1f51df0c-565c-4bc8-b4fc-a0a91c53ec78" style="width:33.333333333333336%" class="column"><blockquote id="8b48b7d4-2c78-4b3f-ad23-6404075890ae" class=""><strong>1개월 </strong></blockquote><p id="6565b101-6ba4-436d-8df2-d59f6f61d8ac" class=""><mark class="highlight-orange"><strong><code>주 3회</code></strong></mark> 80,000월 </p><p id="b9cb8477-4a79-4764-842d-e70f446cd6c9" class=""><mark class="highlight-orange"><strong><code>주 5회</code></strong></mark> 100,000원</p><p id="3b885f67-efd7-479f-9e6a-f64ace44609e" class="">
+</p></div><div id="ddcf654c-77c2-4a7e-8b03-c36eb5a36a69" style="width:33.333333333333336%" class="column"><blockquote id="44c81d89-490c-4c57-afd1-f817ccd7e38f" class=""><strong>3개월 (-15%)</strong></blockquote><p id="5dca459f-052a-49ea-aead-8c76968b3509" class=""><mark class="highlight-orange"><strong><code>주 3회</code></strong></mark> 200,000월 </p><p id="674986e8-496f-48e1-9dd2-5baf9cbdc674" class=""><mark class="highlight-orange"><strong><code>주 5회</code></strong></mark> 250,000원</p><p id="6ffa7017-4c3a-40cd-a1d5-4feb7ae64473" class="">
+</p></div><div id="b2ebb702-8f26-48bf-9ce0-670acf69d79b" style="width:33.33333333333333%" class="column"><blockquote id="f2039531-cb83-45ce-8942-dce97bece709" class=""><strong>1년 회원권 (30%)</strong></blockquote><p id="d0e0d8c6-5092-43c9-84e6-df9c93c45409" class=""><mark class="highlight-orange"><strong><code>주 3회</code></strong></mark> 600,000월 </p><p id="d8e1f9ca-e977-4203-9093-31abd42de613" class=""><mark class="highlight-orange"><strong><code>주 5회</code></strong></mark> 800,000원</p><p id="5c77b053-2501-4951-8c5d-750cb590ea98" class="">
+</p></div></div></div></article></body></html>
