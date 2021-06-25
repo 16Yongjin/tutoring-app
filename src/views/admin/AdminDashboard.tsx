@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import styled from 'styled-components'
 import { Switch, Route, Link } from 'react-router-dom'
 import { AppointmentsSection } from '../../components/user'
@@ -65,7 +65,9 @@ export const AdminDashboard = () => {
             <Col flex="auto">
               <Route exact path="/"></Route>
 
-              <Route exact path="/reviews" render={() => <AdminReviews />} />
+              <Suspense fallback={<div>Loading...</div>}>
+                <Route exact path="/reviews" component={AdminReviews} />
+              </Suspense>
 
               <Route exact path="/tutors">
                 <TutorSearch />
