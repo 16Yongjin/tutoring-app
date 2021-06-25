@@ -126,7 +126,11 @@ export const VideoContextProvider: FunctionComponent<{}> = ({ children }) => {
 
     console.log('[init socket]')
 
-    const socketClient = io('http://192.168.0.20:4000')
+    const socketClient = io(
+      process.env.NODE_ENV === 'development'
+        ? 'http://192.168.0.20:4000'
+        : 'https://api.holang.app'
+    )
     setSocket(socketClient)
     socketClient.emit('joinRoom', {
       roomId,
