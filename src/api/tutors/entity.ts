@@ -32,6 +32,7 @@ export type Tutor = {
   reviews?: Review[]
   reviewCount: number
   rating: number
+  youtube: string
 }
 
 export type GetTutorsResponse = Tutor[]
@@ -47,6 +48,7 @@ export type UpdateTutorRequest = {
   language?: string
   presentation?: string
   country?: string
+  youtube?: string
 }
 
 export type UpdateTutorResponse = {

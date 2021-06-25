@@ -18,12 +18,18 @@ export const TutorProfile = ({
           backgroundImage: `url(${tutor.image})`,
           backgroundPosition: 'center',
           backgroundSize: 'cover',
+          width: '100%',
+          height: 'auto',
+          boxSizing: 'border-box',
+          verticalAlign: 'top',
         }}
-        onClick={() => setVideoVisible(true)}
+        onClick={() => tutor.youtube && setVideoVisible(true)}
       >
-        <div className="play center click">
-          <YoutubeOutlined size={40} className="play-icon" />
-        </div>
+        {tutor.youtube && (
+          <div className="play center click">
+            <YoutubeOutlined size={40} className="play-icon" />
+          </div>
+        )}
       </div>
 
       <Descriptions column={1} bordered style={{ marginTop: '1rem' }}>

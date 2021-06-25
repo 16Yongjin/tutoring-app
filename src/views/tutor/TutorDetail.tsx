@@ -64,8 +64,9 @@ export const TutorDetail = observer(() => {
 
   const [videoVisible, setVideoVisible] = useState(false)
   const [reserveModalVisible, setReserveModalVisible] = useState(false)
-  const [scheduleToReserve, setScheduleToReserve] =
-    useState<Schedule | null>(null)
+  const [scheduleToReserve, setScheduleToReserve] = useState<Schedule | null>(
+    null
+  )
   const onReserve = (schedule: Schedule) => {
     setScheduleToReserve(schedule)
     setReserveModalVisible(true)
@@ -104,7 +105,7 @@ export const TutorDetail = observer(() => {
             </Row>
 
             <YoutubeModal
-              id={'6-LSMpXbGv0'}
+              url={tutor.youtube}
               show={videoVisible}
               onCancel={() => setVideoVisible(false)}
             />

@@ -53,7 +53,6 @@ export const EditTutorModal = ({
                 name="username"
                 placeholder="username"
                 label="username"
-                type="username"
                 disabled
                 required
               />
@@ -69,22 +68,23 @@ export const EditTutorModal = ({
                 name="fullname"
                 placeholder="fullname"
                 label="fullname"
-                type="fullname"
                 required
               />
               <InputField
                 name="image"
                 placeholder="image url"
                 label="image"
-                type="text"
                 required
               />
-
               <InputField
                 name="presentation"
                 placeholder="presentation"
                 label="presentation"
-                type="presentation"
+              />
+              <InputField
+                name="youtube"
+                placeholder="youtube"
+                label="youtube"
               />
 
               <Form.Item name="gender" label="Gender">
