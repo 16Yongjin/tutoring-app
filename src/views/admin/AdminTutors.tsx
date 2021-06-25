@@ -50,7 +50,7 @@ export const AdminTutors = () => {
         <main>
           <Row gutter={[16, 16]}>
             {tutors?.map((tutor) => (
-              <Col key={tutor.id} xs={12} md={8} lg={6}>
+              <Col key={tutor.id} xs={24} sm={12} md={8} lg={6}>
                 <AdminTutorCard onEdit={onEditRequest} tutor={tutor} />
               </Col>
             ))}

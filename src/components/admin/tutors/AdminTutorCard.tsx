@@ -28,12 +28,8 @@ export const AdminTutorCard = ({
         className={!accepted ? 'not-accepted' : ''}
         cover={
           <div
-            style={{
-              aspectRatio: '1 / 1',
-              backgroundImage: `url(${image})`,
-              backgroundPosition: 'center',
-              backgroundSize: 'cover',
-            }}
+            className="cover-image"
+            style={{ backgroundImage: `url(${image})` }}
           ></div>
         }
         actions={[

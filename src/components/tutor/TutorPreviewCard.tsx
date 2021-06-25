@@ -12,12 +12,8 @@ export const TutorPreviewCard = ({ tutor }: { tutor: Tutor }) => {
       <Card
         cover={
           <div
-            style={{
-              aspectRatio: '1 / 1',
-              backgroundImage: `url(${tutor.image})`,
-              backgroundPosition: 'center',
-              backgroundSize: 'cover',
-            }}
+            className="cover-image"
+            style={{ backgroundImage: `url(${tutor.image})` }}
           ></div>
         }
         hoverable

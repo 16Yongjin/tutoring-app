@@ -13,16 +13,8 @@ export const TutorProfile = ({
   return (
     <Card style={{ position: 'sticky', top: '20px' }}>
       <div
-        style={{
-          aspectRatio: '1 / 1',
-          backgroundImage: `url(${tutor.image})`,
-          backgroundPosition: 'center',
-          backgroundSize: 'cover',
-          width: '100%',
-          height: 'auto',
-          boxSizing: 'border-box',
-          verticalAlign: 'top',
-        }}
+        className="cover-image"
+        style={{ backgroundImage: `url(${tutor.image})` }}
         onClick={() => tutor.youtube && setVideoVisible(true)}
       >
         {tutor.youtube && (

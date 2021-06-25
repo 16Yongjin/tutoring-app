@@ -18,18 +18,8 @@ export const MaterialCard = ({
       <Card
         cover={
           <div
-            style={{
-              width: '100%',
-              height: '100%',
-              maxWidth: '200px',
-              maxHeight: '200px',
-              aspectRatio: '1 / 1',
-              backgroundImage: `url(${image})`,
-              backgroundPosition: 'center',
-              backgroundSize: 'contain',
-              backgroundRepeat: 'no-repeat',
-              margin: '0 auto',
-            }}
+            className="cover-image"
+            style={{ backgroundImage: `url(${image})` }}
           ></div>
         }
         hoverable

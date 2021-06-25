@@ -57,8 +57,9 @@ export const TutorSearch = () => {
 
   const [reserveModalVisible, setReserveModalVisible] = useState(false)
   const [tutorToReserve, setTutorToReserve] = useState<Tutor | null>(null)
-  const [scheduleToReserve, setScheduleToReserve] =
-    useState<Schedule | null>(null)
+  const [scheduleToReserve, setScheduleToReserve] = useState<Schedule | null>(
+    null
+  )
   const onReserve = (tutor: Tutor, schedule: Schedule) => {
     setTutorToReserve(tutor)
     setScheduleToReserve(schedule)
@@ -110,7 +111,7 @@ export const TutorSearch = () => {
 
           <Row gutter={[16, 16]}>
             {tutors?.map((tutor) => (
-              <Col key={tutor.id} xs={12} md={12} lg={8}>
+              <Col key={tutor.id} xs={24} sm={12} md={12} lg={8}>
                 <TutorSearchCard
                   tutor={tutor}
                   timetable={todaysTimetable}

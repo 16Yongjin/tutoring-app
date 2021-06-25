@@ -12,7 +12,6 @@ export const FeaturedReviewCard = ({ review }: { review: Review }) => {
           style={{
             width: '4rem',
             height: '4rem',
-            aspectRatio: '1 / 1',
             backgroundImage: `url(${review?.tutor?.image})`,
             backgroundPosition: 'center',
             backgroundSize: 'cover',
