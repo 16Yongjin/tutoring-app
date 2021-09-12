@@ -6,12 +6,12 @@ import { InputField } from '../../form/InputField'
 import Modal from 'antd/lib/modal/Modal'
 import * as api from '../../../api'
 import { Course, Exercise } from '../../../api/materials/entity'
-
 import { Editor } from 'react-draft-wysiwyg'
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import { convertToRaw, EditorState, ContentState } from 'draft-js'
 import draftToHtml from 'draftjs-to-html'
 import htmlToDraft from 'html-to-draftjs'
+import { APIError } from '../../../api/interfaces/apiError'
 
 export const NewExerciseModal = ({
   course,
@@ -84,7 +84,7 @@ export const NewExerciseModal = ({
               onCancel(true)
               resetForm()
             } catch (e) {
-              setErrors(e.errors)
+              setErrors((e as APIError).errors)
             }
           }}
         >
@@ -128,13 +128,13 @@ export const NewExerciseModal = ({
           onEditorStateChange={setEditorState}
         />
 
-        {course && (
+        {exercise && (
           <Button
             onClick={async () => {
               try {
                 // eslint-disable-next-line no-restricted-globals
                 if (confirm('삭제하시겠습니까?'))
-                  await api.materials.deleteCourse(course.id)
+                  await api.materials.deleteExercise(exercise.id)
                 onCancel(true)
               } catch (e) {
                 console.log(e)

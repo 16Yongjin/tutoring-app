@@ -20,6 +20,7 @@ import { useInterval } from 'react-use'
 import { useEffect, useState } from 'react'
 import dayjs from 'dayjs'
 import { Appointment } from '../../api/appointments/entity'
+import { APIError } from '../../api/interfaces/apiError'
 
 const { Title, Text } = Typography
 
@@ -159,7 +160,7 @@ export const AppointmentCard = ({
       })
     } catch (e) {
       notification.error({
-        message: e.message,
+        message: (e as APIError).message,
         duration: 5,
       })
     }

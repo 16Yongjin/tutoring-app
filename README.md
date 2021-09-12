@@ -1,46 +1,54 @@
-# Getting Started with Create React App
+# 튜터링 플랫폼 클라이언트
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+![image](https://user-images.githubusercontent.com/22253556/132977792-828212ae-1211-443d-bc82-40827974df98.png)
 
-## Available Scripts
+- [관련 블로그 포스트](http://yongj.in/development/tutoring-platform/)
 
-In the project directory, you can run:
+## 기술 스택
 
-### `yarn start`
+- React + TypeScript
+- Ant Design
+- Formik
+- MobX
+- React Query
+- Simple Peer WebRTC
+- Socket.io
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 실행
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```bash
+yarn
 
-### `yarn test`
+yarn start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 기능
 
-### `yarn build`
+### 사용자
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- 튜터링 약속 잡기/취소
+- 튜터 리뷰
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 튜터
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- 튜터링 스케쥴 관리
+- 튜터링 후 사용자에게 피드백 주기
 
-### `yarn eject`
+### 관리자
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+- 튜터 프로필 관리
+- 튜터 승인
+- 교재 관리
+- 추천 리뷰 설정
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 튜터링 기능
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- 실시간 화상 대화
+- 문자 채팅
+- 보고 있는 교재 동기화
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+### 인증
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- 회원가입, 로그인
+- 이메일 인증
+- 비밀번호 변경
